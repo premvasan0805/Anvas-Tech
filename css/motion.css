@@ -1,0 +1,185 @@
+/* ==========================================================================
+   motion.css — pre-animation states + motion chrome for the GSAP layer.
+   Everything here is gated behind .motion-ready on <html>, which is set by an
+   inline head script only when the visitor has not asked for reduced motion.
+   If GSAP fails to load, js/motion.js removes the class and the page renders
+   exactly as it did before this layer existed.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Pre-animation states
+   -------------------------------------------------------------------------- */
+.motion-ready [data-anim="rise"],
+.motion-ready [data-anim="fade"],
+.motion-ready [data-anim="card"] {
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.motion-ready [data-anim="rise"] { transform: translateY(28px); }
+.motion-ready [data-anim="card"] { transform: translateY(56px) scale(0.96); }
+
+/* Split headlines. No overflow clipping: a headline line can wrap at narrow
+   widths, and clipping a wrapped block hides the wrong rows. Rise + blur reads
+   the same and is width-proof. */
+.motion-ready .split-line { display: block; }
+.motion-ready .split-word {
+  display: inline-block;
+  white-space: pre-wrap;
+  will-change: transform, opacity, filter;
+  transform: translateY(0.5em);
+  opacity: 0;
+  filter: blur(6px);
+}
+
+/* Parallax media needs headroom so the scrub never exposes an edge. */
+.motion-ready [data-parallax] {
+  will-change: transform;
+  transform: scale(1.14);
+}
+
+/* --------------------------------------------------------------------------
+   Page-load curtain
+
+   Drawn as a pseudo-element on <html> so it exists at the very first paint,
+   before motion.js has parsed. That is what makes the pre-animation states
+   below invisible to the visitor instead of a flash of hidden content.
+   motion.js adds .motion-loaded to lift it.
+   -------------------------------------------------------------------------- */
+.motion-ready::before,
+.motion-ready::after {
+  content: "";
+  position: fixed;
+  left: 0;
+  width: 100%;
+  z-index: 95;
+  pointer-events: none;
+  background: #0b1230;
+  transition: transform 0.85s var(--ease, cubic-bezier(0.32, 0.72, 0, 1));
+}
+.motion-ready::before { top: 0; height: 50vh; }
+.motion-ready::after  { bottom: 0; height: 50vh; }
+
+.motion-loaded::before { transform: translateY(-101%); }
+.motion-loaded::after  { transform: translateY(101%); }
+
+/* After the wipe, drop the layers entirely so they can never trap clicks. */
+.motion-loaded.motion-curtain-done::before,
+.motion-loaded.motion-curtain-done::after { display: none; }
+
+/* --------------------------------------------------------------------------
+   Scroll progress bar
+   -------------------------------------------------------------------------- */
+.motion-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: left center;
+  background: linear-gradient(90deg, var(--blue, #0f5fdc), var(--violet, #5f1ebe));
+  z-index: calc(var(--z-header, 40) + 5);
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   Header auto-hide (own class so styles.css .is-stuck rules stay untouched)
+   -------------------------------------------------------------------------- */
+.motion-ready .site-header {
+  transition: transform 0.45s var(--ease, ease);
+}
+.motion-ready .site-header.motion-hidden {
+  transform: translateY(-140%);
+}
+
+/* --------------------------------------------------------------------------
+   Custom cursor — pointer-precise devices only
+   -------------------------------------------------------------------------- */
+.motion-cursor,
+.motion-cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: calc(var(--z-modal, 60) + 10);
+  opacity: 0;
+  will-change: transform;
+}
+.motion-cursor {
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px;
+  border: 1px solid rgb(15 95 220 / 0.55);
+  backdrop-filter: invert(4%);
+}
+.motion-cursor-dot {
+  width: 5px;
+  height: 5px;
+  margin: -2.5px 0 0 -2.5px;
+  background: var(--blue, #0f5fdc);
+}
+
+/* --------------------------------------------------------------------------
+   Magnetic / hover-reactive affordances
+   -------------------------------------------------------------------------- */
+.motion-ready [data-magnetic] {
+  will-change: transform;
+  position: relative;
+}
+
+/* Sheen sweep on primary buttons. */
+.motion-ready .btn-blue {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.motion-ready .btn-blue::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    100deg,
+    transparent 20%,
+    rgb(255 255 255 / 0.35) 50%,
+    transparent 80%
+  );
+  transform: translateX(-120%);
+  transition: transform 0.75s var(--ease, ease);
+}
+.motion-ready .btn-blue:hover::after { transform: translateX(120%); }
+
+/* --------------------------------------------------------------------------
+   Mobile: no pins, no cursor, gentler distances
+   -------------------------------------------------------------------------- */
+@media (max-width: 900px) {
+  .motion-cursor,
+  .motion-cursor-dot { display: none; }
+  .motion-ready [data-anim="card"] { transform: translateY(32px) scale(0.98); }
+  .motion-ready [data-parallax] { transform: none; }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .motion-cursor,
+  .motion-cursor-dot { display: none; }
+}
+
+/* --------------------------------------------------------------------------
+   Reduced motion: belt and braces. The head script already withholds
+   .motion-ready, but if the preference flips mid-session nothing stays hidden.
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .motion-ready [data-anim],
+  .motion-ready .split-word,
+  .motion-ready [data-parallax] {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+  .motion-curtain,
+  .motion-cursor,
+  .motion-cursor-dot { display: none !important; }
+  .motion-ready .site-header.motion-hidden { transform: none; }
+}

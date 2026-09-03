@@ -1,0 +1,11 @@
+# Reference / scratch material
+_ref/
+.playwright-cli/
+
+# Node
+node_modules/
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
