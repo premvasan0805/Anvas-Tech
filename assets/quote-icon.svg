@@ -3,7 +3,7 @@
 <path d="M15.1452 12.7802V35.7847H0V12.6457C0 8.60984 1.0445 5.51568 3.13349 3.36322C5.30952 1.12107 8.31245 0 12.1423 0H23.3706V12.7802H15.1452ZM28.2014 12.6457C28.2014 8.60984 29.2459 5.51568 31.3349 3.36322C33.5109 1.12107 36.5138 0 40.3437 0H51.572V12.7802H43.3466V35.7847H28.2014V12.6457Z" fill="url(#paint0_linear_565_9954)"/>
 <defs>
 <linearGradient id="paint0_linear_565_9954" x1="-44.0249" y1="-17.8923" x2="58.2789" y2="-24.6391" gradientUnits="userSpaceOnUse">
-<stop stop-color="#341687"/>
+<stop stop-color="#0B4FB8"/>
 <stop offset="0.495192" stop-color="#5F1EBE"/>
 <stop offset="1" stop-color="#0F5FDC"/>
 </linearGradient>

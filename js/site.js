@@ -5,6 +5,11 @@
   const megaWhat = `
     <div class="mega">
       <div>
+        <h4>Featured solutions</h4>
+        <a href="${root}/what-we-do.html#vishful">Vishful</a>
+        <a href="${root}/what-we-do.html#attendance">Attendance app</a>
+        <a href="${root}/what-we-do.html#healthcare">Healthcare app</a>
+        <a href="${root}/what-we-do.html#government">Government projects</a>
         <h4>AI and digital</h4>
         <a href="${root}/what-we-do.html#ai">AI and Generative AI</a>
         <a class="sub" href="${root}/what-we-do.html#ai">AI Advisory</a>
@@ -37,26 +42,28 @@
     </div>`;
 
   const megaInd = `
-    <div class="mega mega-2">
+    <div class="mega">
       <div>
-        <h4>Industries</h4>
-        <a href="${root}/industries.html">Aerospace and Defense</a>
-        <a href="${root}/industries.html">Automotive</a>
-        <a href="${root}/industries.html">Consumer Goods</a>
-        <a href="${root}/industries.html">Energy and Utilities</a>
-        <a href="${root}/industries.html">Financial Services</a>
-        <a href="${root}/industries.html">Life Sciences and Healthcare</a>
-        <a href="${root}/industries.html">Manufacturing</a>
+        <h4>Applications</h4>
+        <a href="${root}/what-we-do.html#vishful">Vishful<span class="mega-note">Property, co-living and live occupancy</span></a>
+        <a href="${root}/what-we-do.html#attendance">Attendance app<span class="mega-note">Time, attendance and shift tracking</span></a>
+        <a href="${root}/what-we-do.html#healthcare">Healthcare app<span class="mega-note">Clinic and care-team workflows</span></a>
+        <a href="${root}/what-we-do.html#government">Government projects<span class="mega-note">Citizen services and secure delivery</span></a>
       </div>
       <div>
-        <h4>&nbsp;</h4>
-        <a href="${root}/industries.html">Mining and Natural Resources</a>
-        <a href="${root}/industries.html">Oil and Gas</a>
-        <a href="${root}/industries.html">Private Equity</a>
-        <a href="${root}/industries.html">Public Sector</a>
-        <a href="${root}/industries.html">Retail</a>
-        <a href="${root}/industries.html">Telecom, Media and Tech</a>
-        <a href="${root}/industries.html">Travel, Transport and Hospitality</a>
+        <h4>Platforms</h4>
+        <a href="${root}/what-we-do.html#ai">AI Force<span class="mega-note">GenAI and agentic workflows at scale</span></a>
+        <a href="${root}/what-we-do.html#products">XDO Blueprint<span class="mega-note">Experience, data and operations as one</span></a>
+        <a href="${root}/what-we-do.html#products">Data Intelligence Platform<span class="mega-note">Enterprise data products with governance</span></a>
+        <a href="${root}/what-we-do.html#products">Aftermarket Cloud<span class="mega-note">Service and parts operations in the cloud</span></a>
+      </div>
+      <div>
+        <h4>Software</h4>
+        <a href="${root}/anvassoftware.html">Anvas BigFix<span class="mega-note">Intelligent endpoint management</span></a>
+        <a href="${root}/anvassoftware.html">Anvas AppScan<span class="mega-note">Application security across the lifecycle</span></a>
+        <a href="${root}/anvassoftware.html">Sovereign Collaboration<span class="mega-note">Residency, control and trusted comms</span></a>
+        <a href="${root}/anvassoftware.html">MarTech<span class="mega-note">Hyper-personalized marketing platforms</span></a>
+        <a class="mega-all" href="${root}/industries.html">View all products</a>
       </div>
     </div>`;
 
@@ -121,20 +128,20 @@
   const header = `
     <a class="skip" href="#main">Skip to main content</a>
     <header class="site-header" id="header">
-      <a class="logo" href="${root}/index.html" aria-label="Anvas Tech">
-        <span class="logo-word" aria-hidden="true"><span class="logo-a">A</span><span class="logo-rest">nvas Tech</span></span>
-      </a>
       <div class="header-bar">
+      <a class="logo" href="${root}/index.html" aria-label="Anvas Tech">
+        <img class="logo-mark" src="${root}/assets/logo-anvas.png?v=1" alt="" width="164" height="100">
+        <span class="logo-word" aria-hidden="true">Anvas Tech</span>
+      </a>
         <nav class="nav-desktop" aria-label="Primary navigation">
           <div class="nav-item" data-mega>
-            <a class="nav-link" href="${root}/what-we-do.html">What We Do <span class="chev"></span></a>
+            <a class="nav-link" href="${root}/what-we-do.html">Solutions <span class="chev"></span></a>
             ${megaWhat}
           </div>
           <div class="nav-item" data-mega>
-            <a class="nav-link" href="${root}/industries.html">Industries <span class="chev"></span></a>
+            <a class="nav-link" href="${root}/industries.html">Products <span class="chev"></span></a>
             ${megaInd}
           </div>
-          <div class="nav-item"><a class="nav-link" href="${root}/ecosystem.html">Ecosystem</a></div>
           <div class="nav-item" data-mega>
             <a class="nav-link" href="${root}/who-we-are.html">Who We Are <span class="chev"></span></a>
             ${megaWho}
@@ -147,7 +154,6 @@
             <a class="nav-link" href="${root}/careers.html">Careers <span class="chev"></span></a>
             ${megaCar}
           </div>
-          <div class="nav-item"><a class="nav-link" href="${root}/anvassoftware.html">AnvasSoftware</a></div>
         </nav>
         <div class="header-tools">
           <button class="icon-btn" type="button" data-open-search aria-label="Search">
@@ -183,13 +189,11 @@
         </div>
       </div>
       <nav class="mobile-nav" id="mobile-nav" hidden>
-        <a href="${root}/what-we-do.html">What We Do</a>
-        <a href="${root}/industries.html">Industries</a>
-        <a href="${root}/ecosystem.html">Ecosystem</a>
+        <a href="${root}/what-we-do.html">Solutions</a>
+        <a href="${root}/industries.html">Products</a>
         <a href="${root}/who-we-are.html">Who We Are</a>
         <a href="${root}/resources.html">Resources</a>
         <a href="${root}/careers.html">Careers</a>
-        <a href="${root}/anvassoftware.html">AnvasSoftware</a>
         <a href="${root}/contact.html">Contact Us</a>
       </nav>
     </header>`;
@@ -198,22 +202,22 @@
     <footer class="site-footer">
       <div class="wrap foot-grid">
         <div>
-          <h4>What We Do</h4>
+          <h4>Solutions</h4>
+          <a href="${root}/what-we-do.html#vishful">Vishful</a>
+          <a href="${root}/what-we-do.html#attendance">Attendance app</a>
+          <a href="${root}/what-we-do.html#healthcare">Healthcare app</a>
+          <a href="${root}/what-we-do.html#government">Government projects</a>
           <a href="${root}/what-we-do.html#ai">AI and Generative AI</a>
           <a href="${root}/what-we-do.html#apps">Applications</a>
-          <a href="${root}/what-we-do.html#ers">Engineering and R&amp;D</a>
-          <a href="${root}/what-we-do.html#infra">IT Infrastructure</a>
-          <a href="${root}/what-we-do.html#products">Products and Platforms</a>
-          <a href="${root}/what-we-do.html#supply">Supply Chain</a>
         </div>
         <div>
-          <h4>Industries</h4>
-          <a href="${root}/industries.html">Financial Services</a>
-          <a href="${root}/industries.html">Manufacturing</a>
-          <a href="${root}/industries.html">Life Sciences</a>
-          <a href="${root}/industries.html">Telecom, Media and Tech</a>
-          <a href="${root}/industries.html">Retail</a>
-          <a href="${root}/industries.html">Public Sector</a>
+          <h4>Products</h4>
+          <a href="${root}/what-we-do.html#vishful">Vishful</a>
+          <a href="${root}/what-we-do.html#attendance">Attendance app</a>
+          <a href="${root}/what-we-do.html#healthcare">Healthcare app</a>
+          <a href="${root}/what-we-do.html#government">Government projects</a>
+          <a href="${root}/anvassoftware.html">Anvas BigFix</a>
+          <a href="${root}/anvassoftware.html">Anvas AppScan</a>
         </div>
         <div>
           <h4>Who We Are</h4>
@@ -310,9 +314,38 @@
   })();
 
   const headerEl = document.getElementById("header");
-  const onScroll = () => headerEl?.classList.toggle("is-stuck", window.scrollY > 8);
-  onScroll();
-  window.addEventListener("scroll", onScroll, { passive: true });
+  (function bindHeaderScrollHide() {
+    if (!headerEl) return;
+    let lastY = window.scrollY;
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      const y = window.scrollY;
+      headerEl.classList.toggle("is-stuck", y > 8);
+      const overlayOpen =
+        !!document.querySelector(".nav-item.open, .menu-toggle.is-open") ||
+        (document.getElementById("mobile-nav") && !document.getElementById("mobile-nav").hidden);
+      if (y <= 48) {
+        headerEl.classList.remove("is-away");
+      } else if (!overlayOpen && y > lastY + 2) {
+        headerEl.classList.add("is-away");
+      } else if (y < lastY - 2) {
+        headerEl.classList.remove("is-away");
+      }
+      lastY = y;
+    };
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(update);
+        }
+      },
+      { passive: true }
+    );
+    update();
+  })();
 
   const toggle = document.querySelector(".menu-toggle");
   const mobile = document.getElementById("mobile-nav");
@@ -484,74 +517,26 @@
   (function bindCaseStudies() {
     const root = document.getElementById("case-studies");
     if (!root) return;
-    const cards = [...root.querySelectorAll("[data-cs-card]")];
-    const bg = root.querySelector(".cs-media-bg img");
-    const dotsWrap = root.querySelector("[data-cs-dots]");
-    const playBtn = root.querySelector("[data-cs-play]");
-    const playText = playBtn?.querySelector(".cs-play-text");
+    const cards = [...root.querySelectorAll(".cs-card")];
     if (!cards.length) return;
 
-    let i = 0;
-    let playing = false;
-    let timer = 0;
-
-    const prevBtn = root.querySelector("[data-cs-prev]");
-    const nextBtn = root.querySelector("[data-cs-next]");
-
-    const stop = () => {
-      playing = false;
-      window.clearInterval(timer);
-      playBtn?.classList.add("is-paused");
-      playBtn?.setAttribute("aria-label", "Play case studies");
-      if (playText) playText.textContent = "Play";
-    };
-
-    const show = (n) => {
-      if (n < 0 || n >= cards.length) return;
-      i = n;
-      cards.forEach((el, idx) => {
-        el.classList.toggle("is-active", idx === i);
-        if (idx === i) el.removeAttribute("data-stack");
-        else if (idx > i) el.setAttribute("data-stack", String(idx - i));
-        else el.setAttribute("data-stack", "gone");
-      });
-      dotsWrap?.querySelectorAll("button").forEach((btn, idx) => {
-        btn.classList.toggle("is-active", idx === i);
-        btn.setAttribute("aria-selected", idx === i ? "true" : "false");
-      });
-      if (prevBtn) prevBtn.disabled = i === 0;
-      if (nextBtn) nextBtn.disabled = i === cards.length - 1;
-      const src = cards[i].getAttribute("data-src");
-      if (bg && src) bg.src = src;
-      if (playing && i === cards.length - 1) stop();
-    };
-
-    if (dotsWrap) {
-      dotsWrap.innerHTML = cards
-        .map((_, idx) => `<button type="button" role="tab" aria-label="Case study ${idx + 1} of ${cards.length}"></button>`)
-        .join("");
-      dotsWrap.querySelectorAll("button").forEach((btn, idx) => {
-        btn.addEventListener("click", () => show(idx));
-      });
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) {
+      cards.forEach((el) => el.classList.add("is-in"));
+      return;
     }
 
-    prevBtn?.addEventListener("click", () => show(i - 1));
-    nextBtn?.addEventListener("click", () => show(i + 1));
-
-    playBtn?.addEventListener("click", () => {
-      if (playing) {
-        stop();
-        return;
-      }
-      if (i >= cards.length - 1) show(0);
-      playing = true;
-      playBtn.classList.remove("is-paused");
-      playBtn.setAttribute("aria-label", "Pause case studies");
-      if (playText) playText.textContent = "Pause";
-      timer = window.setInterval(() => show(i + 1), 5000);
-    });
-
-    show(0);
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("is-in");
+          io.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.2, rootMargin: "0px 0px -8% 0px" }
+    );
+    cards.forEach((el) => io.observe(el));
   })();
 
   (function bindAwardWeb() {
@@ -642,7 +627,6 @@
       if (!desktop.matches) {
         host.style.removeProperty("--cine");
         host.style.removeProperty("--cine-in");
-        host.style.removeProperty("--cine-up");
         copy?.classList.add("is-on");
         return;
       }
@@ -650,17 +634,14 @@
       if (run <= 0) {
         host.style.setProperty("--cine", "1");
         host.style.setProperty("--cine-in", "1");
-        host.style.setProperty("--cine-up", "1");
         copy?.classList.add("is-on");
         return;
       }
       const p = Math.min(1, Math.max(0, -track.getBoundingClientRect().top / run));
-      const shrink = Math.min(1, p / 0.36);
-      const fade = Math.min(1, Math.max(0, (p - 0.14) / 0.28));
-      const rise = Math.min(1, Math.max(0, (p - 0.5) / 0.5));
+      const shrink = Math.min(1, p / 0.4);
+      const fade = Math.min(1, Math.max(0, (p - 0.34) / 0.16));
       host.style.setProperty("--cine", String(shrink));
       host.style.setProperty("--cine-in", String(fade));
-      host.style.setProperty("--cine-up", String(rise));
       copy?.classList.toggle("is-on", fade > 0.85);
     };
     const onScroll = () => {
@@ -673,10 +654,31 @@
     apply();
   })();
 
+  (function bindSolSticky() {
+    const root = document.getElementById("solutions");
+    if (!root) return;
+    const title = root.querySelector(".sol-sticky-title");
+    const tag = root.querySelector(".sol-tag");
+    if (!title) return;
+
+    const size = () => {
+      const vis = (tag ? tag.offsetHeight + 20 : 0) + title.offsetHeight + 32;
+      root.style.setProperty("--sol-head-top", "88px");
+      root.style.setProperty("--sol-head-h", `${vis}px`);
+      root.style.setProperty("--sol-card-h", "437px");
+    };
+
+    size();
+    window.addEventListener("resize", size);
+  })();
+
   document.getElementById("news-form")?.addEventListener("submit", (e) => {
     e.preventDefault();
     const note = document.getElementById("news-note");
-    if (note) note.textContent = "You are subscribed to AnvasTech Trends and Insights.";
+    if (note) {
+      note.hidden = false;
+      note.textContent = "You are subscribed to AnvasTech Trends and Insights.";
+    }
     e.target.reset();
   });
 

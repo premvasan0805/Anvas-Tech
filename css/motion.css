@@ -84,16 +84,6 @@
 }
 
 /* --------------------------------------------------------------------------
-   Header auto-hide (own class so styles.css .is-stuck rules stay untouched)
-   -------------------------------------------------------------------------- */
-.motion-ready .site-header {
-  transition: transform 0.45s var(--ease, ease);
-}
-.motion-ready .site-header.motion-hidden {
-  transform: translateY(-140%);
-}
-
-/* --------------------------------------------------------------------------
    Custom cursor — pointer-precise devices only
    -------------------------------------------------------------------------- */
 .motion-cursor,

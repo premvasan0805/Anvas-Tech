@@ -481,19 +481,7 @@
       scrollTrigger: { trigger: document.body, start: "top top", end: "bottom bottom", scrub: 0.3 },
     });
 
-    const header = document.getElementById("header");
-    if (!header) return;
-
-    ScrollTrigger.create({
-      start: "top -140",
-      end: 99999,
-      onUpdate(self) {
-        const goingDown = self.direction === 1;
-        const overlayOpen = document.body.classList.contains("nav-open") ||
-          document.querySelector(".overlay.open, .mobile-nav.open");
-        header.classList.toggle("motion-hidden", goingDown && !overlayOpen);
-      },
-    });
+    /* Header hide/show lives in site.js (always on, matches HCLTech). */
   }
 
   /* ------------------------------------------------------------------------
@@ -566,7 +554,7 @@
      12. Section entry accent — subtle scale on banded sections
      ---------------------------------------------------------------------- */
   function bands() {
-    all(".section.mist, .hl-band, .recog-band, .ask-panel").forEach((band) => {
+    all(".section.mist, .recog-band, .ask-panel").forEach((band) => {
       gsap.fromTo(
         band,
         { backgroundPosition: "50% 0%" },
