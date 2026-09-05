@@ -3549,17 +3549,18 @@ a.list-card:hover {
   .growth-intro,
   .growth-cards { width: 100%; padding: 0; }
   .growth-intro { padding-bottom: 8px; position: static; }
-  .growth-card { padding: 16px 16px 50px 102px; }
+  .growth-card { padding: 18px 18px 20px 76px; }
+  .growth-ico { top: 22px; translate: none; }
+  .growth-ico img { max-height: 44px; }
   .growth-go {
-    width: 18px;
-    height: 12px;
+    width: 36px;
+    height: 36px;
     top: auto;
-    bottom: 19px;
-    right: auto;
-    left: 102px;
+    bottom: 14px;
+    right: 14px;
+    left: auto;
   }
-  .growth-go::after { display: none; }
-  .collage { grid-template-columns: 1fr 1fr; min-height: 280px; }
+  .collage { grid-template-columns: 1fr 1fr; min-height: 0; }
   .cookie { flex-direction: column; align-items: stretch; }
 }
 
@@ -3830,21 +3831,38 @@ a.list-card:hover {
     font-size: 0.9375rem;
   }
   .growth-card {
-    padding: 16px 16px 48px 88px;
+    padding: 16px 16px 18px 68px;
   }
   .growth-ico {
     left: 12px;
+    top: 18px;
+    translate: none;
   }
   .growth-ico img {
-    max-height: 48px;
+    max-height: 40px;
   }
   .growth-go {
-    left: 88px;
+    left: auto;
+    right: 12px;
+    bottom: 12px;
+    top: auto;
+    width: 32px;
+    height: 32px;
+  }
+  .collage {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+  .collage img:first-child {
+    grid-row: auto;
+  }
+  .page-hero .lede {
+    color: var(--ink-2);
   }
   .award-web {
     width: 100%;
-    height: 300px;
-    min-height: 300px;
+    height: auto;
+    min-height: 0;
     margin: 8px 0 0;
   }
   .award-web-inner {
