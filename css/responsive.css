@@ -1,0 +1,478 @@
+/* ==========================================================================
+   responsive.css — mobile / tablet layout overrides.
+   Loaded after styles.css so these rules win. Desktop sticky/scroll effects
+   stay intact above these breakpoints; below them, sections stack fluidly
+   without breaking carousels, menus, forms, or CTAs.
+   ========================================================================== */
+
+html {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+main,
+.section,
+.home-stack,
+.home-wrap,
+.sol-sticky,
+.cs-band,
+.clients-band,
+.recog-band,
+.growth-band,
+.cine-career,
+.news-band,
+.site-footer,
+.ai-stage {
+  max-width: 100%;
+}
+
+img,
+video,
+svg,
+iframe {
+  max-width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   Tablet and below (≤991px): stack multi-column desktop layouts
+   -------------------------------------------------------------------------- */
+@media (max-width: 991px) {
+  .site-header {
+    width: 100%;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .header-bar {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .mobile-nav {
+    width: calc(100% - 24px);
+    max-width: 100%;
+  }
+
+  /* Growth: side-by-side 50% columns → full width stack */
+  .growth-intro,
+  .growth-cards {
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .growth-intro {
+    position: static;
+    margin-bottom: 20px;
+  }
+
+  .growth-intro .display {
+    max-width: none;
+    font-size: clamp(1.5rem, 4.5vw, 2rem);
+  }
+
+  .growth-card {
+    padding: 18px 18px 48px 96px;
+  }
+
+  /* Clients: stack copy above image, kill desktop card fan */
+  .clients-shell {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .clients-row {
+    flex-direction: column-reverse;
+    overflow: visible;
+  }
+
+  .clients-copy {
+    margin: 24px 0 0;
+  }
+
+  .clients-copy .display {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    line-height: 1.15;
+  }
+
+  .clients-stage {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    align-self: stretch;
+  }
+
+  .clients-card:not(.is-active) {
+    display: none;
+  }
+
+  .clients-card.is-active,
+  .clients-card[data-stack] {
+    position: relative;
+    transform: none;
+    filter: none;
+  }
+
+  /* Case studies: no 100vw breakout (causes side-scroll on phones) */
+  .cs-band {
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
+    min-height: 0;
+  }
+
+  .cs-shell {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .cs-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .cs-card-inner {
+    min-height: 0;
+  }
+
+  /* Recognition */
+  .recog-split {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .recog-split .display {
+    max-width: none;
+    font-size: clamp(1.5rem, 4vw, 2.25rem);
+  }
+
+  .award-web {
+    width: 100%;
+    max-width: 100%;
+    height: 320px;
+    min-height: 320px;
+  }
+
+  /* Solutions: never sticky on tablet/phone — keep cards usable */
+  .sol-sticky-head {
+    position: relative;
+    top: auto;
+    padding-bottom: 0;
+  }
+
+  .sol-sticky-stack {
+    margin-top: 0;
+  }
+
+  .sol-stack-card {
+    position: relative;
+    top: auto;
+    height: auto;
+    margin-top: 0;
+    margin-bottom: 24px;
+  }
+
+  .sol-stack-card:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Highlight feature card must not stay 596px wide */
+  .hl-grid {
+    display: block;
+  }
+
+  .hl-feature,
+  .hl-col-media,
+  .hl-col-news {
+    width: 100%;
+    max-width: 100%;
+    flex: none;
+  }
+
+  .home-wrap-shell,
+  .hero-shell {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .now-media {
+    display: none;
+  }
+
+  .now-mobile-img {
+    display: block;
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    object-position: center top;
+  }
+
+  .now-copy {
+    max-width: 100%;
+  }
+
+  .ai-stage {
+    border-radius: 12px;
+    width: 100%;
+  }
+
+  .page-hero {
+    padding: 96px 0 40px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Phone (≤760px)
+   -------------------------------------------------------------------------- */
+@media (max-width: 760px) {
+  .wrap {
+    width: calc(100% - 28px);
+  }
+
+  .growth-band .wrap {
+    width: calc(100% - 28px);
+  }
+
+  .hero {
+    min-height: 100svh;
+    min-height: 100dvh;
+  }
+
+  .slide-copy {
+    max-width: 100%;
+    padding: 88px 0 72px;
+  }
+
+  .slide-copy h1,
+  .slide-copy h2 {
+    font-size: clamp(1.375rem, 6.2vw, 1.75rem);
+    line-height: 1.22;
+    margin-bottom: 12px;
+  }
+
+  .slide-copy p {
+    font-size: 0.9375rem;
+    line-height: 1.4;
+  }
+
+  .hero .now-cta {
+    font-size: 0.9375rem;
+    line-height: 44px;
+    padding: 0 18px;
+    margin-top: 14px;
+  }
+
+  .sol-sticky {
+    padding: 48px 4%;
+  }
+
+  .sol-stack-card {
+    flex-direction: column;
+    gap: 14px;
+    padding: 14px;
+    margin-bottom: 16px;
+  }
+
+  .sol-stack-media {
+    width: 100%;
+    height: 180px;
+    flex: 0 0 auto;
+  }
+
+  .sol-stack-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .sol-stack-copy h3 {
+    padding-top: 0;
+    font-size: 1.125rem;
+    line-height: 1.3;
+  }
+
+  .sol-stack-copy > p,
+  .sol-stack-copy li {
+    font-size: 0.875rem;
+    line-height: 1.45;
+  }
+
+  .cs-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .cs-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .cs-head .display {
+    font-size: 1.5rem;
+  }
+
+  .cs-card-media {
+    height: 160px;
+  }
+
+  .cs-card-inner:hover,
+  .cs-card-inner:focus-within {
+    transform: none;
+    box-shadow: none;
+  }
+
+  .now-copy .display,
+  .clients-copy .display {
+    font-size: 1.5rem;
+    line-height: 1.15;
+  }
+
+  .now-copy p {
+    font-size: 1rem;
+  }
+
+  .now-mobile-img {
+    max-height: 240px;
+    margin-bottom: 16px;
+  }
+
+  .now-facts {
+    flex-wrap: wrap;
+    margin: 16px 0 0;
+  }
+
+  .now-fact-col {
+    width: 50%;
+  }
+
+  .growth-card {
+    padding: 16px 16px 48px 84px;
+  }
+
+  .growth-ico img {
+    max-height: 44px;
+  }
+
+  .foot-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px 16px;
+  }
+
+  .foot-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .news-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .gartner-card {
+    padding: 14px 52px 14px 14px;
+  }
+
+  .gartner-card p {
+    font-size: 0.9375rem;
+  }
+
+  .cine-copy h2 {
+    font-size: 1.5rem;
+    line-height: 1.2;
+  }
+
+  .ask-shell {
+    padding: 28px 16px 20px;
+  }
+
+  .ask-panel h2 {
+    font-size: 1.25rem;
+    line-height: 1.25;
+  }
+
+  .cookie {
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+  }
+
+  /* Motion split-words: stay readable if animation lags */
+  .motion-ready .split-word {
+    display: inline;
+    white-space: normal;
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+
+  .motion-ready .split-line {
+    display: inline;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Small phone (≤480px)
+   -------------------------------------------------------------------------- */
+@media (max-width: 480px) {
+  .wrap,
+  .growth-band .wrap {
+    width: calc(100% - 20px);
+  }
+
+  .header-bar {
+    height: 58px;
+    padding: 0 8px 0 60px;
+  }
+
+  .logo {
+    left: 8px;
+    width: 52px;
+    height: 58px;
+  }
+
+  .logo:hover,
+  .logo:focus-visible,
+  .logo.is-on {
+    width: 52px;
+  }
+
+  .logo-mark {
+    width: 48px;
+    height: 30px;
+  }
+
+  .slide-copy h1,
+  .slide-copy h2 {
+    font-size: 1.375rem;
+  }
+
+  .now-fact-col {
+    width: 100%;
+  }
+
+  .stats-row {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .foot-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sol-stack-media {
+    height: 160px;
+  }
+
+  .clients-quote > p {
+    font-size: 1rem;
+  }
+}

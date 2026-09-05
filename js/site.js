@@ -306,7 +306,12 @@
       if (!logo.contains(e.relatedTarget)) off();
     });
     logo.addEventListener("click", (e) => {
-      if (window.matchMedia("(hover: none)").matches && !logo.classList.contains("is-on")) {
+      // Only intercept tap-to-reveal wordmark on coarse pointers when expand is allowed.
+      if (
+        window.matchMedia("(hover: none)").matches &&
+        window.matchMedia("(min-width: 992px)").matches &&
+        !logo.classList.contains("is-on")
+      ) {
         e.preventDefault();
         on();
       }
@@ -662,6 +667,13 @@
     if (!title) return;
 
     const size = () => {
+      // Sticky stack is desktop-only; clear vars so mobile/tablet CSS stays clean.
+      if (window.matchMedia("(max-width: 1200px)").matches) {
+        root.style.removeProperty("--sol-head-top");
+        root.style.removeProperty("--sol-head-h");
+        root.style.removeProperty("--sol-card-h");
+        return;
+      }
       const vis = (tag ? tag.offsetHeight + 20 : 0) + title.offsetHeight + 32;
       root.style.setProperty("--sol-head-top", "88px");
       root.style.setProperty("--sol-head-h", `${vis}px`);

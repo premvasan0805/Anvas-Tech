@@ -201,6 +201,7 @@
   }
 
   function headlines() {
+    const narrow = window.matchMedia("(max-width: 768px)").matches;
     const targets = all(
       [
         ".hero .slide-copy h1",
@@ -214,10 +215,29 @@
     );
 
     targets.forEach((el) => {
+      const inHero = !!el.closest(".hero, .page-hero");
+
+      // Phones: animate the whole headline — word-split reflows break layout.
+      if (narrow) {
+        gsap.fromTo(
+          el,
+          { opacity: 0, y: 18 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.7,
+            ease: EASE,
+            delay: inHero ? 0.55 : 0,
+            scrollTrigger: inHero
+              ? undefined
+              : { trigger: el, start: "top 88%", once: true },
+          }
+        );
+        return;
+      }
+
       const words = splitHeadline(el);
       if (!words.length) return;
-
-      const inHero = !!el.closest(".hero, .page-hero");
 
       gsap.to(words, {
         y: 0,
@@ -226,7 +246,6 @@
         duration: 0.95,
         ease: EASE,
         stagger: 0.035,
-        // Hero copy is above the fold: run it off the curtain, not off scroll.
         delay: inHero ? 0.75 : 0,
         scrollTrigger: inHero
           ? undefined
