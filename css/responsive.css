@@ -1169,3 +1169,24 @@ html.is-phone .sol-stack-media {
 html.is-phone .now-mobile-img {
   max-height: 220px !important;
 }
+
+/* ==========================================================================
+   AI hub crossfade
+   Slides crossfade at opacity 0.55s. On desktop every slide is exactly
+   520px so they overlap cleanly. On narrow screens each slide is its own
+   height, so mid-fade the two slides sit at different offsets and the
+   headings, body copy and CTAs all ghost on top of each other. Swap
+   instantly instead; the fade earns nothing on a phone.
+   ========================================================================== */
+html.is-narrow .ai-slide {
+  transition: none !important;
+}
+
+html.is-narrow .ai-slide:not(.is-active) {
+  display: none !important;
+}
+
+@media (max-width: 991px) {
+  .ai-slide { transition: none !important; }
+  .ai-slide:not(.is-active) { display: none !important; }
+}
