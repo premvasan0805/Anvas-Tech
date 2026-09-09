@@ -1349,6 +1349,16 @@ button.mega-all:hover {
   color: #14142b;
 }
 .sol-stack-copy h3 a { color: inherit; }
+/* Product value line: sits between the name and the description, so it is
+   tighter than a body paragraph to keep the card within --sol-card-h. */
+.sol-stack-copy > p.sol-stack-tag {
+  max-width: 460px;
+  padding: 0 0 4px;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 22px;
+  color: #14142b;
+}
 .sol-stack-copy > p {
   margin: 0;
   max-width: 440px;
