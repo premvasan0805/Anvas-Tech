@@ -1,6 +1,6 @@
 /* ==========================================================================
    responsive.css — forced mobile / tablet layout
-   Uses both media queries AND html.is-narrow / html.is-phone (set in <head>)
+   Tiers: is-compact-nav (≤1199) · is-narrow (≤991) · is-tablet (769–991) · is-phone (≤768)
    so layout cannot stay stuck in desktop mode on phones.
    ========================================================================== */
 
@@ -28,16 +28,16 @@ canvas {
 }
 
 /* --------------------------------------------------------------------------
-   Narrow (≤991): tablet + phone — stack everything
+   Narrow (≤991): small tablet + phone — stack everything
    Driven by html.is-narrow (set in <head>) plus media-query fallbacks below.
    -------------------------------------------------------------------------- */
 
-html.is-narrow .nav-desktop,
-html.is-narrow .icon-btn.globe {
+html.is-compact-nav .nav-desktop,
+html.is-compact-nav .icon-btn.globe {
   display: none !important;
 }
 
-html.is-narrow .menu-toggle {
+html.is-compact-nav .menu-toggle {
   display: grid !important;
 }
 
@@ -137,6 +137,15 @@ html.is-narrow .growth-text strong {
 html.is-narrow .growth-text span {
   font-size: 0.9375rem !important;
   line-height: 1.45 !important;
+}
+
+html.is-narrow .growth-text .growth-lead {
+  font-size: 0.9375rem !important;
+}
+
+html.is-narrow .growth-text .growth-topics {
+  font-size: 0.6875rem !important;
+  margin-top: 10px !important;
 }
 
 html.is-narrow .page-hero {
@@ -257,6 +266,12 @@ html.is-narrow .clients-copy {
 html.is-narrow .clients-copy .display {
   font-size: clamp(1.5rem, 5vw, 2rem);
   line-height: 1.15;
+  max-width: none;
+}
+
+html.is-narrow .clients-intro .lede {
+  font-size: 1rem;
+  max-width: none;
 }
 
 html.is-narrow .clients-stage {
@@ -523,7 +538,7 @@ html.is-narrow .motion-ready [data-anim] {
 }
 
 /* --------------------------------------------------------------------------
-   Phone (≤760)
+   Phone (≤768)
    -------------------------------------------------------------------------- */
 html.is-phone .hero {
   min-height: 100svh;
@@ -680,9 +695,6 @@ html.is-phone .news-copy h2 {
 
 /* Mirror with media queries (no-JS / late JS fallback) */
 @media (max-width: 991px) {
-  .nav-desktop,
-  .icon-btn.globe { display: none !important; }
-  .menu-toggle { display: grid !important; }
   .growth-intro,
   .growth-cards { width: 100% !important; padding: 0 !important; }
   .growth-card { padding: 18px 18px 20px 76px !important; }
@@ -731,7 +743,7 @@ html.is-phone .news-copy h2 {
   }
 }
 
-@media (max-width: 760px) {
+@media (max-width: 768px) {
   .slide-copy h1,
   .slide-copy h2 { font-size: 1.5rem !important; line-height: 1.25 !important; }
   .slide-copy p { font-size: 1rem !important; }
@@ -743,4 +755,417 @@ html.is-phone .news-copy h2 {
   .collage { grid-template-columns: 1fr !important; }
   .collage img:first-child { grid-row: auto !important; }
   .list-cards { grid-template-columns: 1fr !important; }
+}
+
+/* ==========================================================================
+   TIER: compact nav (<=1199)
+   The desktop nav collides with the header tools below 1200, so the primary
+   nav collapses into the hamburger from here down. Body layout above 991
+   stays exactly as the approved desktop design.
+   ========================================================================== */
+
+html.is-compact-nav .header-bar {
+  justify-content: flex-end;
+}
+
+html.is-compact-nav .menu-toggle {
+  width: 46px;
+  height: 46px;
+  place-items: center;
+}
+
+html.is-compact-nav .mobile-nav a {
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 14px 0;
+}
+
+html.is-compact-nav .mobile-nav a:last-child {
+  border-bottom: 0;
+}
+
+@media (max-width: 1199px) {
+  .nav-desktop,
+  .icon-btn.globe { display: none !important; }
+  .menu-toggle { display: grid !important; }
+  .header-bar { justify-content: flex-end; }
+}
+
+/* ==========================================================================
+   TIER: tablet (769-991)
+   is-narrow collapses everything to a single column for phones. A tablet has
+   room for two, so density is restored here without touching desktop rules.
+   ========================================================================== */
+
+html.is-tablet .list-cards,
+html.is-tablet .cards-3,
+html.is-tablet .cards-hl,
+html.is-tablet .cards-cs,
+html.is-tablet .cs-grid,
+html.is-tablet .form-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 18px !important;
+}
+
+html.is-tablet .form-grid .full {
+  grid-column: 1 / -1;
+}
+
+html.is-tablet .split,
+html.is-tablet .split.reverse {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+  gap: clamp(24px, 4vw, 40px) !important;
+}
+
+html.is-tablet .news-layout {
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 0.85fr) !important;
+  gap: 28px 32px !important;
+}
+
+html.is-tablet .foot-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+}
+
+html.is-tablet .now-fact-col {
+  width: 25% !important;
+}
+
+html.is-tablet .collage img {
+  aspect-ratio: 4 / 3;
+  min-height: 0;
+}
+
+html.is-tablet .collage img:first-child {
+  min-height: 0;
+  aspect-ratio: auto;
+}
+
+html.is-tablet .page-hero {
+  padding: 104px 0 48px !important;
+}
+
+html.is-tablet .page-hero h1 {
+  font-size: clamp(2rem, 5.2vw, 2.75rem) !important;
+}
+
+/* ==========================================================================
+   Narrow + phone corrections
+   ========================================================================== */
+
+/* AI Intelligence Hub: slides are absolutely positioned inside a fixed 520px
+   stage, so on narrow screens the tallest slide is clipped. The active slide
+   re-enters the flow and the stage grows to fit it. */
+html.is-narrow .ai-slides {
+  min-height: 0 !important;
+}
+
+html.is-narrow .ai-slide.is-active {
+  position: relative !important;
+}
+
+html.is-narrow .ai-slide-copy {
+  max-width: 100% !important;
+}
+
+html.is-narrow .ai-slide-copy h3 {
+  font-size: 1.0625rem !important;
+  line-height: 1.35 !important;
+}
+
+/* Case studies: one ratio for every card instead of a fixed pixel height */
+html.is-narrow .cs-card-media {
+  height: auto !important;
+  aspect-ratio: 16 / 10;
+}
+
+html.is-narrow .cs-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+html.is-narrow .cs-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+/* Testimonials: the portrait must not take over the screen */
+html.is-narrow .clients-stage,
+html.is-narrow .clients-card.is-active {
+  max-width: min(420px, 100%) !important;
+  margin-inline: auto !important;
+}
+
+html.is-narrow .clients-card.is-active img {
+  width: 100%;
+  height: auto;
+  max-height: 340px;
+  object-fit: cover;
+  object-position: center top;
+  border-radius: 14px;
+}
+
+html.is-narrow .clients-arrows {
+  position: relative !important;
+  right: auto !important;
+  bottom: auto !important;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+html.is-narrow .clients-arrow {
+  width: 44px;
+  height: 44px;
+}
+
+/* Solutions: keep the stacked cards compact */
+html.is-phone .sol-stack-media {
+  height: auto !important;
+  aspect-ratio: 16 / 10;
+}
+
+html.is-phone .sol-stack-copy h3 {
+  font-size: 1.0625rem !important;
+  line-height: 1.35 !important;
+}
+
+html.is-phone .sol-stack-copy p,
+html.is-phone .sol-stack-copy li {
+  font-size: 0.9375rem !important;
+  line-height: 1.45 !important;
+}
+
+html.is-phone .sol-stack-copy li {
+  padding-bottom: 2px !important;
+}
+
+/* Touch targets */
+html.is-phone .now-cta,
+html.is-phone .hero-cta,
+html.is-phone .btn-blue,
+html.is-phone .cine-join,
+html.is-phone .cs-all,
+html.is-phone .news-submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+}
+
+html.is-phone .icon-btn,
+html.is-phone .chat-btn,
+html.is-phone .menu-toggle {
+  width: 44px;
+  height: 44px;
+}
+
+/* Newsletter: full-width stacked field and button */
+html.is-phone .news-fields {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  gap: 12px !important;
+}
+
+html.is-phone .news-fields input,
+html.is-phone .news-submit {
+  width: 100% !important;
+}
+
+/* ==========================================================================
+   Footer: collapsible columns on phones
+   The four link columns stack to roughly 1200px of dead scroll on a phone.
+   .foot-acc / .foot-links are inert above the phone breakpoint.
+   ========================================================================== */
+
+.foot-acc {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  padding: 0;
+  background: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: default;
+}
+
+.foot-chev {
+  display: none;
+}
+
+html.is-phone .foot-grid {
+  gap: 0 !important;
+}
+
+html.is-phone .foot-grid > div {
+  border-bottom: 1px solid rgb(255 255 255 / 0.1);
+}
+
+html.is-phone .foot-grid h4 {
+  margin: 0;
+}
+
+html.is-phone .foot-acc {
+  min-height: 52px;
+  cursor: pointer;
+}
+
+html.is-phone .foot-chev {
+  display: block;
+  width: 9px;
+  height: 9px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  rotate: 45deg;
+  translate: 0 -2px;
+  transition: rotate 0.25s ease;
+}
+
+html.is-phone .foot-acc[aria-expanded="true"] .foot-chev {
+  rotate: -135deg;
+  translate: 0 2px;
+}
+
+html.is-phone .foot-grid h4:has(.foot-acc[aria-expanded="false"]) + .foot-links {
+  display: none;
+}
+
+html.is-phone .foot-links {
+  padding-bottom: 10px;
+}
+
+html.is-phone .foot-grid a {
+  display: flex;
+  align-items: center;
+  min-height: 40px;
+}
+
+html.is-phone .foot-bottom {
+  margin-top: 24px;
+}
+
+html.is-phone .legal a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+}
+
+/* ==========================================================================
+   Media-query mirrors (no-JS / late-JS fallback)
+   ========================================================================== */
+
+@media (min-width: 769px) and (max-width: 991px) {
+  .list-cards,
+  .cards-3,
+  .cards-hl,
+  .cards-cs,
+  .cs-grid,
+  .form-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+  .form-grid .full { grid-column: 1 / -1; }
+  .foot-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+  .now-fact-col { width: 25% !important; }
+}
+
+@media (max-width: 991px) {
+  .ai-slides { min-height: 0 !important; }
+  .ai-slide.is-active { position: relative !important; }
+  .ai-slide-copy { max-width: 100% !important; }
+  .cs-card-media { height: auto !important; aspect-ratio: 16 / 10; }
+  .clients-stage,
+  .clients-card.is-active {
+    max-width: min(420px, 100%) !important;
+    margin-inline: auto !important;
+  }
+  .clients-card.is-active img {
+    max-height: 340px;
+    object-fit: cover;
+    border-radius: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .sol-stack-media { height: auto !important; aspect-ratio: 16 / 10; }
+  .news-fields { flex-direction: column !important; align-items: stretch !important; }
+  .news-fields input,
+  .news-submit { width: 100% !important; }
+}
+
+/* Careers collage: portrait sources crop through the face at phone ratios,
+   so bias the crop towards the top of the frame. */
+html.is-tablet .collage img,
+html.is-phone .collage img,
+html.is-phone .collage img:first-child {
+  object-position: 50% 30%;
+}
+
+html.is-phone .collage img,
+html.is-phone .collage img:first-child {
+  aspect-ratio: 4 / 3 !important;
+  max-height: 260px;
+}
+
+@media (max-width: 768px) {
+  .collage img { object-position: 50% 30%; aspect-ratio: 4 / 3; }
+}
+
+/* ==========================================================================
+   Desktop 1200–1259: the centred nav runs into the absolutely positioned
+   header tools (measured -6px overlap at 1200). Tighten the inter-item gap
+   and link padding just in this band; 1260+ keeps the approved spacing.
+   ========================================================================== */
+@media (min-width: 1200px) and (max-width: 1259px) {
+  .nav-desktop { gap: 2px; }
+  .nav-link { padding: 0 14px; }
+  .nav-link .chev { margin-left: 8px; }
+}
+
+/* ==========================================================================
+   Card media height guards
+   A full-width 16/10 frame is ~460px tall at 768px, which makes the stacked
+   cards run far taller than they need to. Two columns from 600px up, plus a
+   hard cap, keeps every card compact without changing the ratio per viewport.
+   ========================================================================== */
+@media (min-width: 600px) and (max-width: 768px) {
+  html.is-phone .cs-grid,
+  .cs-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+  html.is-phone .list-cards,
+  html.is-phone .cards-3,
+  html.is-phone .cards-hl,
+  html.is-phone .cards-cs {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+  html.is-phone .sol-stack-card {
+    flex-direction: row !important;
+    align-items: center;
+    gap: 18px !important;
+  }
+  html.is-phone .sol-stack-media {
+    flex: 0 0 42% !important;
+    width: 42% !important;
+  }
+}
+
+html.is-narrow .cs-card-media {
+  max-height: 240px;
+}
+
+html.is-phone .sol-stack-media {
+  max-height: 260px;
+}
+
+html.is-phone .now-mobile-img {
+  max-height: 220px !important;
 }

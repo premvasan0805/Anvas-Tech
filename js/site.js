@@ -3,41 +3,41 @@
   const asset = (p) => `${root}/assets/${p}`;
 
   const megaWhat = `
-    <div class="mega">
+    <div class="mega mega-4">
       <div>
-        <h4>Featured solutions</h4>
-        <a href="${root}/what-we-do.html#vishful">Vishful</a>
-        <a href="${root}/what-we-do.html#attendance">Attendance app</a>
-        <a href="${root}/what-we-do.html#healthcare">Healthcare app</a>
-        <a href="${root}/what-we-do.html#government">Government projects</a>
-        <h4>AI and digital</h4>
-        <a href="${root}/what-we-do.html#ai">AI and Generative AI</a>
-        <a class="sub" href="${root}/what-we-do.html#ai">AI Advisory</a>
-        <a class="sub" href="${root}/what-we-do.html#ai">AI Factory · AI Force · AI Foundry</a>
-        <a class="sub" href="${root}/what-we-do.html#ai">Industry AI · Kinetic AI · Physical AI</a>
-        <a href="${root}/what-we-do.html#apps">Applications</a>
-        <a class="sub" href="${root}/what-we-do.html#apps">Data · Modern · Enterprise</a>
-        <a href="${root}/what-we-do.html#bpo">Business Process Operations</a>
+        <h4>Featured projects</h4>
+        <a href="${root}/what-we-do.html#anvas-logistics">Anvas Logistics</a>
+        <a href="${root}/what-we-do.html#anvas-comet">Anvas Comet</a>
+        <a href="${root}/what-we-do.html#fintech-platform">FinTech Platform</a>
+        <a href="${root}/what-we-do.html#kubera-ai">Kubera AI</a>
+        <a href="${root}/what-we-do.html#elegal">eLegal</a>
+        <a href="${root}/what-we-do.html#ungal-pakkam">Ungal Pakkam – Manu System</a>
+        <a href="${root}/what-we-do.html#mla-calendar">MLA Calendar</a>
       </div>
       <div>
-        <h4>Engineering and infrastructure</h4>
-        <a href="${root}/what-we-do.html#edtech">EdTech</a>
-        <a href="${root}/what-we-do.html#ers">Engineering and R&amp;D Services</a>
-        <a href="${root}/what-we-do.html#gcc">Global Capability Center</a>
-        <a href="${root}/what-we-do.html#infra">IT Infrastructure</a>
-        <a class="sub" href="${root}/what-we-do.html#infra">Cloud · Cybersecurity · Workplace</a>
-        <a class="sub" href="${root}/what-we-do.html#infra">Networks · USM · Platforms</a>
-        <a href="${root}/what-we-do.html#supply">Supply Chain</a>
+        <h4>AI &amp; Intelligent Systems</h4>
+        <a href="${root}/what-we-do.html#generative-ai">Generative AI</a>
+        <a href="${root}/what-we-do.html#ai-automation">AI-Assisted Automation</a>
+        <a href="${root}/what-we-do.html#intelligent-workflows">Intelligent Workflows</a>
+        <a href="${root}/what-we-do.html#ai-agents">AI Agents</a>
+        <a href="${root}/what-we-do.html#data-ai-engineering">Data &amp; AI Engineering</a>
       </div>
       <div>
-        <h4>Products and platforms</h4>
-        <a href="${root}/what-we-do.html#products">Our Blueprint — XDO</a>
-        <a href="${root}/what-we-do.html#products">Data Intelligence Platform</a>
-        <a href="${root}/what-we-do.html#products">Secure Intelligent Operations</a>
-        <a class="sub" href="${root}/what-we-do.html#products">Anvas BigFix · Anvas AppScan</a>
-        <a href="${root}/what-we-do.html#products">Sovereign Collaboration</a>
-        <a href="${root}/what-we-do.html#products">Hyper-personalized MarTech</a>
-        <a href="${root}/what-we-do.html#products">Aftermarket Cloud</a>
+        <h4>Digital Engineering</h4>
+        <a href="${root}/what-we-do.html#product-engineering">Product Engineering</a>
+        <a href="${root}/what-we-do.html#ai-dev-workspace">AI Development Workspace</a>
+        <a href="${root}/what-we-do.html#web-applications">Web Applications</a>
+        <a href="${root}/what-we-do.html#mobile-applications">Mobile Applications</a>
+        <a href="${root}/what-we-do.html#uiux">UI/UX &amp; Product Design</a>
+        <a href="${root}/what-we-do.html#cloud-deployment">Cloud &amp; Deployment</a>
+      </div>
+      <div>
+        <h4>Industries &amp; Use Cases</h4>
+        <a href="${root}/what-we-do.html#logistics">Logistics &amp; Operations</a>
+        <a href="${root}/what-we-do.html#fintech">Financial Technology</a>
+        <a href="${root}/what-we-do.html#legal">Legal Technology</a>
+        <a href="${root}/what-we-do.html#public">Public-Facing Digital Platforms</a>
+        <a href="${root}/what-we-do.html#enterprise">Enterprise Applications</a>
       </div>
     </div>`;
 
@@ -45,66 +45,73 @@
     <div class="mega">
       <div>
         <h4>Applications</h4>
-        <a href="${root}/what-we-do.html#vishful">Vishful<span class="mega-note">Property, co-living and live occupancy</span></a>
-        <a href="${root}/what-we-do.html#attendance">Attendance app<span class="mega-note">Time, attendance and shift tracking</span></a>
-        <a href="${root}/what-we-do.html#healthcare">Healthcare app<span class="mega-note">Clinic and care-team workflows</span></a>
-        <a href="${root}/what-we-do.html#government">Government projects<span class="mega-note">Citizen services and secure delivery</span></a>
+        <a href="${root}/industries.html#visful">Visful<span class="mega-note">Property &amp; Occupancy Management</span></a>
+        <a href="${root}/industries.html#attendance">Attendance App<span class="mega-note">Workforce Attendance &amp; Shift Management</span></a>
+        <a href="${root}/industries.html#elegal">eLegal<span class="mega-note">Digital Legal Workflow</span></a>
+        <a href="${root}/industries.html#mla-calendar">MLA Calendar<span class="mega-note">Constituency &amp; Activity Management</span></a>
       </div>
       <div>
-        <h4>Platforms</h4>
-        <a href="${root}/what-we-do.html#ai">AI Force<span class="mega-note">GenAI and agentic workflows at scale</span></a>
-        <a href="${root}/what-we-do.html#products">XDO Blueprint<span class="mega-note">Experience, data and operations as one</span></a>
-        <a href="${root}/what-we-do.html#products">Data Intelligence Platform<span class="mega-note">Enterprise data products with governance</span></a>
-        <a href="${root}/what-we-do.html#products">Aftermarket Cloud<span class="mega-note">Service and parts operations in the cloud</span></a>
+        <h4>AI &amp; Intelligent Platforms</h4>
+        <a href="${root}/industries.html#kubera-ai">Kubera AI<span class="mega-note">AI-powered intelligence and workflow automation</span></a>
+        <a href="${root}/industries.html#anvas-comet">Anvas Comet<span class="mega-note">Intelligent business operations platform</span></a>
+        <a href="${root}/industries.html#ai-force">AI Force<span class="mega-note">Generative AI and agentic workflow platform</span></a>
+        <a href="${root}/industries.html#data-intelligence">Data Intelligence Platform<span class="mega-note">Data-driven insights and intelligent decision support</span></a>
       </div>
       <div>
         <h4>Software</h4>
-        <a href="${root}/anvassoftware.html">Anvas BigFix<span class="mega-note">Intelligent endpoint management</span></a>
-        <a href="${root}/anvassoftware.html">Anvas AppScan<span class="mega-note">Application security across the lifecycle</span></a>
-        <a href="${root}/anvassoftware.html">Sovereign Collaboration<span class="mega-note">Residency, control and trusted comms</span></a>
-        <a href="${root}/anvassoftware.html">MarTech<span class="mega-note">Hyper-personalized marketing platforms</span></a>
-        <a class="mega-all" href="${root}/industries.html">View all products</a>
+        <a href="${root}/industries.html#appscan">Anvas AppScan<span class="mega-note">Application security and lifecycle assessment</span></a>
+        <a href="${root}/industries.html#bigfix">Anvas BigFix<span class="mega-note">Intelligent endpoint and infrastructure management</span></a>
+        <a class="mega-all" href="${root}/industries.html">View all products →</a>
       </div>
     </div>`;
 
   const megaWho = `
-    <div class="mega mega-2">
+    <div class="mega">
       <div>
         <h4>Company</h4>
-        <a href="${root}/who-we-are.html">About Us</a>
-        <a href="${root}/who-we-are.html#leadership">Leadership</a>
-        <a href="${root}/who-we-are.html#awards">Awards and Recognition</a>
-        <a href="${root}/who-we-are.html">Analyst Recognitions</a>
-        <a href="${root}/who-we-are.html">Annual Report 2026</a>
-        <a href="${root}/who-we-are.html">Corporate Social Responsibility</a>
-        <a href="${root}/who-we-are.html">Diversity, Equity and Inclusion</a>
+        <a href="${root}/who-we-are.html">About AnvasTech</a>
+        <a href="${root}/who-we-are.html#leadership">Our Leadership</a>
+        <a href="${root}/who-we-are.html#story">Our Story</a>
+        <a href="${root}/who-we-are.html#approach">Our Approach</a>
+        <a href="${root}/careers.html">Careers</a>
       </div>
       <div>
-        <h4>Governance</h4>
-        <a href="${root}/who-we-are.html">Investor Relations</a>
-        <a href="${root}/who-we-are.html">Newsroom</a>
-        <a href="${root}/who-we-are.html">Strategic Alliances</a>
-        <a href="${root}/who-we-are.html">Sustainability</a>
-        <a href="${root}/who-we-are.html">Privacy Trust Center</a>
-        <a href="${root}/who-we-are.html">Code of Business Ethics</a>
-        <a href="${root}/who-we-are.html">Global Delivery Network</a>
+        <h4>AI &amp; Innovation</h4>
+        <a href="${root}/resources.html#ai-hub">AI Intelligence Hub</a>
+        <a href="${root}/resources.html#ai-research">AI Research</a>
+        <a href="${root}/what-we-do.html#ai-engineering">AI Engineering Approach</a>
+        <a href="${root}/who-we-are.html#innovation">Technology &amp; Innovation</a>
+      </div>
+      <div>
+        <h4>Impact</h4>
+        <a href="${root}/what-we-do.html#projects">Featured Projects</a>
+        <a href="${root}/index.html#clients">Client Perspectives</a>
+        <a href="${root}/who-we-are.html#awards">Recognition &amp; Achievements</a>
+        <a href="${root}/what-we-do.html#industries">Industries We Serve</a>
       </div>
     </div>`;
 
   const megaRes = `
-    <div class="mega mega-2">
+    <div class="mega">
       <div>
-        <h4>Resources</h4>
-        <a href="${root}/resources.html">Trends and Insights</a>
-        <a href="${root}/resources.html">Case Studies</a>
-        <a href="${root}/resources.html">Events and Webinars</a>
-        <a href="${root}/resources.html">Knowledge Library</a>
+        <h4>Insights</h4>
+        <a href="${root}/resources.html#ai-hub">AI Intelligence Hub</a>
+        <a href="${root}/resources.html#trends">Trends &amp; Insights</a>
+        <a href="${root}/resources.html#ai-perspectives">AI Perspectives</a>
+        <a href="${root}/resources.html#engineering-insights">Engineering Insights</a>
       </div>
       <div>
-        <h4>Reports</h4>
-        <a href="${root}/resources.html">The Blueprint for AI Leadership</a>
-        <a href="${root}/resources.html">Analyst reports</a>
-        <a href="${root}/resources.html">Newsroom</a>
+        <h4>Research &amp; Reports</h4>
+        <a href="${root}/resources.html#ai-research">AI Research</a>
+        <a href="${root}/resources.html#ai-leadership">AI Leadership Reports</a>
+        <a href="${root}/resources.html#technology-reports">Technology Reports</a>
+      </div>
+      <div>
+        <h4>Projects &amp; Stories</h4>
+        <a href="${root}/what-we-do.html#projects">Featured Projects</a>
+        <a href="${root}/index.html#clients">Client Perspectives</a>
+        <a href="${root}/resources.html#case-studies">Case Studies</a>
+        <a href="${root}/resources.html#success-stories">Success Stories</a>
       </div>
     </div>`;
 
@@ -113,15 +120,18 @@
       <div>
         <h4>Careers</h4>
         <a href="${root}/careers.html">Careers Overview</a>
-        <a href="${root}/careers.html">Meet our people</a>
-        <a href="${root}/careers.html">Explore job opportunities</a>
+        <a href="${root}/careers.html#why">Why AnvasTech</a>
+        <a href="${root}/careers.html#life">Life at AnvasTech</a>
+        <a href="${root}/careers.html#team">Meet Our Team</a>
+        <a href="${root}/careers.html#positions">Open Positions</a>
       </div>
       <div>
-        <h4>Regions</h4>
-        <a href="${root}/careers.html">Americas</a>
-        <a href="${root}/careers.html">Europe and Africa</a>
-        <a href="${root}/careers.html">Asia Pacific</a>
-        <a href="${root}/careers.html">India</a>
+        <h4>Work With Us</h4>
+        <a href="${root}/careers.html#ai-engineering">AI &amp; Engineering</a>
+        <a href="${root}/careers.html#product-design">Product &amp; Design</a>
+        <a href="${root}/careers.html#internships">Internships</a>
+        <a href="${root}/careers.html#positions">Open Positions</a>
+        <a href="${root}/careers.html#resume">Submit Your Resume</a>
       </div>
     </div>`;
 
@@ -202,40 +212,49 @@
     <footer class="site-footer">
       <div class="wrap foot-grid">
         <div>
-          <h4>Solutions</h4>
-          <a href="${root}/what-we-do.html#vishful">Vishful</a>
-          <a href="${root}/what-we-do.html#attendance">Attendance app</a>
-          <a href="${root}/what-we-do.html#healthcare">Healthcare app</a>
-          <a href="${root}/what-we-do.html#government">Government projects</a>
-          <a href="${root}/what-we-do.html#ai">AI and Generative AI</a>
-          <a href="${root}/what-we-do.html#apps">Applications</a>
+          <h4><button class="foot-acc" type="button" aria-expanded="true"><span>Solutions</span><i class="foot-chev" aria-hidden="true"></i></button></h4>
+          <div class="foot-links">
+          <a href="${root}/what-we-do.html#anvas-logistics">Anvas Logistics</a>
+          <a href="${root}/what-we-do.html#anvas-comet">Anvas Comet</a>
+          <a href="${root}/what-we-do.html#fintech-platform">FinTech Platform</a>
+          <a href="${root}/what-we-do.html#kubera-ai">Kubera AI</a>
+          <a href="${root}/what-we-do.html#elegal">eLegal</a>
+          <a href="${root}/what-we-do.html#ungal-pakkam">Ungal Pakkam – Manu System</a>
+          <a href="${root}/what-we-do.html#mla-calendar">MLA Calendar</a>
+          </div>
         </div>
         <div>
-          <h4>Products</h4>
-          <a href="${root}/what-we-do.html#vishful">Vishful</a>
-          <a href="${root}/what-we-do.html#attendance">Attendance app</a>
-          <a href="${root}/what-we-do.html#healthcare">Healthcare app</a>
-          <a href="${root}/what-we-do.html#government">Government projects</a>
-          <a href="${root}/anvassoftware.html">Anvas BigFix</a>
-          <a href="${root}/anvassoftware.html">Anvas AppScan</a>
+          <h4><button class="foot-acc" type="button" aria-expanded="true"><span>Products</span><i class="foot-chev" aria-hidden="true"></i></button></h4>
+          <div class="foot-links">
+          <a href="${root}/industries.html#visful">Visful</a>
+          <a href="${root}/industries.html#attendance">Attendance App</a>
+          <a href="${root}/industries.html#elegal">eLegal</a>
+          <a href="${root}/industries.html#kubera-ai">Kubera AI</a>
+          <a href="${root}/industries.html#ai-force">AI Force</a>
+          <a href="${root}/industries.html">View all products →</a>
+          </div>
         </div>
         <div>
-          <h4>Who We Are</h4>
-          <a href="${root}/who-we-are.html">About Us</a>
-          <a href="${root}/who-we-are.html#leadership">Leadership</a>
-          <a href="${root}/who-we-are.html">Investor Relations</a>
-          <a href="${root}/who-we-are.html">Newsroom</a>
-          <a href="${root}/who-we-are.html">Sustainability</a>
-          <a href="${root}/resources.html">Trends and Insights</a>
+          <h4><button class="foot-acc" type="button" aria-expanded="true"><span>Who We Are</span><i class="foot-chev" aria-hidden="true"></i></button></h4>
+          <div class="foot-links">
+          <a href="${root}/who-we-are.html">About AnvasTech</a>
+          <a href="${root}/who-we-are.html#leadership">Our Leadership</a>
+          <a href="${root}/who-we-are.html#story">Our Story</a>
+          <a href="${root}/careers.html">Careers</a>
+          <a href="${root}/who-we-are.html#awards">Recognition &amp; Achievements</a>
+          <a href="${root}/resources.html">AI Intelligence Hub</a>
+          </div>
         </div>
         <div>
-          <h4>Careers</h4>
+          <h4><button class="foot-acc" type="button" aria-expanded="true"><span>Careers</span><i class="foot-chev" aria-hidden="true"></i></button></h4>
+          <div class="foot-links">
           <a href="${root}/careers.html">Careers Overview</a>
-          <a href="${root}/careers.html">Meet our people</a>
-          <a href="${root}/careers.html">Explore job opportunities</a>
+          <a href="${root}/careers.html#why">Why AnvasTech</a>
+          <a href="${root}/careers.html#positions">Open Positions</a>
+          <a href="${root}/careers.html#resume">Submit Your Resume</a>
           <a href="${root}/contact.html">Contact Us</a>
-          <a href="${root}/resources.html">Events and Webinars</a>
-          <a href="${root}/resources.html">Case Studies</a>
+          <a href="${root}/resources.html#case-studies">Case Studies</a>
+          </div>
         </div>
       </div>
       <div class="wrap foot-bottom">
@@ -274,14 +293,67 @@
   if (foot) foot.outerHTML = footer;
 
   document.querySelectorAll("[data-mega]").forEach((item) => {
+    let leaveTimer = 0;
+    const resetMore = () => {
+      item.querySelectorAll("[data-mega-more]").forEach((btn) => {
+        const more = btn.previousElementSibling?.classList?.contains("mega-more")
+          ? btn.previousElementSibling
+          : btn.parentElement?.querySelector(".mega-more");
+        if (more) more.hidden = true;
+        btn.setAttribute("aria-expanded", "false");
+        btn.textContent = "View all projects →";
+        btn.hidden = false;
+      });
+    };
     const open = () => {
-      document.querySelectorAll("[data-mega]").forEach((el) => el.classList.remove("open"));
+      window.clearTimeout(leaveTimer);
+      document.querySelectorAll("[data-mega]").forEach((el) => {
+        if (el !== item) el.classList.remove("open");
+      });
       item.classList.add("open");
     };
-    const close = () => item.classList.remove("open");
+    const close = () => {
+      item.classList.remove("open");
+      resetMore();
+    };
+    const scheduleClose = () => {
+      window.clearTimeout(leaveTimer);
+      leaveTimer = window.setTimeout(close, 120);
+    };
     item.addEventListener("mouseenter", open);
-    item.addEventListener("mouseleave", close);
+    item.addEventListener("mouseleave", scheduleClose);
     item.querySelector(".nav-link")?.addEventListener("focus", open);
+    item.querySelector(".nav-link")?.addEventListener("blur", () => {
+      window.setTimeout(() => {
+        if (!item.contains(document.activeElement)) close();
+      }, 0);
+    });
+  });
+
+  document.querySelectorAll("[data-mega-more]").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const more = btn.parentElement?.querySelector(".mega-more");
+      if (!more) return;
+      more.hidden = false;
+      btn.setAttribute("aria-expanded", "true");
+      btn.hidden = true;
+    });
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      document.querySelectorAll("[data-mega].open").forEach((el) => el.classList.remove("open"));
+      document.querySelectorAll(".mega-more").forEach((el) => {
+        el.hidden = true;
+      });
+      document.querySelectorAll("[data-mega-more]").forEach((btn) => {
+        btn.hidden = false;
+        btn.setAttribute("aria-expanded", "false");
+        btn.textContent = "View all projects →";
+      });
+    }
   });
 
   const langWrap = document.querySelector(".lang-wrap");
@@ -354,13 +426,61 @@
 
   const toggle = document.querySelector(".menu-toggle");
   const mobile = document.getElementById("mobile-nav");
-  toggle?.addEventListener("click", () => {
-    const open = toggle.classList.toggle("is-open");
+  const setMenu = (open) => {
+    if (!toggle) return;
+    toggle.classList.toggle("is-open", open);
+    toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
     if (mobile) {
       mobile.hidden = !open;
       mobile.style.display = open ? "block" : "none";
     }
+  };
+  toggle?.setAttribute("aria-expanded", "false");
+  toggle?.setAttribute("aria-controls", "mobile-nav");
+  toggle?.addEventListener("click", () => setMenu(!toggle.classList.contains("is-open")));
+  mobile?.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => setMenu(false)));
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && toggle?.classList.contains("is-open")) {
+      setMenu(false);
+      toggle.focus();
+    }
   });
+  // Close the menu if the viewport grows back past the compact-nav breakpoint.
+  window.addEventListener(
+    "resize",
+    () => {
+      if (window.innerWidth > 1199 && toggle?.classList.contains("is-open")) setMenu(false);
+    },
+    { passive: true }
+  );
+
+  // Footer columns collapse into an accordion on phones only.
+  (function footAccordion() {
+    const accs = Array.from(document.querySelectorAll(".foot-acc"));
+    if (!accs.length) return;
+    const isPhone = () => document.documentElement.classList.contains("is-phone");
+    const sync = () => {
+      const phone = isPhone();
+      accs.forEach((btn) => {
+        // Expanded (and inert) on tablet/desktop so every link stays reachable.
+        if (!phone) btn.setAttribute("aria-expanded", "true");
+        else if (!btn.dataset.touched) btn.setAttribute("aria-expanded", "false");
+      });
+    };
+    accs.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        if (!isPhone()) return;
+        btn.dataset.touched = "1";
+        btn.setAttribute(
+          "aria-expanded",
+          btn.getAttribute("aria-expanded") === "true" ? "false" : "true"
+        );
+      });
+    });
+    sync();
+    window.addEventListener("resize", sync, { passive: true });
+  })();
 
   const layer = document.getElementById("search-layer");
   document.querySelectorAll("[data-open-search]").forEach((btn) => {
