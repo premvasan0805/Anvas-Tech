@@ -1043,10 +1043,11 @@ html.is-phone .foot-links {
   padding-bottom: 10px;
 }
 
-html.is-phone .foot-grid a {
+html.is-phone .foot-grid .foot-links a {
   display: flex;
   align-items: center;
   min-height: 40px;
+  width: 100%;
 }
 
 html.is-phone .foot-bottom {

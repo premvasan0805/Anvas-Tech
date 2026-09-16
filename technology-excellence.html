@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Engineering Built for Scale | AnvasTech</title>
+  <meta name="description" content="AnvasTech engineers enterprise technology for performance, security, scalability and reliability — built to evolve with changing business needs.">
+  <link rel="icon" href="assets/favicon.png?v=1" type="image/png">
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var apply = function () {
+        var w = window.innerWidth || document.documentElement.clientWidth || 0;
+        root.classList.toggle("is-compact-nav", w <= 1199);
+        root.classList.toggle("is-narrow", w <= 991);
+        root.classList.toggle("is-tablet", w > 768 && w <= 991);
+        root.classList.toggle("is-phone", w <= 768);
+      };
+      apply();
+      window.addEventListener("resize", apply, { passive: true });
+      window.addEventListener("orientationchange", apply, { passive: true });
+    })();
+  </script>
+  <link rel="stylesheet" href="css/styles.css?v=133">
+  <link rel="stylesheet" href="css/responsive.css?v=7">
+  <link rel="stylesheet" href="css/motion.css?v=36">
+  <script>if(location.search.indexOf("motion=force")>-1||!window.matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("motion-ready");</script>
+</head>
+<body data-root=".">
+  <div id="chrome-header"></div>
+  <main id="main">
+    <section class="page-hero">
+      <div class="wrap">
+        <p class="crumbs"><a href="index.html">Home</a> / <a href="index.html#recognition">What We Build</a> / Technology Excellence</p>
+        <h1>Engineering Built for Scale</h1>
+        <p class="lede">Enterprise technology demands more than functionality. It requires performance, security, scalability, reliability, and the ability to evolve with changing business needs. AnvasTech engineers technology solutions designed to meet those demands.</p>
+      </div>
+    </section>
+
+    <section class="section" id="enterprise-engineering">
+      <div class="wrap split">
+        <div>
+          <p class="kicker">Enterprise engineering</p>
+          <h2 class="display">The requirements that outlive the feature list</h2>
+          <p class="prose">Features are the part of a system everyone agrees on at the start. What decides whether it survives three years in production is everything underneath: how it handles load, how it fails, how it is deployed, and how easily the next engineer can change it.</p>
+          <p class="prose">We treat those as requirements with the same standing as the functional ones, because retrofitting them is always more expensive than designing for them.</p>
+          <div class="actions"><a class="btn-blue" href="what-we-do.html">Explore technology solutions</a></div>
+        </div>
+        <figure class="media-frame">
+          <img src="assets/cs-rail.jpg" alt="Enterprise engineering at scale" width="1024" height="647">
+        </figure>
+      </div>
+    </section>
+
+    <section class="section mist" id="scalable-architecture">
+      <div class="wrap">
+        <p class="kicker">Scalable architecture</p>
+        <h2 class="display">Designed for the load you will have</h2>
+        <div class="list-cards">
+          <article class="list-card"><h3>Right-sized from the start</h3><p>Architecture matched to actual traffic and team size. Complexity you do not need is a cost, not a hedge.</p></article>
+          <article class="list-card"><h3>Clear service boundaries</h3><p>Systems split along the lines the business actually changes, so one change does not touch everything.</p></article>
+          <article class="list-card"><h3>Data access patterns</h3><p>Query paths, indexing and caching planned against real access patterns rather than assumed ones.</p></article>
+          <article class="list-card"><h3>Horizontal headroom</h3><p>Stateless services and queue-backed processing so capacity is added rather than rearchitected.</p></article>
+          <article class="list-card"><h3>Graceful degradation</h3><p>Under stress the system sheds load predictably instead of failing all at once.</p></article>
+          <article class="list-card"><h3>Versioned interfaces</h3><p>APIs that can evolve without breaking every consumer on the same day.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="cloud-modernization">
+      <div class="wrap split reverse">
+        <figure class="media-frame">
+          <img src="assets/ai-slide-4.jpg?v=3" alt="Cloud and modernization work" width="1024" height="521" loading="lazy">
+        </figure>
+        <div>
+          <p class="kicker">Cloud &amp; modernization</p>
+          <h2 class="display">Move what is worth moving</h2>
+          <p class="prose">Big-bang rewrites fail for predictable reasons: they run long, they freeze the business, and they replace a known system with an unproven one. We modernize incrementally, keeping the legacy system serving traffic while capability moves across.</p>
+          <p class="prose">Infrastructure is defined as code, environments behave the same way, and cost is designed alongside reliability — the cheapest architecture that meets the availability target is the right one.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section mist" id="security-by-design">
+      <div class="wrap">
+        <p class="kicker">Security by design</p>
+        <h2 class="display">Controls in the architecture, not in the audit</h2>
+        <div class="list-cards">
+          <article class="list-card"><h3>Least privilege</h3><p>Services, agents and people get the narrowest access their job requires, with credentials scoped accordingly.</p></article>
+          <article class="list-card"><h3>Data protection</h3><p>Encryption in transit and at rest, with sensitive fields identified and handled deliberately.</p></article>
+          <article class="list-card"><h3>Authentication and authorization</h3><p>Identity, roles and record-level permissions enforced server-side, consistently.</p></article>
+          <article class="list-card"><h3>Pipeline scanning</h3><p>Dependency, secret and licence checks running on every build, not quarterly.</p></article>
+          <article class="list-card"><h3>Audit trails</h3><p>Who changed what, when, and on what authority — produced by the system as a matter of course.</p></article>
+          <article class="list-card"><h3>Maker-checker controls</h3><p>Approval gates on irreversible and outward-facing actions, especially in regulated workflows.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="ai-enabled-engineering">
+      <div class="wrap split">
+        <div>
+          <p class="kicker">AI-enabled engineering</p>
+          <h2 class="display">AI in the toolchain, with the practice to match</h2>
+          <p class="prose">AI coding tools raise throughput only when the surrounding practice changes with them. Specifications get tighter, tests carry more weight, and review shifts from syntax to architecture, security and edge cases.</p>
+          <p class="prose">We measure whether it worked — cycle time, change failure rate and review load, tracked before and after — rather than assuming the tooling paid for itself.</p>
+        </div>
+        <figure class="media-frame">
+          <img src="assets/ai-slide-4.jpg?v=3" alt="AI-assisted development" width="1024" height="521" loading="lazy">
+        </figure>
+      </div>
+    </section>
+
+    <section class="section mist" id="performance-reliability">
+      <div class="wrap">
+        <p class="kicker">Performance &amp; reliability</p>
+        <h2 class="display">Measured, budgeted and watched</h2>
+        <div class="list-cards">
+          <article class="list-card"><h3>Performance budgets</h3><p>Core Web Vitals and API latency treated as requirements, enforced in the pipeline.</p></article>
+          <article class="list-card"><h3>Observability</h3><p>Metrics, logs and traces that make a production problem diagnosable rather than theoretical.</p></article>
+          <article class="list-card"><h3>Alerting that means something</h3><p>Alerts mapped to user impact, so the on-call response is proportionate.</p></article>
+          <article class="list-card"><h3>Tested recovery</h3><p>Backup, failover and rollback rehearsed before they are needed at two in the morning.</p></article>
+          <article class="list-card"><h3>Capacity planning</h3><p>Load testing against realistic traffic shapes, including the announcement-day spike.</p></article>
+          <article class="list-card"><h3>Offline resilience</h3><p>Field applications that keep working through dead zones and reconcile when the network returns.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="our-approach">
+      <div class="wrap">
+        <p class="kicker">Our engineering approach</p>
+        <h2 class="display">How a project actually runs</h2>
+        <div class="list-cards">
+          <article class="list-card"><h3>1. Discovery</h3><p>Understand the process, the constraints and the exceptions people work around today.</p></article>
+          <article class="list-card"><h3>2. Architecture</h3><p>Decide the shape of the system against real load, team and change-rate constraints.</p></article>
+          <article class="list-card"><h3>3. Delivery in slices</h3><p>Working software in short cycles, each slice useful on its own.</p></article>
+          <article class="list-card"><h3>4. Hardening</h3><p>Performance, security and failure testing before the system carries real traffic.</p></article>
+          <article class="list-card"><h3>5. Launch</h3><p>Rehearsed cutover, staged rollout and a rollback path that has been tried.</p></article>
+          <article class="list-card"><h3>6. Sustaining</h3><p>Monitoring, upgrades and performance work on a steady cadence after go-live.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section mist" id="contact-cta">
+      <div class="wrap split">
+        <div>
+          <h2 class="display">Put it to the test on your system</h2>
+          <p class="prose">Tell us the load, the constraints and the deadline. We will tell you what we would build and what we would not.</p>
+          <div class="actions"><a class="btn-blue" href="contact.html">Talk to our engineers</a></div>
+        </div>
+        <figure class="media-frame">
+          <img src="assets/ai-slide-4.jpg?v=3" alt="AnvasTech engineering team" width="1024" height="521" loading="lazy">
+        </figure>
+      </div>
+    </section>
+  </main>
+  <div id="chrome-footer"></div>
+  <script src="js/site.js?v=77"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="js/motion.js?v=39"></script>
+</body>
+</html>

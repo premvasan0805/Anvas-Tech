@@ -3,115 +3,95 @@
   const asset = (p) => `${root}/assets/${p}`;
 
   const megaWhat = `
-    <div class="mega mega-4">
-      <div>
-        <h4>Featured projects</h4>
-        <a href="${root}/what-we-do.html#anvas-logistics">Anvas Logistics</a>
-        <a href="${root}/what-we-do.html#anvas-comet">Anvas Comet</a>
-        <a href="${root}/what-we-do.html#fintech-platform">FinTech Platform</a>
-        <a href="${root}/what-we-do.html#kubera-ai">Kubera AI</a>
-        <a href="${root}/what-we-do.html#elegal">eLegal</a>
-        <a href="${root}/what-we-do.html#ungal-pakkam">Ungal Pakkam – Manu System</a>
-        <a href="${root}/what-we-do.html#mla-calendar">MLA Calendar</a>
-      </div>
+    <div class="mega mega-3">
       <div>
         <h4>AI &amp; Intelligent Systems</h4>
-        <a href="${root}/what-we-do.html#generative-ai">Generative AI</a>
-        <a href="${root}/what-we-do.html#ai-automation">AI-Assisted Automation</a>
-        <a href="${root}/what-we-do.html#intelligent-workflows">Intelligent Workflows</a>
-        <a href="${root}/what-we-do.html#ai-agents">AI Agents</a>
-        <a href="${root}/what-we-do.html#data-ai-engineering">Data &amp; AI Engineering</a>
+        <a href="${root}/generative-ai.html">Generative AI</a>
+        <a href="${root}/ai-agents.html">AI Agents</a>
+        <a href="${root}/ai-assisted-automation.html">Intelligent Automation</a>
+        <a href="${root}/ai-assisted-engineering.html">AI-Assisted Development</a>
       </div>
       <div>
-        <h4>Digital Engineering</h4>
-        <a href="${root}/what-we-do.html#product-engineering">Product Engineering</a>
-        <a href="${root}/what-we-do.html#ai-dev-workspace">AI Development Workspace</a>
-        <a href="${root}/what-we-do.html#web-applications">Web Applications</a>
-        <a href="${root}/what-we-do.html#mobile-applications">Mobile Applications</a>
-        <a href="${root}/what-we-do.html#uiux">UI/UX &amp; Product Design</a>
-        <a href="${root}/what-we-do.html#cloud-deployment">Cloud &amp; Deployment</a>
+        <h4>Product &amp; Software Engineering</h4>
+        <a href="${root}/product-engineering.html">Product Development</a>
+        <a href="${root}/web-applications.html">Web Applications</a>
+        <a href="${root}/mobile-applications.html">Mobile Applications</a>
+        <a href="${root}/ui-ux-product-design.html">UI/UX &amp; Product Design</a>
       </div>
       <div>
-        <h4>Industries &amp; Use Cases</h4>
-        <a href="${root}/what-we-do.html#logistics">Logistics &amp; Operations</a>
-        <a href="${root}/what-we-do.html#fintech">Financial Technology</a>
-        <a href="${root}/what-we-do.html#legal">Legal Technology</a>
-        <a href="${root}/what-we-do.html#public">Public-Facing Digital Platforms</a>
-        <a href="${root}/what-we-do.html#enterprise">Enterprise Applications</a>
+        <h4>Business &amp; Digital Solutions</h4>
+        <a href="${root}/custom-software-development.html">Custom Software Development</a>
+        <a href="${root}/intelligent-workflows.html">Business Automation</a>
+        <a href="${root}/data-ai-engineering.html">Data &amp; Analytics</a>
+        <a href="${root}/digital-solutions.html">Digital Solutions</a>
       </div>
     </div>`;
 
   const megaInd = `
-    <div class="mega">
+    <div class="mega mega-3">
       <div>
-        <h4>Applications</h4>
-        <a href="${root}/industries.html#visful">Visful<span class="mega-note">Property &amp; Occupancy Management</span></a>
-        <a href="${root}/industries.html#attendance">Attendance App<span class="mega-note">Workforce Attendance &amp; Shift Management</span></a>
-        <a href="${root}/industries.html#elegal">eLegal<span class="mega-note">Digital Legal Workflow</span></a>
-        <a href="${root}/industries.html#mla-calendar">MLA Calendar<span class="mega-note">Constituency &amp; Activity Management</span></a>
+        <h4>Products</h4>
+        <a href="${root}/vishful.html">Vishful<span class="mega-note">Property &amp; Co-Living Management</span></a>
+        <a href="${root}/vishful-attendance.html">Vishful Attendance<span class="mega-note">Face-Scan Workforce Attendance</span></a>
+        <a href="${root}/anvas-comet.html">Anvas Comet<span class="mega-note">Business Operations Platform</span></a>
+        <a href="${root}/mla-calendar.html">MLA Calendar<span class="mega-note">Calendar &amp; Constituency Management</span></a>
       </div>
       <div>
-        <h4>AI &amp; Intelligent Platforms</h4>
-        <a href="${root}/industries.html#kubera-ai">Kubera AI<span class="mega-note">AI-powered intelligence and workflow automation</span></a>
-        <a href="${root}/industries.html#anvas-comet">Anvas Comet<span class="mega-note">Intelligent business operations platform</span></a>
-        <a href="${root}/industries.html#ai-force">AI Force<span class="mega-note">Generative AI and agentic workflow platform</span></a>
-        <a href="${root}/industries.html#data-intelligence">Data Intelligence Platform<span class="mega-note">Data-driven insights and intelligent decision support</span></a>
+        <h4>AI &amp; Intelligent Products</h4>
+        <a href="${root}/kubera-ai.html">Kubera AI<span class="mega-note">AI-powered trading &amp; strategy platform</span></a>
+        <a href="${root}/elegal.html">eLegal<span class="mega-note">AI-powered property legal intelligence</span></a>
       </div>
       <div>
-        <h4>Software</h4>
-        <a href="${root}/industries.html#appscan">Anvas AppScan<span class="mega-note">Application security and lifecycle assessment</span></a>
-        <a href="${root}/industries.html#bigfix">Anvas BigFix<span class="mega-note">Intelligent endpoint and infrastructure management</span></a>
-        <a class="mega-all" href="${root}/industries.html">View all products →</a>
+        <h4>Digital Platforms</h4>
+        <a href="${root}/fintech-platform.html">FinTech Platform<span class="mega-note">Financial technology platform</span></a>
+        <a href="${root}/anvas-logistics.html">Anvas Logistics<span class="mega-note">Logistics operations platform</span></a>
+        <a href="${root}/ungal-pakkam.html">Ungal Pakkam &ndash; Manu System<span class="mega-note">Digital public-facing platform</span></a>
+        <a href="${root}/tn-ihip.html">eHealth / TN-IHIP<span class="mega-note">Digital healthcare platform</span></a>
       </div>
     </div>`;
 
   const megaWho = `
-    <div class="mega">
+    <div class="mega mega-3">
       <div>
         <h4>Company</h4>
         <a href="${root}/who-we-are.html">About AnvasTech</a>
-        <a href="${root}/who-we-are.html#leadership">Our Leadership</a>
         <a href="${root}/who-we-are.html#story">Our Story</a>
         <a href="${root}/who-we-are.html#approach">Our Approach</a>
-        <a href="${root}/careers.html">Careers</a>
+        <a href="${root}/who-we-are.html#leadership">Leadership</a>
       </div>
       <div>
-        <h4>AI &amp; Innovation</h4>
-        <a href="${root}/resources.html#ai-hub">AI Intelligence Hub</a>
-        <a href="${root}/resources.html#ai-research">AI Research</a>
-        <a href="${root}/what-we-do.html#ai-engineering">AI Engineering Approach</a>
-        <a href="${root}/who-we-are.html#innovation">Technology &amp; Innovation</a>
+        <h4>How We Build</h4>
+        <a href="${root}/product-engineering.html">Product Engineering</a>
+        <a href="${root}/ai-assisted-engineering.html">AI-Assisted Engineering</a>
+        <a href="${root}/ai-development-workspace.html">Our Development Approach</a>
+        <a href="${root}/technology-excellence.html">Technology &amp; Innovation</a>
       </div>
       <div>
-        <h4>Impact</h4>
-        <a href="${root}/what-we-do.html#projects">Featured Projects</a>
-        <a href="${root}/index.html#clients">Client Perspectives</a>
-        <a href="${root}/who-we-are.html#awards">Recognition &amp; Achievements</a>
-        <a href="${root}/what-we-do.html#industries">Industries We Serve</a>
+        <h4>Our Work</h4>
+        <a href="${root}/industries.html">Products We Build</a>
+        <a href="${root}/what-we-do.html">Solutions We Deliver</a>
+        <a href="${root}/what-we-do.html#industries">Industries We Work In</a>
+        <a href="${root}/case-studies.html">Our Projects</a>
       </div>
     </div>`;
 
   const megaRes = `
-    <div class="mega">
+    <div class="mega mega-3">
       <div>
         <h4>Insights</h4>
         <a href="${root}/resources.html#ai-hub">AI Intelligence Hub</a>
-        <a href="${root}/resources.html#trends">Trends &amp; Insights</a>
-        <a href="${root}/resources.html#ai-perspectives">AI Perspectives</a>
+        <a href="${root}/resources.html#technology-insights">Technology Insights</a>
         <a href="${root}/resources.html#engineering-insights">Engineering Insights</a>
       </div>
       <div>
         <h4>Research &amp; Reports</h4>
         <a href="${root}/resources.html#ai-research">AI Research</a>
-        <a href="${root}/resources.html#ai-leadership">AI Leadership Reports</a>
         <a href="${root}/resources.html#technology-reports">Technology Reports</a>
       </div>
       <div>
         <h4>Projects &amp; Stories</h4>
-        <a href="${root}/what-we-do.html#projects">Featured Projects</a>
-        <a href="${root}/index.html#clients">Client Perspectives</a>
-        <a href="${root}/resources.html#case-studies">Case Studies</a>
-        <a href="${root}/resources.html#success-stories">Success Stories</a>
+        <a href="${root}/case-studies.html">Case Studies</a>
+        <a href="${root}/resources.html#project-stories">Project Stories</a>
       </div>
     </div>`;
 
@@ -121,17 +101,16 @@
         <h4>Careers</h4>
         <a href="${root}/careers.html">Careers Overview</a>
         <a href="${root}/careers.html#why">Why AnvasTech</a>
-        <a href="${root}/careers.html#life">Life at AnvasTech</a>
-        <a href="${root}/careers.html#team">Meet Our Team</a>
-        <a href="${root}/careers.html#positions">Open Positions</a>
-      </div>
-      <div>
-        <h4>Work With Us</h4>
-        <a href="${root}/careers.html#ai-engineering">AI &amp; Engineering</a>
-        <a href="${root}/careers.html#product-design">Product &amp; Design</a>
         <a href="${root}/careers.html#internships">Internships</a>
         <a href="${root}/careers.html#positions">Open Positions</a>
         <a href="${root}/careers.html#resume">Submit Your Resume</a>
+      </div>
+      <div>
+        <h4>Work With Us</h4>
+        <a href="${root}/careers.html#software-engineering">Software Engineering</a>
+        <a href="${root}/careers.html#ai-engineering">AI &amp; Engineering</a>
+        <a href="${root}/careers.html#product-design">Product &amp; Design</a>
+        <a href="${root}/careers.html#business-operations">Business &amp; Operations</a>
       </div>
     </div>`;
 
@@ -226,22 +205,27 @@
         <div>
           <h4><button class="foot-acc" type="button" aria-expanded="true"><span>Products</span><i class="foot-chev" aria-hidden="true"></i></button></h4>
           <div class="foot-links">
-          <a href="${root}/industries.html#visful">Visful</a>
-          <a href="${root}/industries.html#attendance">Attendance App</a>
-          <a href="${root}/industries.html#elegal">eLegal</a>
-          <a href="${root}/industries.html#kubera-ai">Kubera AI</a>
-          <a href="${root}/industries.html#ai-force">AI Force</a>
-          <a href="${root}/industries.html">View all products →</a>
+          <a href="${root}/vishful.html">Vishful</a>
+          <a href="${root}/vishful-attendance.html">Vishful Attendance</a>
+          <a href="${root}/anvas-comet.html">Anvas Comet</a>
+          <a href="${root}/anvas-logistics.html">Anvas Logistics</a>
+          <a href="${root}/fintech-platform.html">FinTech Platform</a>
+          <a href="${root}/kubera-ai.html">Kubera AI</a>
+          <a href="${root}/elegal.html">eLegal</a>
+          <a href="${root}/mla-calendar.html">MLA Calendar</a>
+          <a href="${root}/ungal-pakkam.html">Ungal Pakkam &ndash; Manu System</a>
+          <a href="${root}/tn-ihip.html">eHealth / TN-IHIP</a>
+          <a href="${root}/industries.html">View all products &rarr;</a>
           </div>
         </div>
         <div>
           <h4><button class="foot-acc" type="button" aria-expanded="true"><span>Who We Are</span><i class="foot-chev" aria-hidden="true"></i></button></h4>
           <div class="foot-links">
           <a href="${root}/who-we-are.html">About AnvasTech</a>
-          <a href="${root}/who-we-are.html#leadership">Our Leadership</a>
+          <a href="${root}/who-we-are.html#leadership">Our Approach to Leadership</a>
           <a href="${root}/who-we-are.html#story">Our Story</a>
           <a href="${root}/careers.html">Careers</a>
-          <a href="${root}/who-we-are.html#awards">Recognition &amp; Achievements</a>
+          <a href="${root}/who-we-are.html#our-work">What We Build</a>
           <a href="${root}/resources.html">AI Intelligence Hub</a>
           </div>
         </div>
@@ -253,7 +237,7 @@
           <a href="${root}/careers.html#positions">Open Positions</a>
           <a href="${root}/careers.html#resume">Submit Your Resume</a>
           <a href="${root}/contact.html">Contact Us</a>
-          <a href="${root}/resources.html#case-studies">Case Studies</a>
+          <a href="${root}/case-studies.html">Case Studies</a>
           </div>
         </div>
       </div>
@@ -602,11 +586,11 @@
   })();
 
   const answers = {
-    default: "AnvasTech is a global technology company with 223,000+ people across 60 countries, focused on AI, engineering and cloud. Ask about AI Force, CloudSMART, engineering services, or careers.",
-    ai: "AI Force is AnvasTech’s GenAI and Agentic AI platform. It automates software, data, IT operations and business processes so AI programs move from pilots to measurable outcomes.",
-    cloud: "CloudSMART helps enterprises optimize cloud estates — accelerating migration, modernization and FinOps while keeping security and sovereignty in view.",
-    career: "AnvasTech hires across AI, engineering, cloud and consulting in the Americas, EMEA, APAC and India. Visit Careers to explore roles and meet our people.",
-    force: "AI Force 2.0 is an agentic and GenAI service transformation platform for governed automation across software, data, IT and business operations.",
+    default: "AnvasTech is a product and technology company. We build our own digital products — Vishful, Vishful Attendance, eLegal, Anvas Logistics, Anvas Comet, FinTech, TN-IHIP and Kubera AI — and deliver software solutions for businesses. Ask about our products, solutions, or careers.",
+    ai: "We build AI into the products we ship: document intelligence and title-chain analysis in eLegal, AI-assisted strategy creation in Kubera AI, and AI-assisted business workflows in Anvas Comet. We also use AI-assisted development tools such as Claude and Cursor to build faster.",
+    cloud: "Cloud and digital infrastructure is one of our four solution areas: cloud architecture, deployment, integrations, scalability and reliable infrastructure. See Solutions for what that covers.",
+    career: "AnvasTech hires across engineering, product and design. Visit Careers to see open positions and submit your resume.",
+    force: "AnvasTech builds eight products across property, workforce, legal, logistics, commercial operations, fintech, healthcare and AI trading. See Products for the full list.",
   };
   const askForm = document.getElementById("ask-form");
   askForm?.addEventListener("submit", (e) => {
@@ -662,6 +646,44 @@
       { threshold: 0.2, rootMargin: "0px 0px -8% 0px" }
     );
     cards.forEach((el) => io.observe(el));
+  })();
+
+  (function bindStepNav() {
+    // Process pills: selecting one shows that step's detail in the panel below.
+    document.querySelectorAll("[data-step-nav]").forEach((root) => {
+      const btns = [...root.querySelectorAll("[data-step]")];
+      const panel = root.querySelector("[data-step-panel]");
+      if (!btns.length || !panel) return;
+      const num = panel.querySelector("[data-step-num]");
+      const title = panel.querySelector("[data-step-title]");
+      const desc = panel.querySelector("[data-step-desc]");
+
+      const show = (i) => {
+        btns.forEach((b, j) => {
+          const on = i === j;
+          b.setAttribute("aria-selected", on ? "true" : "false");
+          b.tabIndex = on ? 0 : -1;
+        });
+        const b = btns[i];
+        if (num) num.textContent = String(i + 1).padStart(2, "0");
+        if (title) title.textContent = b.dataset.stepTitle || b.textContent.trim();
+        if (desc) desc.textContent = b.dataset.stepDesc || "";
+      };
+
+      btns.forEach((b, i) => {
+        b.addEventListener("click", () => show(i));
+        b.addEventListener("keydown", (e) => {
+          const step = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+          if (!step) return;
+          e.preventDefault();
+          const n = (i + step + btns.length) % btns.length;
+          show(n);
+          btns[n].focus();
+        });
+      });
+
+      show(0);
+    });
   })();
 
   (function bindAwardWeb() {
