@@ -1,356 +1,373 @@
-(function () {
-  const root = document.body.dataset.root || ".";
-  const asset = (p) => `${root}/assets/${p}`;
+/* Ported from the static site for the React SPA.
+   bootSite(true) on first mount builds the chrome and binds global handlers;
+   bootSite(false) on each route change re-binds element-scoped widgets. */
+const __done = new Set();
 
-  const megaWhat = `
-    <div class="mega mega-3">
-      <div>
-        <h4>AI &amp; Intelligent Systems</h4>
-        <a href="${root}/generative-ai.html">Generative AI</a>
-        <a href="${root}/ai-agents.html">AI Agents</a>
-        <a href="${root}/ai-assisted-automation.html">Intelligent Automation</a>
-        <a href="${root}/ai-assisted-engineering.html">AI-Assisted Development</a>
-      </div>
-      <div>
-        <h4>Product &amp; Software Engineering</h4>
-        <a href="${root}/product-engineering.html">Product Development</a>
-        <a href="${root}/web-applications.html">Web Applications</a>
-        <a href="${root}/mobile-applications.html">Mobile Applications</a>
-        <a href="${root}/ui-ux-product-design.html">UI/UX &amp; Product Design</a>
-      </div>
-      <div>
-        <h4>Business &amp; Digital Solutions</h4>
-        <a href="${root}/custom-software-development.html">Custom Software Development</a>
-        <a href="${root}/intelligent-workflows.html">Business Automation</a>
-        <a href="${root}/data-ai-engineering.html">Data &amp; Analytics</a>
-        <a href="${root}/digital-solutions.html">Digital Solutions</a>
-      </div>
-    </div>`;
+function runBinder(name, scope, fn) {
+  if (scope === "once") {
+    if (__done.has(name)) return;
+    __done.add(name);
+  }
+  try {
+    fn();
+  } catch (err) {
+    console.error("[site] " + name + " failed", err);
+  }
+}
 
-  const megaInd = `
-    <div class="mega mega-3">
-      <div>
-        <h4>Products</h4>
-        <a href="${root}/vishful.html">Vishful<span class="mega-note">Property &amp; Co-Living Management</span></a>
-        <a href="${root}/vishful-attendance.html">Vishful Attendance<span class="mega-note">Face-Scan Workforce Attendance</span></a>
-        <a href="${root}/anvas-comet.html">Anvas Comet<span class="mega-note">Business Operations Platform</span></a>
-        <a href="${root}/mla-calendar.html">MLA Calendar<span class="mega-note">Calendar &amp; Constituency Management</span></a>
-      </div>
-      <div>
-        <h4>AI &amp; Intelligent Products</h4>
-        <a href="${root}/kubera-ai.html">Kubera AI<span class="mega-note">AI-powered trading &amp; strategy platform</span></a>
-        <a href="${root}/elegal.html">eLegal<span class="mega-note">AI-powered property legal intelligence</span></a>
-      </div>
-      <div>
-        <h4>Digital Platforms</h4>
-        <a href="${root}/fintech-platform.html">FinTech Platform<span class="mega-note">Financial technology platform</span></a>
-        <a href="${root}/anvas-logistics.html">Anvas Logistics<span class="mega-note">Logistics operations platform</span></a>
-        <a href="${root}/ungal-pakkam.html">Ungal Pakkam &ndash; Manu System<span class="mega-note">Digital public-facing platform</span></a>
-        <a href="${root}/tn-ihip.html">eHealth / TN-IHIP<span class="mega-note">Digital healthcare platform</span></a>
-      </div>
-    </div>`;
+export function bootSite(first) {
+  if (!first && !__done.has("__chrome")) return;
+  if (first) {
+    if (__done.has("__chrome")) return;
+    __done.add("__chrome");
+  }
+  if (first) {
+    const root = document.body.dataset.root || ".";
+    const asset = (p) => `${root}/assets/${p}`;
 
-  const megaWho = `
-    <div class="mega mega-3">
-      <div>
-        <h4>Company</h4>
-        <a href="${root}/who-we-are.html">About AnvasTech</a>
-        <a href="${root}/who-we-are.html#story">Our Story</a>
-        <a href="${root}/who-we-are.html#approach">Our Approach</a>
-        <a href="${root}/who-we-are.html#leadership">Leadership</a>
-      </div>
-      <div>
-        <h4>How We Build</h4>
-        <a href="${root}/product-engineering.html">Product Engineering</a>
-        <a href="${root}/ai-assisted-engineering.html">AI-Assisted Engineering</a>
-        <a href="${root}/ai-development-workspace.html">Our Development Approach</a>
-        <a href="${root}/technology-excellence.html">Technology &amp; Innovation</a>
-      </div>
-      <div>
-        <h4>Our Work</h4>
-        <a href="${root}/industries.html">Products We Build</a>
-        <a href="${root}/what-we-do.html">Solutions We Deliver</a>
-        <a href="${root}/what-we-do.html#industries">Industries We Work In</a>
-        <a href="${root}/case-studies.html">Our Projects</a>
-      </div>
-    </div>`;
+    const megaWhat = `
+      <div class="mega mega-3">
+        <div>
+          <h4>AI &amp; Intelligent Systems</h4>
+          <a href="/generative-ai">Generative AI</a>
+          <a href="/ai-agents">AI Agents</a>
+          <a href="/ai-assisted-automation">Intelligent Automation</a>
+          <a href="/ai-assisted-engineering">AI-Assisted Development</a>
+        </div>
+        <div>
+          <h4>Product &amp; Software Engineering</h4>
+          <a href="/product-engineering">Product Development</a>
+          <a href="/web-applications">Web Applications</a>
+          <a href="/mobile-applications">Mobile Applications</a>
+          <a href="/ui-ux-product-design">UI/UX &amp; Product Design</a>
+        </div>
+        <div>
+          <h4>Business &amp; Digital Solutions</h4>
+          <a href="/custom-software-development">Custom Software Development</a>
+          <a href="/intelligent-workflows">Business Automation</a>
+          <a href="/data-ai-engineering">Data &amp; Analytics</a>
+          <a href="/digital-solutions">Digital Solutions</a>
+        </div>
+      </div>`;
 
-  const megaRes = `
-    <div class="mega mega-3">
-      <div>
-        <h4>Insights</h4>
-        <a href="${root}/resources.html#ai-hub">AI Intelligence Hub</a>
-        <a href="${root}/resources.html#technology-insights">Technology Insights</a>
-        <a href="${root}/resources.html#engineering-insights">Engineering Insights</a>
-      </div>
-      <div>
-        <h4>Research &amp; Reports</h4>
-        <a href="${root}/resources.html#ai-research">AI Research</a>
-        <a href="${root}/resources.html#technology-reports">Technology Reports</a>
-      </div>
-      <div>
-        <h4>Projects &amp; Stories</h4>
-        <a href="${root}/case-studies.html">Case Studies</a>
-        <a href="${root}/resources.html#project-stories">Project Stories</a>
-      </div>
-    </div>`;
+    const megaInd = `
+      <div class="mega mega-3">
+        <div>
+          <h4>Products</h4>
+          <a href="/vishful">Vishful<span class="mega-note">Property &amp; Co-Living Management</span></a>
+          <a href="/vishful-attendance">Vishful Attendance<span class="mega-note">Face-Scan Workforce Attendance</span></a>
+          <a href="/anvas-comet">Anvas Comet<span class="mega-note">Business Operations Platform</span></a>
+          <a href="/mla-calendar">MLA Calendar<span class="mega-note">Calendar &amp; Constituency Management</span></a>
+        </div>
+        <div>
+          <h4>AI &amp; Intelligent Products</h4>
+          <a href="/kubera-ai">Kubera AI<span class="mega-note">AI-powered trading &amp; strategy platform</span></a>
+          <a href="/elegal">eLegal<span class="mega-note">AI-powered property legal intelligence</span></a>
+        </div>
+        <div>
+          <h4>Digital Platforms</h4>
+          <a href="/fintech-platform">FinTech Platform<span class="mega-note">Financial technology platform</span></a>
+          <a href="/anvas-logistics">Anvas Logistics<span class="mega-note">Logistics operations platform</span></a>
+          <a href="/ungal-pakkam">Ungal Pakkam &ndash; Manu System<span class="mega-note">Digital public-facing platform</span></a>
+          <a href="/tn-ihip">eHealth / TN-IHIP<span class="mega-note">Digital healthcare platform</span></a>
+        </div>
+      </div>`;
 
-  const megaCar = `
-    <div class="mega mega-2">
-      <div>
-        <h4>Careers</h4>
-        <a href="${root}/careers.html">Careers Overview</a>
-        <a href="${root}/careers.html#why">Why AnvasTech</a>
-        <a href="${root}/careers.html#internships">Internships</a>
-        <a href="${root}/careers.html#positions">Open Positions</a>
-        <a href="${root}/careers.html#resume">Submit Your Resume</a>
-      </div>
-      <div>
-        <h4>Work With Us</h4>
-        <a href="${root}/careers.html#software-engineering">Software Engineering</a>
-        <a href="${root}/careers.html#ai-engineering">AI &amp; Engineering</a>
-        <a href="${root}/careers.html#product-design">Product &amp; Design</a>
-        <a href="${root}/careers.html#business-operations">Business &amp; Operations</a>
-      </div>
-    </div>`;
+    const megaWho = `
+      <div class="mega mega-3">
+        <div>
+          <h4>Company</h4>
+          <a href="/who-we-are">About AnvasTech</a>
+          <a href="/who-we-are#story">Our Story</a>
+          <a href="/who-we-are#approach">Our Approach</a>
+          <a href="/who-we-are#leadership">Leadership</a>
+        </div>
+        <div>
+          <h4>How We Build</h4>
+          <a href="/product-engineering">Product Engineering</a>
+          <a href="/ai-assisted-engineering">AI-Assisted Engineering</a>
+          <a href="/ai-development-workspace">Our Development Approach</a>
+          <a href="/technology-excellence">Technology &amp; Innovation</a>
+        </div>
+        <div>
+          <h4>Our Work</h4>
+          <a href="/industries">Products We Build</a>
+          <a href="/what-we-do">Solutions We Deliver</a>
+          <a href="/what-we-do#industries">Industries We Work In</a>
+          <a href="/case-studies">Our Projects</a>
+        </div>
+      </div>`;
 
-  const header = `
-    <a class="skip" href="#main">Skip to main content</a>
-    <header class="site-header" id="header">
-      <div class="header-bar">
-      <a class="logo" href="${root}/index.html" aria-label="Anvas Tech">
-        <img class="logo-mark" src="${root}/assets/logo-anvas.png?v=1" alt="" width="164" height="100">
-        <span class="logo-word" aria-hidden="true">Anvas Tech</span>
-      </a>
-        <nav class="nav-desktop" aria-label="Primary navigation">
-          <div class="nav-item" data-mega>
-            <a class="nav-link" href="${root}/what-we-do.html">Solutions <span class="chev"></span></a>
-            ${megaWhat}
-          </div>
-          <div class="nav-item" data-mega>
-            <a class="nav-link" href="${root}/industries.html">Products <span class="chev"></span></a>
-            ${megaInd}
-          </div>
-          <div class="nav-item" data-mega>
-            <a class="nav-link" href="${root}/who-we-are.html">Who We Are <span class="chev"></span></a>
-            ${megaWho}
-          </div>
-          <div class="nav-item" data-mega>
-            <a class="nav-link" href="${root}/resources.html">Resources <span class="chev"></span></a>
-            ${megaRes}
-          </div>
-          <div class="nav-item" data-mega>
-            <a class="nav-link" href="${root}/careers.html">Careers <span class="chev"></span></a>
-            ${megaCar}
-          </div>
-        </nav>
-        <div class="header-tools">
-          <button class="icon-btn" type="button" data-open-search aria-label="Search">
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <circle cx="11" cy="11" r="6.4" stroke="currentColor" stroke-width="1.7"/>
-              <path d="M16.1 16.2 20 20" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-            </svg>
-            <svg class="spark" viewBox="0 0 12 12" aria-hidden="true">
-              <path fill="currentColor" d="M6 0l1.15 4.05L11.2 5.2 7.15 6.35 6 10.4 4.85 6.35.8 5.2 4.85 4.05Z"/>
-            </svg>
-          </button>
-          <div class="lang-wrap">
-            <button class="icon-btn globe" type="button" data-lang-toggle aria-label="Select language" aria-haspopup="true">
+    const megaRes = `
+      <div class="mega mega-2">
+        <div>
+          <h4>Insights</h4>
+          <a href="/resources#technology-insights">Technology Insights</a>
+          <a href="/resources#engineering-insights">Engineering Insights</a>
+        </div>
+        <div>
+          <h4>Projects</h4>
+          <a href="/resources#our-projects">Our Projects</a>
+          <a href="/resources#project-stories">Project Stories</a>
+        </div>
+      </div>`;
+
+    const megaCar = `
+      <div class="mega mega-1">
+        <div>
+          <h4>Careers</h4>
+          <a href="/careers">Careers Overview</a>
+          <a href="/careers#why">Why AnvasTech</a>
+          <a href="/careers#internships">Internships</a>
+          <a href="/careers#positions">Open Positions</a>
+          <a href="/careers#resume">Submit Your Resume</a>
+        </div>
+      </div>`;
+
+    const header = `
+      <a class="skip" href="#main">Skip to main content</a>
+      <header class="site-header" id="header">
+        <div class="header-bar">
+        <a class="logo" href="/" aria-label="Anvas Tech">
+          <img class="logo-mark" src="${root}/assets/logo-anvas.png?v=1" alt="" width="164" height="100">
+          <span class="logo-word" aria-hidden="true">Anvas Tech</span>
+        </a>
+          <nav class="nav-desktop" aria-label="Primary navigation">
+            <div class="nav-item" data-mega>
+              <a class="nav-link" href="/what-we-do">Solutions <span class="chev"></span></a>
+              ${megaWhat}
+            </div>
+            <div class="nav-item" data-mega>
+              <a class="nav-link" href="/industries">Products <span class="chev"></span></a>
+              ${megaInd}
+            </div>
+            <div class="nav-item" data-mega>
+              <a class="nav-link" href="/who-we-are">Who We Are <span class="chev"></span></a>
+              ${megaWho}
+            </div>
+            <div class="nav-item" data-mega>
+              <a class="nav-link" href="/resources">Resources <span class="chev"></span></a>
+              ${megaRes}
+            </div>
+            <div class="nav-item" data-mega>
+              <a class="nav-link" href="/careers">Careers <span class="chev"></span></a>
+              ${megaCar}
+            </div>
+          </nav>
+          <div class="header-tools">
+            <button class="icon-btn" type="button" data-open-search aria-label="Search">
               <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <circle cx="12" cy="12" r="8.2" stroke="currentColor" stroke-width="1.6"/>
-                <path d="M4 12h16M12 4c2.4 2.4 3.6 5.2 3.6 8s-1.2 5.6-3.6 8c-2.4-2.4-3.6-5.2-3.6-8s1.2-5.6 3.6-8Z" stroke="currentColor" stroke-width="1.4"/>
+                <circle cx="11" cy="11" r="6.4" stroke="currentColor" stroke-width="1.7"/>
+                <path d="M16.1 16.2 20 20" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
               </svg>
-              <span class="chev"></span>
+              <svg class="spark" viewBox="0 0 12 12" aria-hidden="true">
+                <path fill="currentColor" d="M6 0l1.15 4.05L11.2 5.2 7.15 6.35 6 10.4 4.85 6.35.8 5.2 4.85 4.05Z"/>
+              </svg>
             </button>
-            <div class="lang-menu" role="listbox">
-              <button type="button">English</button>
-              <button type="button">Deutsch</button>
-              <button type="button">Français</button>
-              <button type="button">日本語</button>
+            <div class="lang-wrap">
+              <button class="icon-btn globe" type="button" data-lang-toggle aria-label="Select language" aria-haspopup="true">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <circle cx="12" cy="12" r="8.2" stroke="currentColor" stroke-width="1.6"/>
+                  <path d="M4 12h16M12 4c2.4 2.4 3.6 5.2 3.6 8s-1.2 5.6-3.6 8c-2.4-2.4-3.6-5.2-3.6-8s1.2-5.6 3.6-8Z" stroke="currentColor" stroke-width="1.4"/>
+                </svg>
+                <span class="chev"></span>
+              </button>
+              <div class="lang-menu" role="listbox">
+                <button type="button">English</button>
+                <button type="button">Deutsch</button>
+                <button type="button">Français</button>
+                <button type="button">日本語</button>
+              </div>
+            </div>
+            <a class="chat-btn" href="/contact" aria-label="Chat with us">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M6.5 16.5 4 19V7.5A2.5 2.5 0 0 1 6.5 5h11A2.5 2.5 0 0 1 20 7.5v6.2a2.5 2.5 0 0 1-2.5 2.5H9.2Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+              </svg>
+            </a>
+            <button class="menu-toggle" type="button" aria-label="Open menu"><span></span></button>
+          </div>
+        </div>
+        <nav class="mobile-nav" id="mobile-nav" hidden>
+          <a href="/what-we-do">Solutions</a>
+          <a href="/industries">Products</a>
+          <a href="/who-we-are">Who We Are</a>
+          <a href="/resources">Resources</a>
+          <a href="/careers">Careers</a>
+          <a href="/contact">Contact Us</a>
+        </nav>
+      </header>`;
+
+    const footer = `
+      <footer class="site-footer">
+        <!-- Four columns, four jobs: Solutions is what we offer, Products is
+             what we build, Who We Are is the company, Resources is what we
+             publish. Products used to be repeated in the Solutions column,
+             and Contact Us and Case Studies sat under Careers. -->
+        <div class="wrap foot-grid">
+          <div>
+            <h4><button class="foot-acc" type="button" aria-expanded="true"><span>Solutions</span><i class="foot-chev" aria-hidden="true"></i></button></h4>
+            <div class="foot-links">
+            <a href="/ai-assisted-engineering">AI-Assisted Development</a>
+            <a href="/product-engineering">Product Development</a>
+            <a href="/web-applications">Web Applications</a>
+            <a href="/mobile-applications">Mobile Applications</a>
+            <a href="/ui-ux-product-design">UI/UX &amp; Product Design</a>
+            <a href="/custom-software-development">Custom Software Development</a>
+            <a href="/intelligent-workflows">Business Automation</a>
+            <a href="/data-ai-engineering">Data &amp; Analytics</a>
+            <a href="/digital-solutions">Digital Solutions</a>
             </div>
           </div>
-          <a class="chat-btn" href="${root}/contact.html" aria-label="Chat with us">
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M6.5 16.5 4 19V7.5A2.5 2.5 0 0 1 6.5 5h11A2.5 2.5 0 0 1 20 7.5v6.2a2.5 2.5 0 0 1-2.5 2.5H9.2Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
-            </svg>
-          </a>
-          <button class="menu-toggle" type="button" aria-label="Open menu"><span></span></button>
+          <div>
+            <h4><button class="foot-acc" type="button" aria-expanded="true"><span>Products</span><i class="foot-chev" aria-hidden="true"></i></button></h4>
+            <div class="foot-links">
+            <a href="/vishful">Vishful</a>
+            <a href="/vishful-attendance">Vishful Attendance</a>
+            <a href="/anvas-comet">Anvas Comet</a>
+            <a href="/anvas-logistics">Anvas Logistics</a>
+            <a href="/fintech-platform">FinTech Platform</a>
+            <a href="/kubera-ai">Kubera AI</a>
+            <a href="/elegal">eLegal</a>
+            <a href="/mla-calendar">MLA Calendar</a>
+            <a href="/ungal-pakkam">Ungal Pakkam – Manu System</a>
+            <a href="/tn-ihip">eHealth / TN-IHIP</a>
+            <a href="/industries">View All Products →</a>
+            </div>
+          </div>
+          <div>
+            <h4><button class="foot-acc" type="button" aria-expanded="true"><span>Who We Are</span><i class="foot-chev" aria-hidden="true"></i></button></h4>
+            <div class="foot-links">
+            <a href="/who-we-are">About AnvasTech</a>
+            <a href="/who-we-are#story">Our Story</a>
+            <a href="/who-we-are#approach">Our Approach</a>
+            <a href="/who-we-are#leadership">Leadership</a>
+            <a href="/careers">Careers</a>
+            </div>
+          </div>
+          <div>
+            <h4><button class="foot-acc" type="button" aria-expanded="true"><span>Resources</span><i class="foot-chev" aria-hidden="true"></i></button></h4>
+            <div class="foot-links">
+            <a href="/resources#technology-insights">Technology Insights</a>
+            <a href="/resources#engineering-insights">Engineering Insights</a>
+            <a href="/resources#our-projects">Our Projects</a>
+            <a href="/resources#project-stories">Project Stories</a>
+            </div>
+          </div>
+        </div>
+        <div class="wrap foot-bottom">
+          <div>Copyright © 2026 AnvasTech Limited</div>
+          <div class="legal">
+            <a href="/contact">Contact Us</a>
+            <!-- No privacy, terms or sitemap page exists yet. These point at
+                 the About page, which is not what they promise. Repoint them
+                 as soon as the real pages are published. -->
+            <a href="/who-we-are">Privacy Statement</a>
+            <a href="/who-we-are">Terms of Use</a>
+            <a href="/">Sitemap</a>
+          </div>
+          <div class="social" aria-label="Social">
+            <a href="https://www.linkedin.com/company/anvastech" aria-label="LinkedIn">in</a>
+            <a href="https://twitter.com/anvastech" aria-label="X">X</a>
+            <a href="https://www.youtube.com/user/AnvasTechtube" aria-label="YouTube">▶</a>
+            <a href="https://www.facebook.com/AnvasTechOfficial" aria-label="Facebook">f</a>
+          </div>
+        </div>
+      </footer>
+      <div class="search-layer" id="search-layer" hidden>
+        <div class="search-box">
+          <form id="overlay-search">
+            <input type="search" name="q" placeholder="Ask a question or search AnvasTech" required>
+            <button class="btn-blue" type="submit">Ask</button>
+          </form>
         </div>
       </div>
-      <nav class="mobile-nav" id="mobile-nav" hidden>
-        <a href="${root}/what-we-do.html">Solutions</a>
-        <a href="${root}/industries.html">Products</a>
-        <a href="${root}/who-we-are.html">Who We Are</a>
-        <a href="${root}/resources.html">Resources</a>
-        <a href="${root}/careers.html">Careers</a>
-        <a href="${root}/contact.html">Contact Us</a>
-      </nav>
-    </header>`;
+      <div class="cookie" id="cookie" hidden>
+        <p>We use cookies on our site. Please read more about our <a href="/who-we-are">cookies policy</a>.</p>
+        <button class="btn-blue" type="button" data-accept-cookies>Accept</button>
+      </div>`;
 
-  const footer = `
-    <footer class="site-footer">
-      <div class="wrap foot-grid">
-        <div>
-          <h4><button class="foot-acc" type="button" aria-expanded="true"><span>Solutions</span><i class="foot-chev" aria-hidden="true"></i></button></h4>
-          <div class="foot-links">
-          <a href="${root}/what-we-do.html#anvas-logistics">Anvas Logistics</a>
-          <a href="${root}/what-we-do.html#anvas-comet">Anvas Comet</a>
-          <a href="${root}/what-we-do.html#fintech-platform">FinTech Platform</a>
-          <a href="${root}/what-we-do.html#kubera-ai">Kubera AI</a>
-          <a href="${root}/what-we-do.html#elegal">eLegal</a>
-          <a href="${root}/what-we-do.html#ungal-pakkam">Ungal Pakkam – Manu System</a>
-          <a href="${root}/what-we-do.html#mla-calendar">MLA Calendar</a>
-          </div>
-        </div>
-        <div>
-          <h4><button class="foot-acc" type="button" aria-expanded="true"><span>Products</span><i class="foot-chev" aria-hidden="true"></i></button></h4>
-          <div class="foot-links">
-          <a href="${root}/vishful.html">Vishful</a>
-          <a href="${root}/vishful-attendance.html">Vishful Attendance</a>
-          <a href="${root}/anvas-comet.html">Anvas Comet</a>
-          <a href="${root}/anvas-logistics.html">Anvas Logistics</a>
-          <a href="${root}/fintech-platform.html">FinTech Platform</a>
-          <a href="${root}/kubera-ai.html">Kubera AI</a>
-          <a href="${root}/elegal.html">eLegal</a>
-          <a href="${root}/mla-calendar.html">MLA Calendar</a>
-          <a href="${root}/ungal-pakkam.html">Ungal Pakkam &ndash; Manu System</a>
-          <a href="${root}/tn-ihip.html">eHealth / TN-IHIP</a>
-          <a href="${root}/industries.html">View all products &rarr;</a>
-          </div>
-        </div>
-        <div>
-          <h4><button class="foot-acc" type="button" aria-expanded="true"><span>Who We Are</span><i class="foot-chev" aria-hidden="true"></i></button></h4>
-          <div class="foot-links">
-          <a href="${root}/who-we-are.html">About AnvasTech</a>
-          <a href="${root}/who-we-are.html#leadership">Our Approach to Leadership</a>
-          <a href="${root}/who-we-are.html#story">Our Story</a>
-          <a href="${root}/careers.html">Careers</a>
-          <a href="${root}/who-we-are.html#our-work">What We Build</a>
-          <a href="${root}/resources.html">AI Intelligence Hub</a>
-          </div>
-        </div>
-        <div>
-          <h4><button class="foot-acc" type="button" aria-expanded="true"><span>Careers</span><i class="foot-chev" aria-hidden="true"></i></button></h4>
-          <div class="foot-links">
-          <a href="${root}/careers.html">Careers Overview</a>
-          <a href="${root}/careers.html#why">Why AnvasTech</a>
-          <a href="${root}/careers.html#positions">Open Positions</a>
-          <a href="${root}/careers.html#resume">Submit Your Resume</a>
-          <a href="${root}/contact.html">Contact Us</a>
-          <a href="${root}/case-studies.html">Case Studies</a>
-          </div>
-        </div>
-      </div>
-      <div class="wrap foot-bottom">
-        <div>Copyright © 2026 AnvasTech Limited</div>
-        <div class="legal">
-          <a href="${root}/contact.html">Contact Us</a>
-          <a href="${root}/who-we-are.html">Disclaimer</a>
-          <a href="${root}/who-we-are.html">Privacy Statement</a>
-          <a href="${root}/who-we-are.html">Terms of use</a>
-          <a href="${root}/index.html">Sitemap</a>
-        </div>
-        <div class="social" aria-label="Social">
-          <a href="https://www.linkedin.com/company/anvastech" aria-label="LinkedIn">in</a>
-          <a href="https://twitter.com/anvastech" aria-label="X">X</a>
-          <a href="https://www.youtube.com/user/AnvasTechtube" aria-label="YouTube">▶</a>
-          <a href="https://www.facebook.com/AnvasTechOfficial" aria-label="Facebook">f</a>
-        </div>
-      </div>
-    </footer>
-    <div class="search-layer" id="search-layer" hidden>
-      <div class="search-box">
-        <form id="overlay-search">
-          <input type="search" name="q" placeholder="Ask a question or search AnvasTech" required>
-          <button class="btn-blue" type="submit">Ask</button>
-        </form>
-      </div>
-    </div>
-    <div class="cookie" id="cookie" hidden>
-      <p>We use cookies on our site. Please read more about our <a href="${root}/who-we-are.html">cookies policy</a>.</p>
-      <button class="btn-blue" type="button" data-accept-cookies>Accept</button>
-    </div>`;
+    const mount = document.getElementById("chrome-header");
+    const foot = document.getElementById("chrome-footer");
+    if (mount) mount.outerHTML = header;
+    if (foot) foot.outerHTML = footer;
 
-  const mount = document.getElementById("chrome-header");
-  const foot = document.getElementById("chrome-footer");
-  if (mount) mount.outerHTML = header;
-  if (foot) foot.outerHTML = footer;
-
-  document.querySelectorAll("[data-mega]").forEach((item) => {
-    let leaveTimer = 0;
-    const resetMore = () => {
-      item.querySelectorAll("[data-mega-more]").forEach((btn) => {
-        const more = btn.previousElementSibling?.classList?.contains("mega-more")
-          ? btn.previousElementSibling
-          : btn.parentElement?.querySelector(".mega-more");
-        if (more) more.hidden = true;
-        btn.setAttribute("aria-expanded", "false");
-        btn.textContent = "View all projects →";
-        btn.hidden = false;
+    document.querySelectorAll("[data-mega]").forEach((item) => {
+      let leaveTimer = 0;
+      const resetMore = () => {
+        item.querySelectorAll("[data-mega-more]").forEach((btn) => {
+          const more = btn.previousElementSibling?.classList?.contains("mega-more")
+            ? btn.previousElementSibling
+            : btn.parentElement?.querySelector(".mega-more");
+          if (more) more.hidden = true;
+          btn.setAttribute("aria-expanded", "false");
+          btn.textContent = "View all projects →";
+          btn.hidden = false;
+        });
+      };
+      const open = () => {
+        window.clearTimeout(leaveTimer);
+        document.querySelectorAll("[data-mega]").forEach((el) => {
+          if (el !== item) el.classList.remove("open");
+        });
+        item.classList.add("open");
+      };
+      const close = () => {
+        item.classList.remove("open");
+        resetMore();
+      };
+      const scheduleClose = () => {
+        window.clearTimeout(leaveTimer);
+        leaveTimer = window.setTimeout(close, 120);
+      };
+      item.addEventListener("mouseenter", open);
+      item.addEventListener("mouseleave", scheduleClose);
+      item.querySelector(".nav-link")?.addEventListener("focus", open);
+      item.querySelector(".nav-link")?.addEventListener("blur", () => {
+        window.setTimeout(() => {
+          if (!item.contains(document.activeElement)) close();
+        }, 0);
       });
-    };
-    const open = () => {
-      window.clearTimeout(leaveTimer);
-      document.querySelectorAll("[data-mega]").forEach((el) => {
-        if (el !== item) el.classList.remove("open");
-      });
-      item.classList.add("open");
-    };
-    const close = () => {
-      item.classList.remove("open");
-      resetMore();
-    };
-    const scheduleClose = () => {
-      window.clearTimeout(leaveTimer);
-      leaveTimer = window.setTimeout(close, 120);
-    };
-    item.addEventListener("mouseenter", open);
-    item.addEventListener("mouseleave", scheduleClose);
-    item.querySelector(".nav-link")?.addEventListener("focus", open);
-    item.querySelector(".nav-link")?.addEventListener("blur", () => {
-      window.setTimeout(() => {
-        if (!item.contains(document.activeElement)) close();
-      }, 0);
     });
-  });
 
-  document.querySelectorAll("[data-mega-more]").forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      e.preventDefault();
+    document.querySelectorAll("[data-mega-more]").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const more = btn.parentElement?.querySelector(".mega-more");
+        if (!more) return;
+        more.hidden = false;
+        btn.setAttribute("aria-expanded", "true");
+        btn.hidden = true;
+      });
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        document.querySelectorAll("[data-mega].open").forEach((el) => el.classList.remove("open"));
+        document.querySelectorAll(".mega-more").forEach((el) => {
+          el.hidden = true;
+        });
+        document.querySelectorAll("[data-mega-more]").forEach((btn) => {
+          btn.hidden = false;
+          btn.setAttribute("aria-expanded", "false");
+          btn.textContent = "View all projects →";
+        });
+      }
+    });
+
+    const langWrap = document.querySelector(".lang-wrap");
+    document.querySelector("[data-lang-toggle]")?.addEventListener("click", (e) => {
       e.stopPropagation();
-      const more = btn.parentElement?.querySelector(".mega-more");
-      if (!more) return;
-      more.hidden = false;
-      btn.setAttribute("aria-expanded", "true");
-      btn.hidden = true;
+      langWrap?.classList.toggle("open");
     });
-  });
+    document.addEventListener("click", () => langWrap?.classList.remove("open"));
+    langWrap?.querySelectorAll(".lang-menu button").forEach((btn) => {
+      btn.addEventListener("click", () => langWrap.classList.remove("open"));
+    });
 
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") {
-      document.querySelectorAll("[data-mega].open").forEach((el) => el.classList.remove("open"));
-      document.querySelectorAll(".mega-more").forEach((el) => {
-        el.hidden = true;
-      });
-      document.querySelectorAll("[data-mega-more]").forEach((btn) => {
-        btn.hidden = false;
-        btn.setAttribute("aria-expanded", "false");
-        btn.textContent = "View all projects →";
-      });
-    }
-  });
 
-  const langWrap = document.querySelector(".lang-wrap");
-  document.querySelector("[data-lang-toggle]")?.addEventListener("click", (e) => {
-    e.stopPropagation();
-    langWrap?.classList.toggle("open");
-  });
-  document.addEventListener("click", () => langWrap?.classList.remove("open"));
-  langWrap?.querySelectorAll(".lang-menu button").forEach((btn) => {
-    btn.addEventListener("click", () => langWrap.classList.remove("open"));
-  });
-
-  (function bindLogoReveal() {
+  }
+  runBinder("bindLogoReveal", "once", function () {
     const logo = document.querySelector(".logo");
     if (!logo) return;
     const on = () => logo.classList.add("is-on");
@@ -372,10 +389,70 @@
         on();
       }
     });
-  })();
+  });
 
   const headerEl = document.getElementById("header");
-  (function bindHeaderScrollHide() {
+  /* Hero background video: some browsers defer autoplay until the element is
+     visible or the tab is focused, which leaves the poster showing. Ask again. */
+  runBinder("bindHeroVideo", "once", function () {
+    const vids = [...document.querySelectorAll(".hero-art video")];
+    if (!vids.length) return;
+    const kick = (v) => {
+      if (!v.paused) return;
+      const p = v.play();
+      if (p && typeof p.catch === "function") p.catch(() => {});
+    };
+    vids.forEach((v) => {
+      v.muted = true;
+      v.playsInline = true;
+      kick(v);
+      v.addEventListener("loadeddata", () => kick(v), { once: true });
+      v.addEventListener("canplay", () => kick(v), { once: true });
+    });
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden) vids.forEach(kick);
+    });
+    window.addEventListener("focus", () => vids.forEach(kick), { passive: true });
+  });
+
+  /* Card spotlight: feed the pointer position to the card as --mx/--my so the
+     ::before radial gradient follows it. Delegated, so it covers every grid. */
+  runBinder("bindCardSpotlight", "once", function () {
+    if (!window.matchMedia("(hover: hover)").matches) return;
+    let frame = 0;
+    let pending = null;
+    const apply = () => {
+      frame = 0;
+      if (!pending) return;
+      const { card, x, y } = pending;
+      pending = null;
+      card.style.setProperty("--mx", x + "px");
+      card.style.setProperty("--my", y + "px");
+    };
+    document.addEventListener(
+      "pointermove",
+      (e) => {
+        const card = e.target.closest?.(".list-card");
+        if (!card) return;
+        const r = card.getBoundingClientRect();
+        pending = { card, x: e.clientX - r.left, y: e.clientY - r.top };
+        if (!frame) frame = requestAnimationFrame(apply);
+      },
+      { passive: true }
+    );
+    document.addEventListener(
+      "pointerleave",
+      (e) => {
+        const card = e.target.closest?.(".list-card");
+        if (!card) return;
+        card.style.removeProperty("--mx");
+        card.style.removeProperty("--my");
+      },
+      { capture: true, passive: true }
+    );
+  });
+
+  runBinder("bindHeaderScrollHide", "once", function () {
     if (!headerEl) return;
     let lastY = window.scrollY;
     let ticking = false;
@@ -406,7 +483,7 @@
       { passive: true }
     );
     update();
-  })();
+  });
 
   const toggle = document.querySelector(".menu-toggle");
   const mobile = document.getElementById("mobile-nav");
@@ -440,7 +517,7 @@
   );
 
   // Footer columns collapse into an accordion on phones only.
-  (function footAccordion() {
+  runBinder("footAccordion", "every", function () {
     const accs = Array.from(document.querySelectorAll(".foot-acc"));
     if (!accs.length) return;
     const isPhone = () => document.documentElement.classList.contains("is-phone");
@@ -464,7 +541,7 @@
     });
     sync();
     window.addEventListener("resize", sync, { passive: true });
-  })();
+  });
 
   const layer = document.getElementById("search-layer");
   document.querySelectorAll("[data-open-search]").forEach((btn) => {
@@ -484,7 +561,7 @@
   document.getElementById("overlay-search")?.addEventListener("submit", (e) => {
     e.preventDefault();
     const q = new FormData(e.target).get("q");
-    window.location.href = `${root}/index.html?q=${encodeURIComponent(q)}#ask`;
+    window.location.href = `/?q=${encodeURIComponent(q)}#ask`;
   });
 
   const cookie = document.getElementById("cookie");
@@ -496,8 +573,14 @@
     if (cookie) cookie.hidden = true;
   });
 
+  /* Pages are lazy-loaded, so a slider's markup may not exist on the boot
+     that follows a cold load; bootSite runs again once the page mounts. The
+     marker keeps that second pass from stacking a duplicate set of
+     listeners and timers on slides that are already live. */
   function bindSlider({ slides, tabs, pauseBtn, interval = 7000, start = 0 }) {
     if (!slides.length) return;
+    if (slides[0].dataset.sliderBound) return;
+    slides[0].dataset.sliderBound = "1";
     let idx = start;
     let playing = true;
     let timer;
@@ -537,7 +620,7 @@
     start: 0,
   });
 
-  (function bindHeroVideo() {
+  runBinder("bindHeroVideo", "once", function () {
     const hero = document.querySelector(".hero");
     const video = hero?.querySelector(".hero-video");
     if (!hero || !video) return;
@@ -559,7 +642,7 @@
       if (!document.hidden) kick();
     });
     new MutationObserver(kick).observe(hero, { attributes: true, attributeFilter: ["class"] });
-  })();
+  });
   bindSlider({
     slides: [...document.querySelectorAll(".ai-slide")],
     tabs: [...document.querySelectorAll("[data-ai-tab]")],
@@ -568,7 +651,7 @@
     start: 0,
   });
 
-  (function bindWired() {
+  runBinder("bindWired", "every", function () {
     const root = document.querySelector("[data-wired]");
     if (!root) return;
     const eps = [...root.querySelectorAll("[data-wired-ep]")];
@@ -583,7 +666,7 @@
     };
     nextBtn?.addEventListener("click", () => show(i + 1));
     show(0);
-  })();
+  });
 
   const answers = {
     default: "AnvasTech is a product and technology company. We build our own digital products — Vishful, Vishful Attendance, eLegal, Anvas Logistics, Anvas Comet, FinTech, TN-IHIP and Kubera AI — and deliver software solutions for businesses. Ask about our products, solutions, or careers.",
@@ -623,7 +706,7 @@
   document.querySelector("#clients [data-q-next]")?.addEventListener("click", () => showQ(q + 1));
   showQ(0);
 
-  (function bindCaseStudies() {
+  runBinder("bindCaseStudies", "every", function () {
     const root = document.getElementById("case-studies");
     if (!root) return;
     const cards = [...root.querySelectorAll(".cs-card")];
@@ -646,9 +729,9 @@
       { threshold: 0.2, rootMargin: "0px 0px -8% 0px" }
     );
     cards.forEach((el) => io.observe(el));
-  })();
+  });
 
-  (function bindStepNav() {
+  runBinder("bindStepNav", "every", function () {
     // Process pills: selecting one shows that step's detail in the panel below.
     document.querySelectorAll("[data-step-nav]").forEach((root) => {
       const btns = [...root.querySelectorAll("[data-step]")];
@@ -684,9 +767,9 @@
 
       show(0);
     });
-  })();
+  });
 
-  (function bindAwardWeb() {
+  runBinder("bindAwardWeb", "every", function () {
     const rootEl = document.querySelector(".award-web-inner");
     const svg = rootEl?.querySelector(".award-lines");
     if (!rootEl || !svg) return;
@@ -759,9 +842,9 @@
       requestAnimationFrame(tick);
     };
     tick();
-  })();
+  });
 
-  (function bindCineScroll() {
+  runBinder("bindCineScroll", "every", function () {
     const host = document.querySelector(".cine-career");
     const track = host?.querySelector(".cine-track");
     const sticky = host?.querySelector(".cine-sticky");
@@ -799,9 +882,9 @@
     window.addEventListener("resize", onScroll);
     desktop.addEventListener("change", onScroll);
     apply();
-  })();
+  });
 
-  (function bindSolSticky() {
+  runBinder("bindSolSticky", "every", function () {
     const root = document.getElementById("solutions");
     if (!root) return;
     const title = root.querySelector(".sol-sticky-title");
@@ -824,7 +907,7 @@
 
     size();
     window.addEventListener("resize", size);
-  })();
+  });
 
   document.getElementById("news-form")?.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -841,4 +924,4 @@
     askForm.q.value = params.get("q");
     askForm.dispatchEvent(new Event("submit"));
   }
-})();
+}

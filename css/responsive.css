@@ -1191,3 +1191,23 @@ html.is-narrow .ai-slide:not(.is-active) {
   .ai-slide { transition: none !important; }
   .ai-slide:not(.is-active) { display: none !important; }
 }
+
+/* ==========================================================================
+   Dark image-backed page hero
+   ========================================================================== */
+html.is-narrow .page-hero.is-dark { padding: 120px 0 72px; }
+html.is-narrow .page-hero.is-dark .lede { color: rgb(255 255 255 / 0.82) !important; }
+html.is-phone .page-hero.is-dark { padding: 104px 0 56px; }
+html.is-phone .page-hero.is-dark .hero-art img { object-position: 72% center; }
+html.is-phone .page-hero.is-dark::after {
+  background:
+    linear-gradient(180deg, rgb(10 10 35 / 0.82) 0%, rgb(10 10 35 / 0.62) 55%, rgb(10 10 35 / 0.78) 100%);
+}
+
+/* Light video hero */
+html.is-narrow .page-hero.is-light { padding: 120px 0 72px; }
+html.is-phone .page-hero.is-light { padding: 104px 0 56px; }
+html.is-phone .page-hero.is-light .hero-art video { object-position: 72% center; }
+html.is-phone .page-hero.is-light::after {
+  background: linear-gradient(180deg, rgb(244 246 253 / 0.86) 0%, rgb(244 246 253 / 0.72) 55%, rgb(244 246 253 / 0.88) 100%);
+}

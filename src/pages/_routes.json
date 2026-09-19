@@ -1,0 +1,302 @@
+[
+ {
+  "file": "ai-agents.html",
+  "name": "AiAgents",
+  "route": "/ai-agents",
+  "title": "AI Agents | AnvasTech"
+ },
+ {
+  "file": "ai-assisted-automation.html",
+  "name": "AiAssistedAutomation",
+  "route": "/ai-assisted-automation",
+  "title": "AI-Assisted Automation | AnvasTech"
+ },
+ {
+  "file": "ai-assisted-engineering.html",
+  "name": "AiAssistedEngineering",
+  "route": "/ai-assisted-engineering",
+  "title": "AI-Assisted Engineering | AnvasTech"
+ },
+ {
+  "file": "ai-development-workspace.html",
+  "name": "AiDevelopmentWorkspace",
+  "route": "/ai-development-workspace",
+  "title": "AI Development Workspace | AnvasTech"
+ },
+ {
+  "file": "anvas-comet.html",
+  "name": "AnvasComet",
+  "route": "/anvas-comet",
+  "title": "Anvas Comet | AnvasTech"
+ },
+ {
+  "file": "anvas-logistics.html",
+  "name": "AnvasLogistics",
+  "route": "/anvas-logistics",
+  "title": "Anvas Logistics | AnvasTech"
+ },
+ {
+  "file": "anvassoftware.html",
+  "name": "Anvassoftware",
+  "route": "/anvassoftware",
+  "title": "AnvasSoftware | AnvasTech"
+ },
+ {
+  "file": "careers.html",
+  "name": "Careers",
+  "route": "/careers",
+  "title": "Careers | AnvasTech"
+ },
+ {
+  "file": "case-studies.html",
+  "name": "CaseStudies",
+  "route": "/case-studies",
+  "title": "Case Studies | AnvasTech"
+ },
+ {
+  "file": "case-study-anvas-comet.html",
+  "name": "CaseStudyAnvasComet",
+  "route": "/case-study-anvas-comet",
+  "title": "Anvas Comet | AnvasTech Case Study"
+ },
+ {
+  "file": "case-study-anvas-logistics.html",
+  "name": "CaseStudyAnvasLogistics",
+  "route": "/case-study-anvas-logistics",
+  "title": "Anvas Logistics | AnvasTech Case Study"
+ },
+ {
+  "file": "case-study-elegal.html",
+  "name": "CaseStudyElegal",
+  "route": "/case-study-elegal",
+  "title": "eLegal / GetLegal | AnvasTech Case Study"
+ },
+ {
+  "file": "case-study-fintech.html",
+  "name": "CaseStudyFintech",
+  "route": "/case-study-fintech",
+  "title": "FinTech | AnvasTech Case Study"
+ },
+ {
+  "file": "case-study-kubera-ai.html",
+  "name": "CaseStudyKuberaAi",
+  "route": "/case-study-kubera-ai",
+  "title": "Kubera AI | AnvasTech Case Study"
+ },
+ {
+  "file": "case-study-tn-ihip.html",
+  "name": "CaseStudyTnIhip",
+  "route": "/case-study-tn-ihip",
+  "title": "eHealth / TN-IHIP | AnvasTech Case Study"
+ },
+ {
+  "file": "case-study-vishful-attendance.html",
+  "name": "CaseStudyVishfulAttendance",
+  "route": "/case-study-vishful-attendance",
+  "title": "Vishful Attendance | AnvasTech Case Study"
+ },
+ {
+  "file": "case-study-vishful.html",
+  "name": "CaseStudyVishful",
+  "route": "/case-study-vishful",
+  "title": "Vishful | AnvasTech Case Study"
+ },
+ {
+  "file": "cloud-deployment.html",
+  "name": "CloudDeployment",
+  "route": "/cloud-deployment",
+  "title": "Cloud &amp; Deployment | AnvasTech"
+ },
+ {
+  "file": "contact.html",
+  "name": "Contact",
+  "route": "/contact",
+  "title": "Contact Us | AnvasTech"
+ },
+ {
+  "file": "custom-software-development.html",
+  "name": "CustomSoftwareDevelopment",
+  "route": "/custom-software-development",
+  "title": "Custom Software Development | AnvasTech"
+ },
+ {
+  "file": "data-ai-engineering.html",
+  "name": "DataAiEngineering",
+  "route": "/data-ai-engineering",
+  "title": "Data and Analytics | AnvasTech"
+ },
+ {
+  "file": "digital-solutions.html",
+  "name": "DigitalSolutions",
+  "route": "/digital-solutions",
+  "title": "Digital Solutions | AnvasTech"
+ },
+ {
+  "file": "ecosystem.html",
+  "name": "Ecosystem",
+  "route": "/ecosystem",
+  "title": "Ecosystem | AnvasTech"
+ },
+ {
+  "file": "elegal.html",
+  "name": "Elegal",
+  "route": "/elegal",
+  "title": "eLegal | AnvasTech"
+ },
+ {
+  "file": "enterprise-applications.html",
+  "name": "EnterpriseApplications",
+  "route": "/enterprise-applications",
+  "title": "Enterprise Applications | AnvasTech"
+ },
+ {
+  "file": "financial-technology.html",
+  "name": "FinancialTechnology",
+  "route": "/financial-technology",
+  "title": "Financial Technology | AnvasTech"
+ },
+ {
+  "file": "fintech-platform.html",
+  "name": "FintechPlatform",
+  "route": "/fintech-platform",
+  "title": "FinTech Platform | AnvasTech"
+ },
+ {
+  "file": "generative-ai.html",
+  "name": "GenerativeAi",
+  "route": "/generative-ai",
+  "title": "Generative AI | AnvasTech"
+ },
+ {
+  "file": "index.html",
+  "name": "Index",
+  "route": "/",
+  "title": "AnvasTech: Supercharging Progress | AI, Cloud and Engineering"
+ },
+ {
+  "file": "industries.html",
+  "name": "Industries",
+  "route": "/industries",
+  "title": "Products | AnvasTech"
+ },
+ {
+  "file": "innovation-impact.html",
+  "name": "InnovationImpact",
+  "route": "/innovation-impact",
+  "title": "Turning Innovation Into Business Value | AnvasTech"
+ },
+ {
+  "file": "intelligent-workflows.html",
+  "name": "IntelligentWorkflows",
+  "route": "/intelligent-workflows",
+  "title": "Business Automation | AnvasTech"
+ },
+ {
+  "file": "kubera-ai.html",
+  "name": "KuberaAi",
+  "route": "/kubera-ai",
+  "title": "Kubera AI | AnvasTech"
+ },
+ {
+  "file": "legal-technology.html",
+  "name": "LegalTechnology",
+  "route": "/legal-technology",
+  "title": "Legal Technology | AnvasTech"
+ },
+ {
+  "file": "logistics-operations.html",
+  "name": "LogisticsOperations",
+  "route": "/logistics-operations",
+  "title": "Logistics &amp; Operations | AnvasTech"
+ },
+ {
+  "file": "mla-calendar.html",
+  "name": "MlaCalendar",
+  "route": "/mla-calendar",
+  "title": "MLA Calendar | AnvasTech"
+ },
+ {
+  "file": "mobile-applications.html",
+  "name": "MobileApplications",
+  "route": "/mobile-applications",
+  "title": "Mobile Applications | AnvasTech"
+ },
+ {
+  "file": "product-engineering.html",
+  "name": "ProductEngineering",
+  "route": "/product-engineering",
+  "title": "Product Development | AnvasTech"
+ },
+ {
+  "file": "public-digital-platforms.html",
+  "name": "PublicDigitalPlatforms",
+  "route": "/public-digital-platforms",
+  "title": "Public-Facing Digital Platforms | AnvasTech"
+ },
+ {
+  "file": "recognition.html",
+  "name": "Recognition",
+  "route": "/recognition",
+  "title": "Recognized for AI &amp; Digital Innovation | AnvasTech"
+ },
+ {
+  "file": "resources.html",
+  "name": "Resources",
+  "route": "/resources",
+  "title": "Resources | AnvasTech"
+ },
+ {
+  "file": "technology-excellence.html",
+  "name": "TechnologyExcellence",
+  "route": "/technology-excellence",
+  "title": "Engineering Built for Scale | AnvasTech"
+ },
+ {
+  "file": "tn-ihip.html",
+  "name": "TnIhip",
+  "route": "/tn-ihip",
+  "title": "eHealth / TN-IHIP | AnvasTech"
+ },
+ {
+  "file": "ui-ux-product-design.html",
+  "name": "UiUxProductDesign",
+  "route": "/ui-ux-product-design",
+  "title": "UI/UX and Product Design | AnvasTech"
+ },
+ {
+  "file": "ungal-pakkam.html",
+  "name": "UngalPakkam",
+  "route": "/ungal-pakkam",
+  "title": "Ungal Pakkam - Manu System | AnvasTech"
+ },
+ {
+  "file": "vishful-attendance.html",
+  "name": "VishfulAttendance",
+  "route": "/vishful-attendance",
+  "title": "Vishful Attendance | AnvasTech"
+ },
+ {
+  "file": "vishful.html",
+  "name": "Vishful",
+  "route": "/vishful",
+  "title": "Vishful | AnvasTech"
+ },
+ {
+  "file": "web-applications.html",
+  "name": "WebApplications",
+  "route": "/web-applications",
+  "title": "Web Applications | AnvasTech"
+ },
+ {
+  "file": "what-we-do.html",
+  "name": "WhatWeDo",
+  "route": "/what-we-do",
+  "title": "Solutions | AnvasTech"
+ },
+ {
+  "file": "who-we-are.html",
+  "name": "WhoWeAre",
+  "route": "/who-we-are",
+  "title": "About AnvasTech | AnvasTech"
+ }
+]

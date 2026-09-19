@@ -1,6 +1,6 @@
 @font-face {
   font-family: Inter;
-  src: url("../fonts/InterVariable.woff2") format("woff2");
+  src: url("/fonts/InterVariable.woff2") format("woff2");
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
@@ -270,7 +270,7 @@ button { cursor: pointer; border: 0; background: none; }
 .icon-btn:hover { color: var(--blue); background: rgb(240 240 240 / 0.5); }
 .icon-btn svg { width: 24px; height: 24px; }
 .icon-btn[data-open-search] {
-  background: url("../assets/ai-magnifier-icon.svg") no-repeat center;
+  background: url("/assets/ai-magnifier-icon.svg") no-repeat center;
   background-size: 26px auto;
   filter: brightness(0) invert(0);
   opacity: 0.8;
@@ -279,7 +279,7 @@ button { cursor: pointer; border: 0; background: none; }
 .icon-btn[data-open-search]:hover,
 .icon-btn[data-open-search]:focus-visible {
   background-color: rgb(240 240 240 / 0.5);
-  background-image: url("../assets/ai-magnifier-icon.svg");
+  background-image: url("/assets/ai-magnifier-icon.svg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: 26px auto;
@@ -323,7 +323,7 @@ button { cursor: pointer; border: 0; background: none; }
   width: 46px;
   height: 46px;
   margin-left: 6px;
-  background: #fff url("../assets/contact-us-icon.svg") no-repeat center;
+  background: #fff url("/assets/contact-us-icon.svg") no-repeat center;
   background-size: 22px auto;
   border-radius: 5px;
   box-shadow: 0 1px 4px rgb(20 20 43 / 0.08);
@@ -416,6 +416,7 @@ button { cursor: pointer; border: 0; background: none; }
 }
 .nav-item.open .mega { display: grid; }
 .mega.mega-2 { grid-template-columns: repeat(2, 1fr); min-width: 560px; }
+.mega.mega-1 { grid-template-columns: 1fr; min-width: 260px; }
 /* Three columns is the .mega default; this only buys the Solutions menu
    enough width that long labels such as Custom Software Development sit on
    one line. */
@@ -878,7 +879,7 @@ button.mega-all:hover {
   overflow: hidden;
   border-radius: 50%;
   pointer-events: none;
-  background: url("../assets/tech-loader.gif") no-repeat center;
+  background: url("/assets/tech-loader.gif") no-repeat center;
   background-size: 100% auto;
 }
 .ask-orb svg { display: none; }
@@ -911,7 +912,7 @@ button.mega-all:hover {
   border: 0;
   border-radius: 3px;
   transform: translateY(-50%);
-  background: rgb(249 249 249 / 0.78) url("../assets/search.svg") no-repeat center;
+  background: rgb(249 249 249 / 0.78) url("/assets/search.svg") no-repeat center;
   background-size: 18px auto;
   box-shadow: 2px 8px 10px 0 rgb(0 0 0 / 0.02);
   font-size: 0;
@@ -1243,7 +1244,7 @@ button.mega-all:hover {
   position: relative;
   z-index: 1;
   padding: 80px 5%;
-  background: #0a0a12 url("../assets/sol-bg.png?v=2") center / cover no-repeat;
+  background: #0a0a12 url("/assets/sol-bg.png?v=2") center / cover no-repeat;
   --sol-card-h: 437px;
   --sol-head-top: 88px;
   --sol-head-h: 168px;
@@ -1659,7 +1660,7 @@ button.mega-all:hover {
   width: 12px;
   height: 8px;
   margin-left: 8px;
-  background: url("../assets/arrow-blue.svg") no-repeat center;
+  background: url("/assets/arrow-blue.svg") no-repeat center;
   background-size: 12px auto;
   vertical-align: middle;
   transition: translate 0.3s ease;
@@ -2072,7 +2073,7 @@ button.mega-all:hover {
   content: "";
   position: absolute;
   inset: 0;
-  background: url("../assets/arrow-blue.svg") no-repeat center;
+  background: url("/assets/arrow-blue.svg") no-repeat center;
   background-size: 18px auto;
   transition: transform 0.3s ease;
 }
@@ -2209,7 +2210,7 @@ button.mega-all:hover {
   width: 16px;
   height: 16px;
   margin-left: 12px;
-  background: url("../assets/arrow-gradient-1.svg") no-repeat;
+  background: url("/assets/arrow-gradient-1.svg") no-repeat;
   background-size: 100% auto;
   filter: brightness(0) invert(0);
   vertical-align: middle;
@@ -2223,14 +2224,14 @@ button.mega-all:hover {
   width: 14px;
   height: 15px;
   top: 1px;
-  background: url("../assets/ui-external-gradient.svg") no-repeat center;
+  background: url("/assets/ui-external-gradient.svg") no-repeat center;
   background-size: 14px 15px;
 }
 .now-cta.is-play::after {
   width: 12px;
   height: 14px;
   top: -1px;
-  background: url("../assets/play-small.svg") no-repeat center;
+  background: url("/assets/play-small.svg") no-repeat center;
   background-size: 100% 100%;
 }
 .now-media {
@@ -2461,7 +2462,7 @@ button.mega-all:hover {
   content: "";
   position: absolute;
   inset: 0;
-  background: url("../assets/arrow-blue.svg") no-repeat center;
+  background: url("/assets/arrow-blue.svg") no-repeat center;
   background-size: 18px auto;
   transition: translate 0.3s ease;
 }
@@ -2640,7 +2641,7 @@ button.mega-all:hover {
   width: 52px;
   height: 36px;
   margin-bottom: 16px;
-  background: url("../assets/quote-icon.svg") no-repeat;
+  background: url("/assets/quote-icon.svg") no-repeat;
   background-size: contain;
   filter: brightness(0);
   opacity: 0.9;
@@ -2810,7 +2811,7 @@ button.mega-all:hover {
   position: absolute;
   inset: 0;
   z-index: 0;
-  background: #0a1a2e url("../assets/cs-bg-city.jpg?v=2") center / cover no-repeat;
+  background: #0a1a2e url("/assets/cs-bg-city.jpg?v=2") center / cover no-repeat;
   background-attachment: scroll;
 }
 @media (min-width: 1024px) {
@@ -2864,6 +2865,8 @@ button.mega-all:hover {
   gap: 20px;
   align-items: stretch;
 }
+.cs-grid.cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
 .cs-card {
   display: block;
   min-width: 0;
@@ -2991,7 +2994,7 @@ button.mega-all:hover {
   padding: 64px 0 0;
   color: #14142a;
   background:
-    url("../assets/careers-bg-1.svg") no-repeat 50% 100% / cover;
+    url("/assets/careers-bg-1.svg") no-repeat 50% 100% / cover;
 }
 .career-shell {
   width: 100%;
@@ -3060,7 +3063,7 @@ button.mega-all:hover {
   width: 14px;
   height: 15px;
   top: 1px;
-  background: url("../assets/ui-external-gradient.svg") no-repeat center;
+  background: url("/assets/ui-external-gradient.svg") no-repeat center;
   background-size: 14px 15px;
 }
 @media (max-width: 1400px) {
@@ -3375,6 +3378,143 @@ button.mega-all:hover {
   color: var(--ink);
   padding: 108px 0 64px;
 }
+
+/* Dark, image-backed variant of the page hero. The artwork sits on the right,
+   so the copy keeps the dark half on the left. */
+.page-hero.is-dark {
+  position: relative;
+  isolation: isolate;
+  background: #0a0a23;
+  color: #fff;
+  padding: 148px 0 104px;
+  overflow: hidden;
+}
+.page-hero.is-dark .hero-art {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  margin: 0;
+  display: block;
+}
+.page-hero.is-dark .hero-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: right center;
+  display: block;
+}
+.page-hero.is-dark .hero-art video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: right center;
+  display: block;
+}
+/* The poster sits under the video so the hero is never bare while it loads,
+   and stands in for it entirely when motion is reduced. Each video family
+   supplies its own poster on top of this base. */
+.page-hero.is-dark .hero-art.is-video {
+  background: #0a0a23 right center / cover no-repeat;
+}
+.page-hero.is-dark .hero-art.art-engineering {
+  background-image: url("/assets/engineering-hero-poster.jpg?v=1");
+}
+.page-hero.is-dark .hero-art.art-solutions {
+  background-image: url("/assets/solutions-hero-poster.jpg?v=1");
+}
+.page-hero.is-dark .hero-art.art-aiproducts {
+  background-image: url("/assets/aiproducts-hero-poster.jpg?v=1");
+}
+.page-hero.is-dark .hero-art.art-company {
+  background-image: url("/assets/company-hero-poster.jpg?v=1");
+}
+.page-hero.is-dark .hero-art.art-careers {
+  background-image: url("/assets/careers-hero-poster.jpg?v=1");
+}
+/* The company and careers footage are full-bleed plates rather than
+   right-hand panels, so they are centred and sit under a scrim that keeps the
+   copy legible. */
+.page-hero.is-dark .hero-art.art-company,
+.page-hero.is-dark .hero-art.art-company video,
+.page-hero.is-dark .hero-art.art-careers,
+.page-hero.is-dark .hero-art.art-careers video {
+  object-position: center center;
+  background-position: center center;
+}
+.page-hero.is-dark:has(.hero-art.art-company)::after,
+.page-hero.is-dark:has(.hero-art.art-careers)::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(90deg, rgb(10 10 35 / 0.92) 0%, rgb(10 10 35 / 0.78) 40%, rgb(10 10 35 / 0.45) 70%, rgb(10 10 35 / 0.3) 100%),
+    linear-gradient(180deg, rgb(10 10 35 / 0.6) 0%, transparent 38%);
+}
+.page-hero.is-dark:has(.hero-art.art-company) .wrap,
+.page-hero.is-dark:has(.hero-art.art-careers) .wrap { position: relative; }
+
+/* Light sibling of .is-dark, for pale artwork. Copy keeps the site's ink
+   colour and sits on a white ramp; the footage reads on the right. */
+.page-hero.is-light {
+  position: relative;
+  isolation: isolate;
+  background: #eef2fb;
+  color: var(--ink);
+  padding: 148px 0 104px;
+  overflow: hidden;
+}
+.page-hero.is-light .hero-art {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  margin: 0;
+  display: block;
+  background: #eef2fb right center / cover no-repeat;
+}
+.page-hero.is-light .hero-art.art-products {
+  background-image: url("/assets/products-hero-poster.jpg?v=1");
+}
+.page-hero.is-light .hero-art.art-platforms {
+  background-image: url("/assets/platforms-hero-poster.jpg?v=1");
+}
+.page-hero.is-light .hero-art video,
+.page-hero.is-light .hero-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: right center;
+  display: block;
+}
+.page-hero.is-light::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(90deg, rgb(244 246 253 / 0.96) 0%, rgb(244 246 253 / 0.9) 34%, rgb(244 246 253 / 0.5) 52%, rgb(244 246 253 / 0.1) 70%, transparent 82%),
+    linear-gradient(180deg, rgb(244 246 253 / 0.5) 0%, transparent 30%);
+}
+.page-hero.is-light .wrap { position: relative; }
+.page-hero.is-light .lede { max-width: 52ch; }
+.page-hero.is-dark::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(90deg, rgb(10 10 35 / 0.94) 0%, rgb(10 10 35 / 0.86) 34%, rgb(10 10 35 / 0.45) 52%, rgb(10 10 35 / 0.08) 68%, transparent 80%),
+    linear-gradient(180deg, rgb(10 10 35 / 0.55) 0%, transparent 34%);
+}
+.page-hero.is-dark .wrap { position: relative; }
+.page-hero.is-dark h1 { color: #fff; }
+.page-hero.is-dark .lede { color: rgb(255 255 255 / 0.82); max-width: 52ch; }
+/* A second, quieter paragraph under the lede, for a hero that carries a
+   statement and then a line of context. */
+.page-hero.is-dark .lede.is-note { color: rgb(255 255 255 / 0.62); font-size: 1rem; }
+.page-hero.is-dark .crumbs { color: rgb(255 255 255 / 0.62); }
+.page-hero.is-dark .crumbs a { color: rgb(255 255 255 / 0.82); }
+.page-hero.is-dark .crumbs a:hover { color: #fff; }
 .page-hero h1 {
   margin: 8px 0 12px;
   font-size: clamp(36px, 5vw, 56px);
@@ -3396,18 +3536,83 @@ button.mega-all:hover {
   background: #fff;
   min-height: 170px;
 }
-.list-card h3 { margin: 0 0 8px; font-size: 20px; font-weight: 500; }
+.list-card h3 {
+  margin: 0 0 8px;
+  font-size: 20px;
+  font-weight: 500;
+  transition: color 0.28s ease;
+}
 .list-card p { margin: 0; color: var(--muted); font-size: 14.5px; }
+/* Lift on pointer or touch, with a spotlight that tracks the cursor.
+   --mx/--my are written by bindCardSpotlight() in site.js; they fall back to
+   the card centre so the glow still reads without JS or on touch. */
+.list-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  --mx: 50%;
+  --my: 50%;
+  transition:
+    translate 0.28s var(--ease),
+    border-color 0.28s ease,
+    box-shadow 0.28s ease;
+}
+.list-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.32s ease;
+  background: radial-gradient(
+    circle 300px at var(--mx) var(--my),
+    rgb(15 95 220 / 0.26) 0%,
+    rgb(95 30 190 / 0.16) 34%,
+    rgb(15 95 220 / 0) 70%
+  );
+}
+.list-card:hover,
+.list-card:focus-within,
+.list-card:active {
+  translate: 0 -6px;
+  border-color: var(--blue);
+  box-shadow: 0 18px 38px rgb(20 20 43 / 0.13);
+}
+.list-card:hover::before,
+.list-card:focus-within::before,
+.list-card:active::before { opacity: 1; }
+.list-card:hover h3,
+.list-card:focus-within h3,
+.list-card:active h3 { color: var(--blue); }
 a.list-card {
   color: inherit;
   text-decoration: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
-a.list-card:hover {
-  border-color: var(--blue);
-  box-shadow: 0 10px 28px rgb(20 20 43 / 0.08);
-  color: inherit;
+a.list-card:hover { color: inherit; }
+
+/* Bare labels that name an area of work. No description to carry, so they
+   read as a compact row of chips rather than as cards with empty bodies. */
+.chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
+.chip-list li {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 9px 18px;
+  background: #fff;
+  font-size: 14.5px;
+  font-weight: 500;
+  color: var(--ink);
+}
+/* File pickers sit lower than text inputs because of the button chrome the
+   browser draws inside them. */
+.form-grid input[type="file"] { padding: 10px 12px; font-size: 14px; }
 
 .form-grid {
   display: grid;
@@ -3429,6 +3634,7 @@ a.list-card:hover {
 .form-grid select:focus,
 .form-grid textarea:focus { border-color: var(--blue); }
 .form-grid textarea { min-height: 120px; resize: vertical; }
+.form-grid .ask-note { margin: 12px 0 0; font-size: 13px; color: var(--muted); }
 
 .mobile-nav {
   display: none;
@@ -4559,4 +4765,272 @@ a.list-card:hover {
   .step-nav-btn { min-height: 44px; }
   .step-nav-panel { padding: 16px 18px; }
   .step-nav-desc { font-size: 1rem; }
+}
+
+/* ==========================================================================
+   Technology Excellence panels
+   The page argued its case in the prose and then illustrated it with stock
+   photography that said nothing — a freight train beside a paragraph about
+   non-functional requirements, and one gradient used three times under three
+   different captions. These panels are drawn from each section's own copy.
+   ========================================================================== */
+.tx-panel {
+  display: flex;
+  flex-direction: column;
+  padding: 34px 32px;
+  border-radius: 8px;
+  background:
+    radial-gradient(110% 85% at 100% 0%, rgb(15 95 220 / 0.22), transparent 62%),
+    #0a0a23;
+}
+.tx-panel-cap {
+  margin: 0 0 22px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgb(255 255 255 / 0.45);
+}
+.tx-panel-foot {
+  margin: 22px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid rgb(255 255 255 / 0.12);
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: rgb(255 255 255 / 0.55);
+}
+
+/* Requirements given equal weight — the section's claim is that these carry the
+   same standing as the feature list, so nothing here is subordinated. */
+.tx-reqs { margin: 0; padding: 0; list-style: none; }
+.tx-reqs li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 16px;
+  padding: 13px 0;
+  border-bottom: 1px solid rgb(255 255 255 / 0.1);
+  font-size: 15px;
+  color: #fff;
+}
+.tx-reqs li:last-child { border-bottom: 0; }
+.tx-reqs li span {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #9ec2ff;
+}
+
+/* Two lanes: the legacy system keeps serving while capability moves across. */
+.tx-lanes { display: grid; gap: 12px; }
+.tx-lane {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 16px 18px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+}
+.tx-lane.is-legacy {
+  border: 1px dashed rgb(255 255 255 / 0.3);
+  color: rgb(255 255 255 / 0.82);
+}
+.tx-lane.is-new { background: var(--blue); color: #fff; }
+.tx-lane small { font-size: 11.5px; font-weight: 400; opacity: 0.75; }
+
+/* What changes in the practice, and what gets measured to check it did. */
+.tx-pairs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px; }
+.tx-pairs h4 {
+  margin: 0 0 12px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #9ec2ff;
+}
+.tx-pairs ul { margin: 0; padding: 0; list-style: none; }
+.tx-pairs li {
+  padding: 9px 0;
+  border-top: 1px solid rgb(255 255 255 / 0.1);
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: rgb(255 255 255 / 0.85);
+}
+.tx-pairs li:first-child { border-top: 0; padding-top: 0; }
+
+/* The three things the closing copy asks for, as the three things to send. */
+.tx-asks { margin: 0; padding: 0; list-style: none; }
+.tx-asks li {
+  padding: 16px 0;
+  border-bottom: 1px solid rgb(255 255 255 / 0.12);
+}
+.tx-asks li:last-child { border-bottom: 0; padding-bottom: 0; }
+.tx-asks b {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+}
+.tx-asks span { font-size: 13px; line-height: 1.5; color: rgb(255 255 255 / 0.6); }
+
+@media (max-width: 760px) {
+  .tx-panel { padding: 26px 22px; }
+  .tx-pairs { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+}
+
+/* ==========================================================================
+   Contact
+   One band, not a pale hero above a floating form. The ask sits on ink and
+   the form is the lit surface on top of it, so the page has a single focal
+   point: the thing you came here to fill in.
+   ========================================================================== */
+.contact-page .ct-band {
+  padding: 132px 0 104px;
+  background:
+    radial-gradient(70% 60% at 100% 0%, rgb(15 95 220 / 0.30), transparent 62%),
+    radial-gradient(60% 55% at 0% 100%, rgb(95 30 190 / 0.24), transparent 60%),
+    #0a0a23;
+  color: #fff;
+}
+.contact-page .ct-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1fr);
+  gap: 80px;
+  align-items: start;
+}
+
+/* ---- The ask ---- */
+.contact-page .ct-ask .crumbs { margin: 0 0 22px; font-size: 13px; color: rgb(255 255 255 / 0.55); }
+.contact-page .ct-ask .crumbs a { color: rgb(255 255 255 / 0.82); }
+.contact-page .ct-ask .crumbs a:hover { color: #fff; }
+.contact-page .ct-ask h1 {
+  margin: 0 0 22px;
+  font-size: clamp(40px, 5vw, 66px);
+  line-height: 1.02;
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  color: #fff;
+}
+.contact-page .ct-lede {
+  margin: 0;
+  max-width: 44ch;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  color: rgb(255 255 255 / 0.7);
+}
+
+/* The signature: the page's own three asks, promoted from prose to a control.
+   Stacked full-width so they read as a choice rather than a row of chips. */
+.contact-page .ct-ask-label {
+  margin: 48px 0 14px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgb(255 255 255 / 0.45);
+}
+.contact-page .ct-asks {
+  display: grid;
+  gap: 10px;
+  max-width: 400px;
+}
+.contact-page .ct-ask-option {
+  display: block;
+  width: 100%;
+  padding: 16px 20px;
+  border: 1px solid rgb(255 255 255 / 0.2);
+  border-radius: 12px;
+  background: none;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  text-align: left;
+  color: rgb(255 255 255 / 0.82);
+  cursor: pointer;
+  transition: border-color 0.22s ease, background 0.22s ease, color 0.22s ease;
+}
+.contact-page .ct-ask-option:hover { border-color: rgb(255 255 255 / 0.45); color: #fff; }
+.contact-page .ct-ask-option:focus-visible { outline: 2px solid #9ec2ff; outline-offset: 2px; }
+.contact-page .ct-ask-option.is-on {
+  border-color: transparent;
+  background: var(--blue);
+  color: #fff;
+}
+
+/* ---- The form ---- */
+.contact-page .ct-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  padding: 36px;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 30px 70px rgb(0 0 0 / 0.35);
+}
+.contact-page .ct-field.is-full { grid-column: 1 / -1; }
+.contact-page .ct-field label {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+}
+.contact-page .ct-field input,
+.contact-page .ct-field select,
+.contact-page .ct-field textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  font: inherit;
+  font-size: 15px;
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.contact-page .ct-field input:focus,
+.contact-page .ct-field select:focus,
+.contact-page .ct-field textarea:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgb(15 95 220 / 0.14);
+}
+.contact-page .ct-field textarea { min-height: 132px; resize: vertical; }
+.contact-page .ct-note {
+  margin: 14px 0 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.contact-page .ct-note a { color: var(--blue); text-decoration: underline; text-underline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-page .ct-ask-option,
+  .contact-page .ct-field input,
+  .contact-page .ct-field select,
+  .contact-page .ct-field textarea { transition: none; }
+}
+
+@media (max-width: 1000px) {
+  .contact-page .ct-grid { grid-template-columns: minmax(0, 1fr); gap: 44px; }
+  .contact-page .ct-asks { max-width: none; }
+}
+@media (max-width: 760px) {
+  .contact-page .ct-band { padding: 104px 0 64px; }
+  .contact-page .ct-form { grid-template-columns: minmax(0, 1fr); padding: 24px; }
+  .contact-page .ct-ask-label { margin-top: 36px; }
+}
+
+/* A diagram in a solution card is shown whole. The default `cover` crop is
+   right for a photograph or a screenshot, but on a wide flow diagram it cuts
+   the outer columns off the sides. */
+.sol-stack-media.is-diagram { background: #f7f9fc; }
+.sol-stack-media.is-diagram img {
+  object-fit: contain;
+  object-position: center;
 }
