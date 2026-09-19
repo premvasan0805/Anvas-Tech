@@ -12,3 +12,6 @@ Thumbs.db
 
 node_modules/
 dist/
+
+# Vercel CLI link data — machine-specific, never commit
+.vercel/
