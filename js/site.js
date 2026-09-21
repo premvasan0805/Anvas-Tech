@@ -129,8 +129,7 @@ export function bootSite(first) {
       <header class="site-header" id="header">
         <div class="header-bar">
         <a class="logo" href="/" aria-label="Anvas Tech">
-          <img class="logo-mark" src="${root}/assets/logo-anvas.png?v=1" alt="" width="164" height="100">
-          <span class="logo-word" aria-hidden="true">Anvas Tech</span>
+          <span class="logo-word" aria-hidden="true"><svg class="logo-glyph logo-glyph-a" viewBox="25 29 520 444" aria-hidden="true" focusable="false"><defs><linearGradient id="anvas-a-gr" x1="0" y1="0" x2="0.85" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="0.45" stop-color="#f3f4f6"/><stop offset="0.74" stop-color="#d2d5da"/><stop offset="1" stop-color="#9ca1a8"/></linearGradient></defs><path class="glyph-art" d="M297.0 29.0 307.0 36.0 347.0 98.0 520.0 419.0 545.0 473.0 466.0 472.0 451.0 466.0 437.0 454.0 407.0 405.0 347.0 287.0 337.0 275.0 337.0 269.0 333.0 267.0 330.0 255.0 302.0 203.0 294.0 204.0 290.0 216.0 285.0 219.0 237.0 299.0 236.0 308.0 265.0 303.0 308.0 303.0 328.0 307.0 347.0 322.0 370.0 361.0 375.0 361.0 375.0 369.0 380.0 377.0 384.0 377.0 386.0 390.0 229.0 392.0 196.0 408.0 132.0 473.0 25.0 473.0 34.0 452.0 297.0 29.0Z" fill="url(#anvas-a-gr)"/><path class="glyph-flat" d="M297.0 29.0 307.0 36.0 347.0 98.0 520.0 419.0 545.0 473.0 466.0 472.0 451.0 466.0 437.0 454.0 407.0 405.0 347.0 287.0 337.0 275.0 337.0 269.0 333.0 267.0 330.0 255.0 302.0 203.0 294.0 204.0 290.0 216.0 285.0 219.0 237.0 299.0 236.0 308.0 265.0 303.0 308.0 303.0 328.0 307.0 347.0 322.0 370.0 361.0 375.0 361.0 375.0 369.0 380.0 377.0 384.0 377.0 386.0 390.0 229.0 392.0 196.0 408.0 132.0 473.0 25.0 473.0 34.0 452.0 297.0 29.0Z" fill="currentColor"/></svg><span class="logo-tail logo-tail-a">nvas&nbsp;</span><svg class="logo-glyph logo-glyph-t" viewBox="313 25 481 450" aria-hidden="true" focusable="false"><defs><linearGradient id="anvas-t-gr" x1="0.1" y1="0" x2="0.9" y2="1"><stop offset="0" stop-color="#8a02fd"/><stop offset="0.38" stop-color="#cf0bfd"/><stop offset="0.7" stop-color="#7a00f0"/><stop offset="1" stop-color="#4d00c0"/></linearGradient></defs><path class="glyph-art" d="M696.0 25.0 792.0 25.0 794.0 31.0 743.0 100.0 739.0 111.0 709.0 133.0 694.0 136.0 581.0 137.0 583.0 475.0 471.0 475.0 471.0 325.0 469.0 319.0 465.0 319.0 465.0 316.0 471.0 316.0 471.0 136.0 375.0 134.0 373.0 128.0 368.0 128.0 367.0 117.0 359.0 117.0 361.0 107.0 347.0 82.0 341.0 82.0 341.0 73.0 336.0 73.0 336.0 65.0 328.0 51.0 323.0 51.0 320.0 40.0 313.0 39.0 313.0 28.0 696.0 25.0Z" fill="url(#anvas-t-gr)"/><path class="glyph-flat" d="M696.0 25.0 792.0 25.0 794.0 31.0 743.0 100.0 739.0 111.0 709.0 133.0 694.0 136.0 581.0 137.0 583.0 475.0 471.0 475.0 471.0 325.0 469.0 319.0 465.0 319.0 465.0 316.0 471.0 316.0 471.0 136.0 375.0 134.0 373.0 128.0 368.0 128.0 367.0 117.0 359.0 117.0 361.0 107.0 347.0 82.0 341.0 82.0 341.0 73.0 336.0 73.0 336.0 65.0 328.0 51.0 323.0 51.0 320.0 40.0 313.0 39.0 313.0 28.0 696.0 25.0Z" fill="currentColor"/></svg><span class="logo-tail logo-tail-t">ech</span></span>
         </a>
           <nav class="nav-desktop" aria-label="Primary navigation">
             <div class="nav-item" data-mega>
@@ -370,6 +369,20 @@ export function bootSite(first) {
   runBinder("bindLogoReveal", "once", function () {
     const logo = document.querySelector(".logo");
     if (!logo) return;
+    /* The tails ("nvas", "ech") sit at width 0 while the logo is a monogram,
+       so their open width has to be measured and handed back to CSS. */
+    const tails = [...logo.querySelectorAll(".logo-tail")];
+    const measure = () => {
+      tails.forEach((el) => {
+        el.style.width = "auto";
+        const w = el.getBoundingClientRect().width;
+        el.style.width = "";
+        if (w) el.style.setProperty("--w", w.toFixed(2) + "px");
+      });
+    };
+    measure();
+    document.fonts?.ready.then(measure);
+    window.addEventListener("resize", measure);
     const on = () => logo.classList.add("is-on");
     const off = () => logo.classList.remove("is-on");
     logo.addEventListener("pointerenter", on);

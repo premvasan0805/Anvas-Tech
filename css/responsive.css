@@ -68,8 +68,7 @@ html.is-narrow .logo.is-on {
 }
 
 html.is-narrow .logo-word {
-  opacity: 0 !important;
-  clip-path: inset(50% 0 50% 0) !important;
+  --mono: 36;
 }
 
 html.is-narrow .mobile-nav {
@@ -661,9 +660,8 @@ html.is-phone .logo.is-on {
   height: 58px;
 }
 
-html.is-phone .logo-mark {
-  width: 48px;
-  height: 30px;
+html.is-phone .logo-word {
+  --mono: 30;
 }
 
 html.is-phone .cookie {

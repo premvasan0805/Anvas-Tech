@@ -101,7 +101,6 @@ button { cursor: pointer; border: 0; background: none; }
   z-index: 2;
   display: flex;
   align-items: center;
-  gap: 10px;
   width: 78px;
   height: 69px;
   margin: 0;
@@ -118,45 +117,142 @@ button { cursor: pointer; border: 0; background: none; }
   transition: width 0s;
 }
 
-.logo-mark {
-  flex: 0 0 auto;
-  display: block;
-  width: 72px;
-  height: 44px;
-  max-width: none;
-  object-fit: contain;
-  pointer-events: none;
-  filter: drop-shadow(0 0 0.6px rgb(20 20 43 / 0.45)) drop-shadow(0 1px 2px rgb(20 20 43 / 0.16));
-}
-
+/* The wordmark is a single line of type whose "A" and "T" are the two halves
+   of the monogram. Closed, both glyphs scale up and stack back into the
+   lockup; opening splits them apart onto the baseline and the remaining
+   letters of Anvas / Tech unroll behind each one. */
 .logo-word {
-  flex: 0 0 auto;
+  --fs: 28;    /* wordmark size in px, unitless so the math below can use it */
+  --cap: 0.74; /* glyph height in em, matched to the cap height of Inter */
+  --mono: 44;  /* monogram height in px while the logo is closed */
+  --ease: cubic-bezier(0.2, 0.76, 0.24, 1);
+  --dur: 0.58s;   /* splitting apart */
+  --dur-out: 0.2s; /* snapping back together, before the box re-clips */
+  /* scale that lifts a baseline-sized glyph back to monogram size; the A
+     covers 444 of the 450 height units the lockup spans */
+  --s: calc(var(--mono) * 0.98667 / (var(--cap) * var(--fs)));
+  /* in the monogram the T starts 288 of the 450 height units right of the A */
+  --dx: calc((0.64 * var(--mono) - 1.1712 * var(--cap) * var(--fs)) * 1px);
+  /* sink the lockup so it centres on the logo box rather than the baseline */
+  --dy: calc((var(--mono) - var(--cap) * var(--fs)) * 0.5px);
   display: block;
   margin: 0;
   font-family: Inter, sans-serif;
   font-weight: 700;
-  font-size: 1.75rem;
+  font-size: calc(var(--fs) * 1px);
   line-height: 1;
   letter-spacing: -0.045em;
   color: var(--violet);
   white-space: nowrap;
   pointer-events: none;
-  clip-path: inset(50% 0 50% 0);
-  opacity: 0;
-  transition:
-    clip-path 0.42s cubic-bezier(0.22, 1, 0.36, 1),
-    opacity 0.08s linear;
 }
-.logo:hover .logo-word,
-.logo:focus-visible .logo-word,
-.logo.is-on .logo-word {
-  clip-path: inset(0);
+
+.logo-glyph {
+  height: calc(var(--cap) * 1em);
+  position: relative;
+  width: auto;
+  max-width: none;
+  vertical-align: baseline;
+  transform-origin: left bottom;
+  transition: transform var(--dur-out) ease-in;
+}
+/* The A overlaps the T's stem in the lockup and sits in front of it. */
+.logo-glyph-a {
+  z-index: 1;
+  transform: translateY(var(--dy)) scale(var(--s));
+  filter: drop-shadow(0 0 0.6px rgb(20 20 43 / 0.45))
+    drop-shadow(0 1px 2px rgb(20 20 43 / 0.16));
+  transition:
+    transform var(--dur-out) ease-in,
+    filter var(--dur-out) ease-in;
+}
+.logo-glyph-t {
+  height: calc(var(--cap) * 1.0135em);
+  transform: translate(var(--dx), var(--dy)) scale(var(--s));
+}
+/* Each glyph carries the logo artwork and a flat copy in the wordmark colour;
+   the pair cross-fades as the monogram becomes type. */
+.glyph-art {
   opacity: 1;
+  transition: opacity 0.14s linear;
 }
-.logo:not(:hover):not(:focus-visible):not(.is-on) .logo-word {
+.glyph-flat {
+  opacity: 0;
+  transition: opacity 0.14s linear;
+}
+
+.logo-tail {
+  display: inline-block;
+  width: 0;
+  overflow: hidden;
+  opacity: 0;
+  vertical-align: baseline;
   transition:
-    clip-path 0.16s ease-in,
-    opacity 0.1s linear 0.04s;
+    width var(--dur-out) ease-in,
+    opacity 0.12s linear;
+}
+
+@media (min-width: 992px) {
+  html:not(.is-narrow) .logo:hover .logo-glyph,
+  html:not(.is-narrow) .logo:focus-visible .logo-glyph,
+  html:not(.is-narrow) .logo.is-on .logo-glyph {
+    transform: none;
+    transition: transform var(--dur) var(--ease);
+  }
+  /* the T lets go of the A a beat later, so the split reads as two pieces */
+  html:not(.is-narrow) .logo:hover .logo-glyph-t,
+  html:not(.is-narrow) .logo:focus-visible .logo-glyph-t,
+  html:not(.is-narrow) .logo.is-on .logo-glyph-t {
+    transition: transform var(--dur) var(--ease) 0.06s;
+  }
+  html:not(.is-narrow) .logo:hover .logo-glyph-a,
+  html:not(.is-narrow) .logo:focus-visible .logo-glyph-a,
+  html:not(.is-narrow) .logo.is-on .logo-glyph-a {
+    filter: none;
+    transition:
+      transform var(--dur) var(--ease),
+      filter var(--dur) var(--ease);
+  }
+  html:not(.is-narrow) .logo:hover .logo-tail,
+  html:not(.is-narrow) .logo:focus-visible .logo-tail,
+  html:not(.is-narrow) .logo.is-on .logo-tail {
+    width: var(--w, auto);
+    opacity: 1;
+    /* "nvas" opens on the same beat as the T, so the T's own travel stays in
+       step with the room the text makes for it; "ech" follows the T out */
+    transition:
+      width var(--dur) var(--ease) 0.06s,
+      opacity 0.24s linear 0.18s;
+  }
+  html:not(.is-narrow) .logo:hover .logo-tail-t,
+  html:not(.is-narrow) .logo:focus-visible .logo-tail-t,
+  html:not(.is-narrow) .logo.is-on .logo-tail-t {
+    transition:
+      width var(--dur) var(--ease) 0.12s,
+      opacity 0.24s linear 0.24s;
+  }
+  html:not(.is-narrow) .logo:hover .glyph-art,
+  html:not(.is-narrow) .logo:focus-visible .glyph-art,
+  html:not(.is-narrow) .logo.is-on .glyph-art {
+    opacity: 0;
+    transition: opacity 0.3s linear 0.14s;
+  }
+  html:not(.is-narrow) .logo:hover .glyph-flat,
+  html:not(.is-narrow) .logo:focus-visible .glyph-flat,
+  html:not(.is-narrow) .logo.is-on .glyph-flat {
+    opacity: 1;
+    transition: opacity 0.3s linear 0.14s;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-glyph,
+  .logo-tail,
+  .glyph-art,
+  .glyph-flat {
+    transition-duration: 0.001s;
+    transition-delay: 0s;
+  }
 }
 
 .header-bar {
@@ -3724,8 +3820,7 @@ a.list-card:hover { color: inherit; }
   .logo:hover,
   .logo:focus-visible,
   .logo.is-on { width: 250px; }
-  .logo-mark { width: 60px; height: 36px; }
-  .logo-word { font-size: 1.45rem; }
+  .logo-word { --fs: 23.2; --mono: 36; }
   .header-bar { padding-left: 88px; }
   .nav-link { padding: 0 12px; font-size: 1rem; }
   .nav-link .chev { margin-left: 8px; }
@@ -3747,12 +3842,6 @@ a.list-card:hover { color: inherit; }
   .logo.is-on {
     width: 64px;
     overflow: hidden;
-  }
-  .logo:hover .logo-word,
-  .logo:focus-visible .logo-word,
-  .logo.is-on .logo-word {
-    clip-path: inset(50% 0 50% 0);
-    opacity: 0;
   }
   .mobile-nav {
     width: calc(100% - 24px);
@@ -4360,10 +4449,7 @@ a.list-card:hover { color: inherit; }
   .logo.is-on {
     width: 56px;
   }
-  .logo-mark {
-    width: 52px;
-    height: 32px;
-  }
+  .logo-word { --mono: 32; }
 }
 
 @media (prefers-reduced-motion: reduce) {
