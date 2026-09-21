@@ -107,7 +107,7 @@ button { cursor: pointer; border: 0; background: none; }
   overflow: hidden;
   text-decoration: none;
   color: var(--violet);
-  transition: width 0s linear 0.22s;
+  transition: width 0s linear 0.34s;
 }
 .logo:hover,
 .logo:focus-visible,
@@ -126,8 +126,8 @@ button { cursor: pointer; border: 0; background: none; }
   --cap: 0.74; /* glyph height in em, matched to the cap height of Inter */
   --mono: 44;  /* monogram height in px while the logo is closed */
   --ease: cubic-bezier(0.2, 0.76, 0.24, 1);
-  --dur: 0.58s;   /* splitting apart */
-  --dur-out: 0.2s; /* snapping back together, before the box re-clips */
+  --dur: 1.15s;    /* splitting apart */
+  --dur-out: 0.32s; /* snapping back together, before the box re-clips */
   /* scale that lifts a baseline-sized glyph back to monogram size; the A
      covers 444 of the 450 height units the lockup spans */
   --s: calc(var(--mono) * 0.98667 / (var(--cap) * var(--fs)));
@@ -170,12 +170,9 @@ button { cursor: pointer; border: 0; background: none; }
   height: calc(var(--cap) * 1.0135em);
   transform: translate(var(--dx), var(--dy)) scale(var(--s));
 }
-/* Each glyph carries the logo artwork and a flat copy in the wordmark colour;
-   the pair cross-fades as the monogram becomes type. */
-.glyph-art {
-  opacity: 1;
-  transition: opacity 0.14s linear;
-}
+/* Each glyph carries the logo artwork and, over it, a flat copy in the
+   wordmark colour: the flat copy covers the same path exactly, so fading it
+   in alone turns the monogram into type without dimming it on the way. */
 .glyph-flat {
   opacity: 0;
   transition: opacity 0.14s linear;
@@ -203,7 +200,7 @@ button { cursor: pointer; border: 0; background: none; }
   html:not(.is-narrow) .logo:hover .logo-glyph-t,
   html:not(.is-narrow) .logo:focus-visible .logo-glyph-t,
   html:not(.is-narrow) .logo.is-on .logo-glyph-t {
-    transition: transform var(--dur) var(--ease) 0.06s;
+    transition: transform var(--dur) var(--ease) 0.12s;
   }
   html:not(.is-narrow) .logo:hover .logo-glyph-a,
   html:not(.is-narrow) .logo:focus-visible .logo-glyph-a,
@@ -221,34 +218,27 @@ button { cursor: pointer; border: 0; background: none; }
     /* "nvas" opens on the same beat as the T, so the T's own travel stays in
        step with the room the text makes for it; "ech" follows the T out */
     transition:
-      width var(--dur) var(--ease) 0.06s,
-      opacity 0.24s linear 0.18s;
+      width var(--dur) var(--ease) 0.12s,
+      opacity 0.4s linear 0.38s;
   }
   html:not(.is-narrow) .logo:hover .logo-tail-t,
   html:not(.is-narrow) .logo:focus-visible .logo-tail-t,
   html:not(.is-narrow) .logo.is-on .logo-tail-t {
     transition:
-      width var(--dur) var(--ease) 0.12s,
-      opacity 0.24s linear 0.24s;
-  }
-  html:not(.is-narrow) .logo:hover .glyph-art,
-  html:not(.is-narrow) .logo:focus-visible .glyph-art,
-  html:not(.is-narrow) .logo.is-on .glyph-art {
-    opacity: 0;
-    transition: opacity 0.3s linear 0.14s;
+      width var(--dur) var(--ease) 0.24s,
+      opacity 0.4s linear 0.5s;
   }
   html:not(.is-narrow) .logo:hover .glyph-flat,
   html:not(.is-narrow) .logo:focus-visible .glyph-flat,
   html:not(.is-narrow) .logo.is-on .glyph-flat {
     opacity: 1;
-    transition: opacity 0.3s linear 0.14s;
+    transition: opacity 0.5s linear 0.28s;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .logo-glyph,
   .logo-tail,
-  .glyph-art,
   .glyph-flat {
     transition-duration: 0.001s;
     transition-delay: 0s;
