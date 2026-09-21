@@ -10,9 +10,6 @@ import '../css/motion.css';
 import '../css/solution-page.css';
 
 applyViewportClasses();
-if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-  document.documentElement.classList.add('motion-ready');
-}
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
