@@ -1,5 +1,8 @@
+import { lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import { usePageMeta } from '../lib/usePageMeta.js';
+
+const HeroFlow = lazy(() => import('../components/HeroFlow.jsx'));
 
 export default function Index() {
   usePageMeta("AnvasTech: Supercharging Progress | AI, Cloud and Engineering", "AnvasTech is a product and technology company building real-world digital products and delivering software solutions powered by modern engineering, automation, and AI.");
@@ -7,9 +10,7 @@ export default function Index() {
     <main id="main">
 
     <section className="hero" aria-roledescription="carousel" aria-label="Featured stories">
-      <video className="hero-video" autoPlay muted loop playsInline preload="auto" poster="/assets/hero-bg-poster.jpg?v=5" aria-hidden="true">
-        <source src="/assets/hero-bg.mp4?v=5" type="video/mp4" />
-      </video>
+      <Suspense fallback={null}><HeroFlow /></Suspense>
       <div className="hero-slides">
         <article className="slide is-active">
           <div className="slide-inner">

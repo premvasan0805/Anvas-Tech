@@ -586,8 +586,39 @@ button.mega-all:hover {
   height: 100vh;
   height: 100dvh;
   min-height: 560px;
-  background: #0b1230;
+  /* Near black, so the glass ribbon carries all the colour, with a faint
+     violet glow pooling under the arch. */
+  background:
+    radial-gradient(60% 45% at 62% 100%, rgb(88 48 200 / 0.18), transparent 70%),
+    #03040a;
   overflow: hidden;
+}
+.hero-flow {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+.hero-flow canvas { display: block; width: 100%; height: 100%; }
+/* Keeps the copy column dark whatever the structure is doing behind it. */
+.hero-flow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(0deg, rgb(3 4 10 / 0.75) 0%, rgb(3 4 10 / 0) 24%),
+    radial-gradient(50% 45% at 22% 40%, rgb(3 4 10 / 0.55) 0%, rgb(3 4 10 / 0.25) 55%, rgb(3 4 10 / 0) 100%);
+}
+@media (min-width: 1024px) {
+  .hero .slide-copy { max-width: min(760px, 48vw); }
+  .hero .slide-copy h1,
+  .hero .slide-copy h2 { font-size: clamp(2.65rem, 3.5vw, 4rem); }
+  .hero .slide-copy p { font-size: clamp(1.1rem, 1.3vw, 1.375rem); }
+}
+@media (max-width: 1023px) {
+  .hero-flow::after {
+    background: linear-gradient(180deg, rgb(3 4 10 / 0.82) 0%, rgb(3 4 10 / 0.55) 55%, rgb(3 4 10 / 0.15) 100%);
+  }
 }
 .hero-video {
   position: absolute;
