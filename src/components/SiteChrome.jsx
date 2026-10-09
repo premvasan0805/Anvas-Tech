@@ -1,6 +1,8 @@
 import { useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { bootSite } from '../../js/site.js';
+import { initScroll3D } from '../lib/scroll3d.js';
+import { initTilt3D } from '../lib/tilt3d.js';
 
 /* The header/footer mount points live in index.html, outside #root, because
    site.js swaps them via outerHTML — React must not own those nodes. */
@@ -47,6 +49,30 @@ export default function SiteChrome({ children }) {
     bindWhenReady();
     return () => clearTimeout(timer);
   }, [pathname, hash]);
+
+  /* Card tilt listens on document, so it binds once for every route. */
+  useEffect(() => initTilt3D(), []);
+
+  /* 3D scroll entrance. Pages are code-split, so wait for the new page's
+     content before binding; the cleanup reverts it on route change. */
+  useEffect(() => {
+    let cleanup = () => {};
+    let timer = 0;
+    let attempts = 0;
+    const start = () => {
+      const main = document.getElementById('main');
+      if (main && main.childElementCount > 0) {
+        cleanup = initScroll3D();
+        return;
+      }
+      if (attempts++ < 60) timer = setTimeout(start, 50);
+    };
+    start();
+    return () => {
+      clearTimeout(timer);
+      cleanup();
+    };
+  }, [pathname]);
 
   /* Menu links point at sections (/careers#internships). The router only
      changes location, so the scroll is ours to do — and the target may not

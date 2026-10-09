@@ -142,6 +142,32 @@
 .motion-ready .btn-blue:hover::after { transform: translateX(120%); }
 
 /* --------------------------------------------------------------------------
+   Card tilt glare — a soft highlight that follows the pointer across a tilted
+   card. --gx/--gy and .is-tilting come from src/lib/tilt3d.js. List cards
+   already carry their own cursor spotlight (site.js), so they get none here.
+   -------------------------------------------------------------------------- */
+.sp-card-thumb { position: relative; }
+/* GSAP writes the tilt every frame; a CSS transform transition would chase it. */
+.cs-card-inner { transition: box-shadow 0.3s ease; }
+.sp-card-thumb::after,
+.cs-card-inner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  background: radial-gradient(
+    circle at var(--gx, 50%) var(--gy, 50%),
+    rgb(255 255 255 / 0.38) 0%,
+    rgb(255 255 255 / 0) 55%
+  );
+}
+.sp-card-thumb.is-tilting::after,
+.cs-card-inner.is-tilting::after { opacity: 1; }
+
+/* --------------------------------------------------------------------------
    Mobile: no pins, no cursor, gentler distances
    -------------------------------------------------------------------------- */
 @media (max-width: 900px) {
