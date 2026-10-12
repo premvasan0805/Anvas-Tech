@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { usePageMeta } from '../lib/usePageMeta.js';
+import ArchGlyph from '../components/ArchGlyph.jsx';
 
 export default function TechnologyExcellence() {
   usePageMeta("Engineering Built for Scale | AnvasTech", "AnvasTech engineers enterprise technology for performance, security, scalability and reliability \u2014 built to evolve with changing business needs.");
@@ -46,12 +47,12 @@ export default function TechnologyExcellence() {
         <p className="kicker">Scalable architecture</p>
         <h2 className="display">Designed for the load you will have</h2>
         <div className="list-cards">
-          <article className="list-card"><h3>Right-sized from the start</h3><p>Architecture matched to actual traffic and team size. Complexity you do not need is a cost, not a hedge.</p></article>
-          <article className="list-card"><h3>Clear service boundaries</h3><p>Systems split along the lines the business actually changes, so one change does not touch everything.</p></article>
-          <article className="list-card"><h3>Data access patterns</h3><p>Query paths, indexing and caching planned against real access patterns rather than assumed ones.</p></article>
-          <article className="list-card"><h3>Horizontal headroom</h3><p>Stateless services and queue-backed processing so capacity is added rather than rearchitected.</p></article>
-          <article className="list-card"><h3>Graceful degradation</h3><p>Under stress the system sheds load predictably instead of failing all at once.</p></article>
-          <article className="list-card"><h3>Versioned interfaces</h3><p>APIs that can evolve without breaking every consumer on the same day.</p></article>
+          <article className="list-card tx-arch"><ArchGlyph kind="fit" /><h3>Right-sized from the start</h3><p>Architecture matched to actual traffic and team size. Complexity you do not need is a cost, not a hedge.</p></article>
+          <article className="list-card tx-arch"><ArchGlyph kind="bounds" /><h3>Clear service boundaries</h3><p>Systems split along the lines the business actually changes, so one change does not touch everything.</p></article>
+          <article className="list-card tx-arch"><ArchGlyph kind="data" /><h3>Data access patterns</h3><p>Query paths, indexing and caching planned against real access patterns rather than assumed ones.</p></article>
+          <article className="list-card tx-arch"><ArchGlyph kind="scale" /><h3>Horizontal headroom</h3><p>Stateless services and queue-backed processing so capacity is added rather than rearchitected.</p></article>
+          <article className="list-card tx-arch"><ArchGlyph kind="degrade" /><h3>Graceful degradation</h3><p>Under stress the system sheds load predictably instead of failing all at once.</p></article>
+          <article className="list-card tx-arch"><ArchGlyph kind="versions" /><h3>Versioned interfaces</h3><p>APIs that can evolve without breaking every consumer on the same day.</p></article>
         </div>
       </div>
     </section>
@@ -83,12 +84,12 @@ export default function TechnologyExcellence() {
         <p className="kicker">Security by design</p>
         <h2 className="display">Controls in the architecture, not in the audit</h2>
         <div className="list-cards">
-          <article className="list-card"><h3>Least privilege</h3><p>Services, agents and people get the narrowest access their job requires, with credentials scoped accordingly.</p></article>
-          <article className="list-card"><h3>Data protection</h3><p>Encryption in transit and at rest, with sensitive fields identified and handled deliberately.</p></article>
-          <article className="list-card"><h3>Authentication and authorization</h3><p>Identity, roles and record-level permissions enforced server-side, consistently.</p></article>
-          <article className="list-card"><h3>Pipeline scanning</h3><p>Dependency, secret and licence checks running on every build, not quarterly.</p></article>
-          <article className="list-card"><h3>Audit trails</h3><p>Who changed what, when, and on what authority — produced by the system as a matter of course.</p></article>
-          <article className="list-card"><h3>Maker-checker controls</h3><p>Approval gates on irreversible and outward-facing actions, especially in regulated workflows.</p></article>
+          <article className="list-card tx-arch"><ArchGlyph kind="privilege" /><h3>Least privilege</h3><p>Services, agents and people get the narrowest access their job requires, with credentials scoped accordingly.</p></article>
+          <article className="list-card tx-arch"><ArchGlyph kind="encrypt" /><h3>Data protection</h3><p>Encryption in transit and at rest, with sensitive fields identified and handled deliberately.</p></article>
+          <article className="list-card tx-arch"><ArchGlyph kind="authz" /><h3>Authentication and authorization</h3><p>Identity, roles and record-level permissions enforced server-side, consistently.</p></article>
+          <article className="list-card tx-arch"><ArchGlyph kind="scan" /><h3>Pipeline scanning</h3><p>Dependency, secret and licence checks running on every build, not quarterly.</p></article>
+          <article className="list-card tx-arch"><ArchGlyph kind="audit" /><h3>Audit trails</h3><p>Who changed what, when, and on what authority — produced by the system as a matter of course.</p></article>
+          <article className="list-card tx-arch"><ArchGlyph kind="makerChecker" /><h3>Maker-checker controls</h3><p>Approval gates on irreversible and outward-facing actions, especially in regulated workflows.</p></article>
         </div>
       </div>
     </section>
@@ -132,12 +133,12 @@ export default function TechnologyExcellence() {
         <p className="kicker">Performance &amp; reliability</p>
         <h2 className="display">Measured, budgeted and watched</h2>
         <div className="list-cards">
-          <article className="list-card"><h3>Performance budgets</h3><p>Core Web Vitals and API latency treated as requirements, enforced in the pipeline.</p></article>
-          <article className="list-card"><h3>Observability</h3><p>Metrics, logs and traces that make a production problem diagnosable rather than theoretical.</p></article>
-          <article className="list-card"><h3>Alerting that means something</h3><p>Alerts mapped to user impact, so the on-call response is proportionate.</p></article>
-          <article className="list-card"><h3>Tested recovery</h3><p>Backup, failover and rollback rehearsed before they are needed at two in the morning.</p></article>
-          <article className="list-card"><h3>Capacity planning</h3><p>Load testing against realistic traffic shapes, including the announcement-day spike.</p></article>
-          <article className="list-card"><h3>Offline resilience</h3><p>Field applications that keep working through dead zones and reconcile when the network returns.</p></article>
+          <article className="list-card tx-arch"><ArchGlyph kind="budget" /><h3>Performance budgets</h3><p>Core Web Vitals and API latency treated as requirements, enforced in the pipeline.</p></article>
+          <article className="list-card tx-arch"><ArchGlyph kind="observe" /><h3>Observability</h3><p>Metrics, logs and traces that make a production problem diagnosable rather than theoretical.</p></article>
+          <article className="list-card tx-arch"><ArchGlyph kind="alert" /><h3>Alerting that means something</h3><p>Alerts mapped to user impact, so the on-call response is proportionate.</p></article>
+          <article className="list-card tx-arch"><ArchGlyph kind="recovery" /><h3>Tested recovery</h3><p>Backup, failover and rollback rehearsed before they are needed at two in the morning.</p></article>
+          <article className="list-card tx-arch"><ArchGlyph kind="capacity" /><h3>Capacity planning</h3><p>Load testing against realistic traffic shapes, including the announcement-day spike.</p></article>
+          <article className="list-card tx-arch"><ArchGlyph kind="offline" /><h3>Offline resilience</h3><p>Field applications that keep working through dead zones and reconcile when the network returns.</p></article>
         </div>
       </div>
     </section>
@@ -147,12 +148,12 @@ export default function TechnologyExcellence() {
         <p className="kicker">Our engineering approach</p>
         <h2 className="display">How a project actually runs</h2>
         <div className="list-cards">
-          <article className="list-card"><h3>1. Discovery</h3><p>Understand the process, the constraints and the exceptions people work around today.</p></article>
-          <article className="list-card"><h3>2. Architecture</h3><p>Decide the shape of the system against real load, team and change-rate constraints.</p></article>
-          <article className="list-card"><h3>3. Delivery in slices</h3><p>Working software in short cycles, each slice useful on its own.</p></article>
-          <article className="list-card"><h3>4. Hardening</h3><p>Performance, security and failure testing before the system carries real traffic.</p></article>
-          <article className="list-card"><h3>5. Launch</h3><p>Rehearsed cutover, staged rollout and a rollback path that has been tried.</p></article>
-          <article className="list-card"><h3>6. Sustaining</h3><p>Monitoring, upgrades and performance work on a steady cadence after go-live.</p></article>
+          <article className="list-card tx-arch"><ArchGlyph kind="discovery" /><h3>1. Discovery</h3><p>Understand the process, the constraints and the exceptions people work around today.</p></article>
+          <article className="list-card tx-arch"><ArchGlyph kind="architecture" /><h3>2. Architecture</h3><p>Decide the shape of the system against real load, team and change-rate constraints.</p></article>
+          <article className="list-card tx-arch"><ArchGlyph kind="slices" /><h3>3. Delivery in slices</h3><p>Working software in short cycles, each slice useful on its own.</p></article>
+          <article className="list-card tx-arch"><ArchGlyph kind="hardening" /><h3>4. Hardening</h3><p>Performance, security and failure testing before the system carries real traffic.</p></article>
+          <article className="list-card tx-arch"><ArchGlyph kind="launch" /><h3>5. Launch</h3><p>Rehearsed cutover, staged rollout and a rollback path that has been tried.</p></article>
+          <article className="list-card tx-arch"><ArchGlyph kind="sustain" /><h3>6. Sustaining</h3><p>Monitoring, upgrades and performance work on a steady cadence after go-live.</p></article>
         </div>
       </div>
     </section>

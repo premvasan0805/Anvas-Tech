@@ -1,8 +1,10 @@
 import { useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { bootSite } from '../../js/site.js';
-import { initScroll3D } from '../lib/scroll3d.js';
+import { initCardRoll, initCaseReveal, initBuildReveal, initGrowthSwing, initHeroCollapse, initNowReveal, initRecogReveal, initScroll3D } from '../lib/scroll3d.js';
 import { initTilt3D } from '../lib/tilt3d.js';
+import { initHeroText } from '../lib/heroText.js';
+import { initSolutionMotion } from '../lib/solutionMotion.js';
 
 /* The header/footer mount points live in index.html, outside #root, because
    site.js swaps them via outerHTML — React must not own those nodes. */
@@ -62,7 +64,29 @@ export default function SiteChrome({ children }) {
     const start = () => {
       const main = document.getElementById('main');
       if (main && main.childElementCount > 0) {
-        cleanup = initScroll3D();
+        const undo3d = initScroll3D();
+        const undoRoll = initCardRoll();
+        const undoSwing = initGrowthSwing();
+        const undoNow = initNowReveal();
+        const undoCase = initCaseReveal();
+        const undoRecog = initRecogReveal();
+        const undoHero = initHeroText();
+        const undoCollapse = pathname === '/' ? initHeroCollapse() : () => {};
+        const undoBuild = pathname === '/' ? initBuildReveal() : () => {};
+        // Home runs its own hero and section effects.
+        const undoPage = pathname === '/' ? () => {} : initSolutionMotion(main);
+        cleanup = () => {
+          undo3d();
+          undoRoll();
+          undoSwing();
+          undoNow();
+          undoCase();
+          undoRecog();
+          undoHero();
+          undoCollapse();
+          undoBuild();
+          undoPage();
+        };
         return;
       }
       if (attempts++ < 60) timer = setTimeout(start, 50);

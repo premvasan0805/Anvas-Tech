@@ -1,13 +1,15 @@
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { usePageMeta } from '../lib/usePageMeta.js';
+import UxGlyph from '../components/UxGlyph.jsx';
 
 const CAPABILITIES = [
-  { num: '01', title: 'User Flows', text: 'Map how users move through the product and complete tasks.' },
-  { num: '02', title: 'Wireframes', text: 'Structure screens and functionality before detailed visual design.' },
-  { num: '03', title: 'Interface Design', text: 'Create clear and consistent user interfaces for digital products.' },
-  { num: '04', title: 'Prototyping', text: 'Create interactive prototypes to explore and communicate product experiences.' },
-  { num: '05', title: 'Design Systems', text: 'Establish reusable interface patterns and components where required.' },
-  { num: '06', title: 'Design Refinement', text: 'Improve the experience through iteration as product requirements evolve.' },
+  { num: '01', title: 'User Flows', glyph: 'flow', text: 'Map how users move through the product and complete tasks.' },
+  { num: '02', title: 'Wireframes', glyph: 'wire', text: 'Structure screens and functionality before detailed visual design.' },
+  { num: '03', title: 'Interface Design', glyph: 'ui', text: 'Create clear and consistent user interfaces for digital products.' },
+  { num: '04', title: 'Prototyping', glyph: 'proto', text: 'Create interactive prototypes to explore and communicate product experiences.' },
+  { num: '05', title: 'Design Systems', glyph: 'system', text: 'Establish reusable interface patterns and components where required.' },
+  { num: '06', title: 'Design Refinement', glyph: 'refine', text: 'Improve the experience through iteration as product requirements evolve.' },
 ];
 
 const STEPS = [
@@ -28,6 +30,16 @@ const AREAS = [
 
 export default function UiUxProductDesign() {
   usePageMeta("UI/UX and Product Design | AnvasTech", "AnvasTech uses UI/UX and product design to turn requirements, workflows, and product ideas into clear digital experiences.");
+
+  /* Process steps light up one by one as the reader scrolls past them. */
+  useEffect(() => {
+    const { ScrollTrigger } = window;
+    if (!ScrollTrigger) return undefined;
+    const triggers = Array.from(document.querySelectorAll('#process .sp-step')).map((li) =>
+      ScrollTrigger.create({ trigger: li, start: 'top 72%', toggleClass: 'is-lit' })
+    );
+    return () => triggers.forEach((t) => t.kill());
+  }, []);
   return (
     <main id="main" className="solution-page">
 
@@ -37,7 +49,18 @@ export default function UiUxProductDesign() {
       </figure>
       <div className="wrap">
         <p className="crumbs"><Link to="/">Home</Link> / <Link to="/what-we-do">Solutions</Link> / UI/UX &amp; Product Design</p>
-        <h1>UI/UX &amp; Product Design</h1>
+        {/* The title sits in a design-tool selection: a cursor drags the
+            frame across it and the resize handles pop in. */}
+        <h1>
+          <span className="ux-sel">
+            UI/UX &amp; Product Design
+            <i className="ux-sel-h is-tl" aria-hidden="true" />
+            <i className="ux-sel-h is-tr" aria-hidden="true" />
+            <i className="ux-sel-h is-bl" aria-hidden="true" />
+            <i className="ux-sel-h is-br" aria-hidden="true" />
+            <i className="ux-sel-cursor" aria-hidden="true" />
+          </span>
+        </h1>
         <p className="lede">Design digital products around people and their needs. AnvasTech uses UI/UX and product design to turn requirements, workflows, and product ideas into clear digital experiences.</p>
       </div>
     </section>
@@ -52,17 +75,49 @@ export default function UiUxProductDesign() {
             <div className="sp-actions"><Link className="sp-btn" to="/contact">Talk to Our Team</Link></div>
           </div>
           {/* A design page, so the plate is the skeleton a design starts from
-              — an abstract wireframe, not a mock of any real product screen. */}
+              — an abstract wireframe, not a mock of any real product screen.
+              It loops through the three stages the caption names: grey
+              skeleton, then colour fills in, then a cursor taps the button. */}
           <figure className="sp-plate is-wire">
-            <p className="sp-plate-cap">Wireframe, interface, prototype</p>
+            <p className="sp-plate-cap sp-wire-stages">
+              <span>Wireframe</span><span>Interface</span><span>Prototype</span>
+            </p>
             <div className="sp-wire" aria-hidden="true">
-              <div className="sp-wire-bar" />
+              <div className="sp-wire-bar">
+                <i className="sp-wire-logo" />
+                <i className="sp-wire-line is-nav" />
+                <i className="sp-wire-line is-nav" />
+                <i className="sp-wire-line is-nav" />
+                <i className="sp-wire-pill" />
+              </div>
               <div className="sp-wire-body">
-                <div className="sp-wire-rail" />
+                <div className="sp-wire-rail">
+                  <i className="sp-wire-dot is-on" />
+                  <i className="sp-wire-dot" />
+                  <i className="sp-wire-dot" />
+                  <i className="sp-wire-dot" />
+                </div>
                 <div className="sp-wire-main">
-                  <div className="sp-wire-block is-live" />
-                  <div className="sp-wire-block" />
-                  <div className="sp-wire-block" />
+                  <div className="sp-wire-block is-live">
+                    <div className="sp-wire-copy">
+                      <i className="sp-wire-line is-head" />
+                      <i className="sp-wire-line" />
+                    </div>
+                    <span className="sp-wire-cta">
+                      <i className="sp-wire-cursor" />
+                    </span>
+                  </div>
+                  <div className="sp-wire-row">
+                    <div className="sp-wire-block is-chart">
+                      <i style={{ '--h': '45%' }} /><i style={{ '--h': '70%' }} /><i style={{ '--h': '55%' }} />
+                      <i style={{ '--h': '90%' }} /><i style={{ '--h': '65%' }} />
+                    </div>
+                    <div className="sp-wire-block is-list">
+                      <div><i className="sp-wire-avatar" /><i className="sp-wire-line" /></div>
+                      <div><i className="sp-wire-avatar" /><i className="sp-wire-line" /></div>
+                      <div><i className="sp-wire-avatar" /><i className="sp-wire-line" /></div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -71,6 +126,19 @@ export default function UiUxProductDesign() {
         </div>
       </div>
     </section>
+
+    {/* The six capabilities from the grid below, running as a ticker. The
+        list is doubled so the loop is seamless; the copy is hidden from
+        assistive tech so it is read once. */}
+    <div className="ux-marquee" aria-label="What we deliver">
+      <div className="ux-marquee-track">
+        {[0, 1].map((copy) => (
+          <ul key={copy} aria-hidden={copy === 1 ? 'true' : undefined}>
+            {CAPABILITIES.map((c) => <li key={c.num}>{c.title}</li>)}
+          </ul>
+        ))}
+      </div>
+    </div>
 
     <section className="sp-band" id="capabilities">
       <div className="sp-wrap">
@@ -83,7 +151,8 @@ export default function UiUxProductDesign() {
         </div>
         <div className="sp-grid is-3up">
           {CAPABILITIES.map((c) => (
-            <article className="sp-cell" key={c.num}>
+            <article className="sp-cell ux-cell" key={c.num}>
+              <UxGlyph type={c.glyph} />
               <span className="sp-num">{c.num}</span>
               <h3>{c.title}</h3>
               <p>{c.text}</p>

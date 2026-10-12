@@ -67,8 +67,8 @@ html.is-narrow .logo.is-on {
   overflow: hidden;
 }
 
-html.is-narrow .logo-word {
-  --mono: 36;
+html.is-narrow .logo {
+  --mark-h: 34px;
 }
 
 html.is-narrow .mobile-nav {
@@ -660,8 +660,8 @@ html.is-phone .logo.is-on {
   height: 58px;
 }
 
-html.is-phone .logo-word {
-  --mono: 30;
+html.is-phone .logo {
+  --mark-h: 28px;
 }
 
 html.is-phone .cookie {

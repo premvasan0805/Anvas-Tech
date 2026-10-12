@@ -1,8 +1,13 @@
 import { lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import { usePageMeta } from '../lib/usePageMeta.js';
+import GridWarpWord from '../components/GridWarpWord.jsx';
+import NewsInbox from '../components/NewsInbox.jsx';
 
 const HeroFlow = lazy(() => import('../components/HeroFlow.jsx'));
+const SolutionsDots = lazy(() => import('../components/SolutionsDots.jsx'));
+const AiStageFX = lazy(() => import('../components/AiStageFX.jsx'));
+
 
 export default function Index() {
   usePageMeta("AnvasTech: Supercharging Progress | AI, Cloud and Engineering", "AnvasTech is a product and technology company building real-world digital products and delivering software solutions powered by modern engineering, automation, and AI.");
@@ -17,8 +22,8 @@ export default function Index() {
             <div className="hero-shell">
               <div className="slide-copy">
                 <p className="hero-kicker">Engineering with AI</p>
-                <h1>AI Is Our Accelerator. Engineering Is Our Foundation.</h1>
-                <p>We use modern AI-assisted development tools to support our software development &mdash; helping us explore ideas, refine code, solve technical problems, and build applications more efficiently.</p>
+                <h1 className="story-head">AI Is Our Accelerator. Engineering Is Our Foundation.</h1>
+                <p>We use modern AI-assisted development tools to support our software development &mdash; helping us <span className="beat" data-beat="explore">explore ideas</span>, <span className="beat" data-beat="refine">refine code</span>, <span className="beat" data-beat="solve">solve technical problems</span>, and <span className="beat" data-beat="build">build applications</span> more efficiently.</p>
                 <Link className="now-cta" to="/ai-assisted-engineering"><span>Explore AI-Assisted Development</span></Link>
               </div>
             </div>
@@ -29,7 +34,7 @@ export default function Index() {
             <div className="hero-shell">
               <div className="slide-copy">
                 <p className="hero-kicker">Our approach</p>
-                <h2>Think. Design. Build. Improve.</h2>
+                <h2 className="story-head">Think. Design. Build. Improve.</h2>
                 <p>We start by understanding the problem, define the right solution, build with modern engineering practices, and continuously improve what we create.</p>
                 <Link className="now-cta" to="/ai-development-workspace"><span>Discover Our Approach</span></Link>
               </div>
@@ -41,7 +46,7 @@ export default function Index() {
             <div className="hero-shell">
               <div className="slide-copy">
                 <p className="hero-kicker">How we use AI</p>
-                <h2>Explore. Build. Improve.</h2>
+                <h2 className="story-head">Explore. Build. Improve.</h2>
                 <p>We use AI-assisted development to explore ideas, support coding, solve technical problems, and improve our development workflow. Our engineers remain responsible for the technical decisions, implementation, testing, and quality of the software we build.</p>
                 <Link className="now-cta" to="/ai-assisted-engineering#how-we-use-ai"><span>See How We Use AI</span></Link>
               </div>
@@ -68,16 +73,12 @@ export default function Index() {
         <h2>Have tech questions?<br />Our <span>AI answer engine</span> can help.</h2>
         <form className="ask-form" id="ask-form">
           <span className="ask-orb" aria-hidden="true">
-            <svg viewBox="0 0 36 36">
-              <defs>
-                <linearGradient id="askOrb" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stopColor="#c084fc" />
-                  <stop offset="55%" stopColor="#7c3aed" />
-                  <stop offset="100%" stopColor="#2563eb" />
-                </linearGradient>
-              </defs>
-              <circle cx="18" cy="18" r="18" fill="url(#askOrb)" />
-              <path d="M18 8.5c.4 3.2 2.2 6.2 5.5 8-3.3 1.8-5.1 4.8-5.5 8-.4-3.2-2.2-6.2-5.5-8 3.3-1.8 5.1-4.8 5.5-8Z" fill="#fff" opacity=".92" />
+            <span className="orb-swirl" />
+            <span className="orb-swirl orb-swirl-b" />
+            <span className="orb-glass" />
+            <svg className="orb-spark" viewBox="0 0 36 36">
+              <path d="M18 8.5c.4 3.2 2.2 6.2 5.5 8-3.3 1.8-5.1 4.8-5.5 8-.4-3.2-2.2-6.2-5.5-8 3.3-1.8 5.1-4.8 5.5-8Z" />
+              <path d="M25.5 9c.15 1.2.8 2.2 2 2.8-1.2.6-1.85 1.6-2 2.8-.15-1.2-.8-2.2-2-2.8 1.2-.6 1.85-1.6 2-2.8Z" />
             </svg>
           </span>
           <input type="search" name="q" placeholder="Please ask a question or initiate a search" required />
@@ -94,6 +95,7 @@ export default function Index() {
 
     <section className="ai-stage" aria-label="AI stories">
       <div className="ai-slides">
+        <Suspense fallback={null}><AiStageFX /></Suspense>
         <article className="ai-slide ai-force is-active">
           <div className="ai-slide-bg"><img src="/assets/ai-slide-2.jpg?v=2" alt="" width="1024" height="399" /></div>
           <div className="wrap ai-slide-copy">
@@ -155,6 +157,7 @@ export default function Index() {
     </div>
 
     <section className="sol-sticky" id="solutions" style={{"--sol-card-h": "437px", "--sol-head-top": "88px", "--sol-head-h": "168px"}}>
+      <Suspense fallback={null}><SolutionsDots /></Suspense>
       <div className="sol-sticky-shell">
         <div className="sol-sticky-head">
           <div className="sol-tag"><p>Featured solutions</p></div>
@@ -372,7 +375,10 @@ export default function Index() {
           <section className="now-band" id="now">
             <div className="now-top">
               <div className="now-copy">
-                <h2 className="display">Built for Today.<br />Ready for What's Next.</h2>
+                <h2 className="display">
+                  <span className="now-line"><span>Built for Today.</span></span>
+                  <span className="now-line"><span>Ready for What's Next.</span></span>
+                </h2>
                 <img className="now-mobile-img" src="/assets/now-portrait.jpg?v=3" alt="" width="731" height="1024" />
                 <p>We combine AI-assisted engineering, product thinking and real-world experience to build systems that solve complex problems today — and evolve with what comes next.</p>
                 <p>AnvasTech brings together people, technology and modern AI development workflows to turn ideas into working digital products, intelligent systems and scalable applications.</p>
@@ -418,7 +424,11 @@ export default function Index() {
         <div className="recog-split">
           <div>
             <p className="recog-kicker">What We Build</p>
-            <h2 className="display">Our Work Speaks Through What We Build</h2>
+            <h2 className="display">
+              <span className="now-line"><span>Our Work</span></span>
+              <span className="now-line"><span>Speaks Through</span></span>
+              <span className="now-line"><span>What We Build</span></span>
+            </h2>
             <p className="lede">Rather than listing awards or recognition that we cannot substantiate, AnvasTech focuses on the products, platforms, and technology solutions we build across real-world domains.</p>
             <Link className="gartner-card" to="/case-study-vishful">
               <span className="src">Vishful</span>
@@ -597,12 +607,22 @@ export default function Index() {
       </div>
     </section>
 
+    <section className="build-reveal" aria-label="Let's build something extraordinary">
+      <div className="build-reveal-stage">
+        <h2 className="build-reveal-text">
+          <span className="brw"><span>Let&rsquo;s</span></span> <span className="brw"><span>build</span></span><br />
+          <span className="brw"><span>something</span></span><br />
+          <span className="brw"><span>extraordinary.</span></span>
+        </h2>
+      </div>
+    </section>
+
     <section className="cs-band" id="case-studies">
       <div className="cs-bg" aria-hidden="true"></div>
       <div className="cs-shell">
         <div className="cs-head">
           <div className="cs-head-copy">
-            <h2 className="display">Products We Have Built</h2>
+            <h2 className="display"><span className="now-line"><span>Products We Have Built</span></span></h2>
             <p>The products AnvasTech has built: what each one is, the need it addresses, and what the platform actually does.</p>
           </div>
           <Link className="cs-all" to="/case-studies">See all case studies</Link>
@@ -613,11 +633,14 @@ export default function Index() {
               <div className="cs-card-media">
                 <img src="/assets/cs-ai-automation.jpg?v=1" alt="" width="1200" height="800" loading="lazy" />
               </div>
+              <div className="cs-card-panel" aria-hidden="true">
+                <span className="cs-card-num">01</span>
+                <span className="cs-card-arrow"></span>
+              </div>
               <div className="cs-card-body">
-                <p className="cs-card-eyebrow"><span className="cs-step">01</span> &mdash; Vishful</p>
+                <p className="cs-card-eyebrow">Vishful</p>
                 <h3>Property &amp; Co-Living Operations</h3>
                 <p className="cs-card-desc">A property management platform for managing properties, apartments, beds, tenants, and occupancy.</p>
-                <span className="cs-link">Read Case Study</span>
               </div>
             </div>
           </Link>
@@ -626,11 +649,14 @@ export default function Index() {
               <div className="cs-card-media">
                 <img src="/assets/cs-property-tech.jpg?v=1" alt="" width="1200" height="800" loading="lazy" />
               </div>
+              <div className="cs-card-panel" aria-hidden="true">
+                <span className="cs-card-num">02</span>
+                <span className="cs-card-arrow"></span>
+              </div>
               <div className="cs-card-body">
-                <p className="cs-card-eyebrow"><span className="cs-step">02</span> &mdash; Vishful Attendance</p>
+                <p className="cs-card-eyebrow">Vishful Attendance</p>
                 <h3>Mobile Face-Scan Attendance</h3>
                 <p className="cs-card-desc">A workforce attendance application using the mobile camera for face-based attendance and employee check-in.</p>
-                <span className="cs-link">Read Case Study</span>
               </div>
             </div>
           </Link>
@@ -639,11 +665,14 @@ export default function Index() {
               <div className="cs-card-media">
                 <img src="/assets/cs-pharma.jpg" alt="" width="600" height="360" loading="lazy" />
               </div>
+              <div className="cs-card-panel" aria-hidden="true">
+                <span className="cs-card-num">03</span>
+                <span className="cs-card-arrow"></span>
+              </div>
               <div className="cs-card-body">
-                <p className="cs-card-eyebrow"><span className="cs-step">03</span> &mdash; eLegal / GetLegal</p>
+                <p className="cs-card-eyebrow">eLegal / GetLegal</p>
                 <h3>AI-Powered Property Legal Intelligence</h3>
                 <p className="cs-card-desc">A platform for property document analysis, OCR, title-chain analysis, and structured legal risk assessment.</p>
-                <span className="cs-link">Read Case Study</span>
               </div>
             </div>
           </Link>
@@ -652,11 +681,14 @@ export default function Index() {
               <div className="cs-card-media">
                 <img src="/assets/cs-telco.webp" alt="" width="600" height="360" loading="lazy" />
               </div>
+              <div className="cs-card-panel" aria-hidden="true">
+                <span className="cs-card-num">04</span>
+                <span className="cs-card-arrow"></span>
+              </div>
               <div className="cs-card-body">
-                <p className="cs-card-eyebrow"><span className="cs-step">04</span> &mdash; Anvas Logistics</p>
+                <p className="cs-card-eyebrow">Anvas Logistics</p>
                 <h3>Logistics Operations Platform</h3>
                 <p className="cs-card-desc">A logistics ERP for shipments, consignments, carrier operations, billing, and financial visibility.</p>
-                <span className="cs-link">Read Case Study</span>
               </div>
             </div>
           </Link>
@@ -673,17 +705,31 @@ export default function Index() {
             </figure>
             <div className="cine-copy-window">
               <div className="cine-copy">
-                <p className="cine-kicker">Careers</p>
-                <h2>Build the Future.<br />Grow With Us.</h2>
-                <p className="cine-lede">Join a team building real products with AI-assisted development, modern engineering and ambitious ideas.</p>
-                <p className="cine-lede">Work on challenging projects, experiment with emerging technologies, and grow alongside people who are building what's next.</p>
-                <p className="cine-topics">AI · Engineering · Product · Innovation</p>
-                <Link className="cine-join" to="/careers">
+                <p className="cine-kicker" style={{ '--k': 0 }}>Careers</p>
+                <h2>
+                  <span className="cine-line"><span style={{ '--k': 1 }}>Build the Future.</span></span>
+                  <span className="cine-line"><span style={{ '--k': 2 }}>Grow With Us.</span></span>
+                </h2>
+                <p className="cine-lede" style={{ '--k': 3 }}>Join a team building real products with AI-assisted development, modern engineering and ambitious ideas.</p>
+                <p className="cine-lede" style={{ '--k': 4 }}>Work on challenging projects, experiment with emerging technologies, and grow alongside people who are building what's next.</p>
+                <p className="cine-topics" style={{ '--k': 5 }}>AI · Engineering · Product · Innovation</p>
+                <Link className="cine-join" to="/careers" style={{ '--k': 6 }}>
                   <span>Explore Careers</span>
                   <span className="cine-join-go" aria-hidden="true"></span>
                 </Link>
               </div>
             </div>
+          </div>
+          <div className="cine-mask" aria-hidden="true">
+            <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+              <defs>
+                <mask id="cine-knock" maskUnits="userSpaceOnUse" x="0" y="0" width="1600" height="900">
+                  <rect width="1600" height="900" fill="#fff" />
+                  <text x="800" y="450" textAnchor="middle" dominantBaseline="central" fill="#000">CAREERS</text>
+                </mask>
+              </defs>
+              <rect width="1600" height="900" mask="url(#cine-knock)" />
+            </svg>
           </div>
         </div>
       </div>
@@ -691,21 +737,26 @@ export default function Index() {
 
     <section className="news-band" aria-labelledby="news-heading">
       <div className="wrap">
-        <p className="news-eyebrow">Trends &amp; Insights</p>
-        <div className="news-layout">
-          <div className="news-copy">
+        <div className="news-card">
+          <div className="news-head">
+            <p className="news-eyebrow">Trends &amp; Insights</p>
             <h2 id="news-heading">Stay Ahead of What's Next</h2>
-            <p>Get occasional updates on AI, emerging technologies, engineering and the products we're building.</p>
+            <p className="news-lede">Get occasional updates on AI, emerging technologies, engineering and the products we're building.</p>
+            <form className="news-form" id="news-form">
+              <label className="visually-hidden" htmlFor="news-email">Work email</label>
+              <div className="news-fields">
+                <input id="news-email" type="email" name="email" placeholder="Your work email" autoComplete="email" required />
+                <button className="news-submit" type="submit">Stay connected →</button>
+              </div>
+            </form>
             <p id="news-note" className="ask-note" hidden></p>
           </div>
-          <form className="news-form" id="news-form">
-            <label className="news-label" htmlFor="news-email">Work email</label>
-            <div className="news-fields">
-              <input id="news-email" type="email" name="email" placeholder="Enter your email" autoComplete="email" required />
-              <button className="news-submit" type="submit">Stay connected →</button>
-            </div>
-          </form>
+          <NewsInbox />
         </div>
+      </div>
+      <div className="news-mark">
+        {/* In the logo's colours: the A's blues into the T's violets. */}
+        <GridWarpWord text="ANVAS TECH" color={['#0a3fa8', '#2f86ff', '#8a02fd', '#cf0bfd', '#6a00e0']} />
       </div>
     </section>
     </main>

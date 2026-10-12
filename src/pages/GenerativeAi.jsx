@@ -163,11 +163,14 @@ export default function GenerativeAi() {
               <div className="cs-card-media">
                 <img src="/assets/sol-kubera.png?v=1" alt="" width="991" height="611" loading="lazy" />
               </div>
+              <div className="cs-card-panel" aria-hidden="true">
+                <span className="cs-card-num">01</span>
+                <span className="cs-card-arrow"></span>
+              </div>
               <div className="cs-card-body">
-                <p className="cs-card-eyebrow"><span className="cs-step">01</span> &mdash; Kubera AI</p>
+                <p className="cs-card-eyebrow">Kubera AI</p>
                 <h3>AI-Powered Trading &amp; Strategy Platform</h3>
                 <p className="cs-card-desc">A trading platform combining AI-assisted strategy creation, market analysis, backtesting, execution workflows, and risk controls.</p>
-                <span className="cs-link">Read Case Study</span>
               </div>
             </div>
           </Link>
@@ -176,11 +179,14 @@ export default function GenerativeAi() {
               <div className="cs-card-media">
                 <img src="/assets/sol-elegal.png?v=1" alt="" width="1034" height="693" loading="lazy" />
               </div>
+              <div className="cs-card-panel" aria-hidden="true">
+                <span className="cs-card-num">02</span>
+                <span className="cs-card-arrow"></span>
+              </div>
               <div className="cs-card-body">
-                <p className="cs-card-eyebrow"><span className="cs-step">02</span> &mdash; eLegal</p>
+                <p className="cs-card-eyebrow">eLegal</p>
                 <h3>AI-Powered Property Legal Intelligence</h3>
                 <p className="cs-card-desc">A platform for property document analysis, OCR, title-chain analysis, and structured legal risk assessment.</p>
-                <span className="cs-link">Read Case Study</span>
               </div>
             </div>
           </Link>

@@ -1,5 +1,6 @@
-import { Link } from 'react-router-dom';
 import { usePageMeta } from '../lib/usePageMeta.js';
+import CareersHero from '../components/CareersHero.jsx';
+import ResumeSection from '../components/ResumeSection.jsx';
 
 const AREAS = [
   {
@@ -63,25 +64,7 @@ export default function Careers() {
     <main id="main" className="solution-page">
 
     {/* 01 — Hero */}
-    {/* Full-bleed footage behind the copy, using the site's standard dark
-        page-hero pattern. The artwork is abstract on purpose: nothing here
-        should be read as a photograph of an AnvasTech employee. */}
-    <section className="page-hero is-dark" id="overview">
-      <figure className="hero-art is-video art-careers" aria-hidden="true">
-        <video src="/assets/careers-hero.mp4?v=1" poster="/assets/careers-hero-poster.jpg?v=1" autoPlay muted loop playsInline preload="metadata" disablePictureInPicture></video>
-      </figure>
-      <div className="wrap">
-        <p className="crumbs"><Link to="/">Home</Link> / Careers</p>
-        <p className="kicker">Careers</p>
-        <h1>Build. Learn. Create What&rsquo;s Next.</h1>
-        <p className="lede">Join a team building real digital products and software solutions around practical requirements.</p>
-        <p className="lede is-note">At AnvasTech, we bring together product thinking, software engineering, design, automation, and AI-assisted development to build digital solutions.</p>
-        <div className="sp-actions">
-          <a className="sp-btn" href="#positions">View Open Positions</a>
-          <a className="sp-btn-ghost" href="#internships">Explore Internships</a>
-        </div>
-      </div>
-    </section>
+    <CareersHero />
 
     {/* 02 — What you can build */}
     <section className="sp-band is-white" id="opportunities">
@@ -207,52 +190,7 @@ export default function Careers() {
     </section>
 
     {/* 07 — Submit your resume */}
-    <section className="sp-band is-ink" id="resume">
-      <div className="sp-wrap">
-        <div className="sp-intro">
-          <div>
-            <p className="sp-eyebrow">Stay connected</p>
-            <h2 className="sp-h2">Don&rsquo;t See the Right Opening? Stay Connected.</h2>
-            <p className="sp-lede" style={{ marginTop: '18px' }}>If there isn&rsquo;t a current position that matches your skills and interests, you can still share your resume with AnvasTech.</p>
-          </div>
-          <form className="sp-form" id="resume-form">
-            <div>
-              <label htmlFor="resume-name">Full name</label>
-              <input id="resume-name" name="name" placeholder="Enter your name" required />
-            </div>
-            <div>
-              <label htmlFor="resume-email">Email address</label>
-              <input id="resume-email" name="email" type="email" placeholder="Enter your email" required />
-            </div>
-            <div>
-              <label htmlFor="resume-phone">Phone number</label>
-              <input id="resume-phone" name="phone" type="tel" placeholder="Enter your phone number" />
-            </div>
-            <div>
-              <label htmlFor="resume-interest">Area of interest</label>
-              <select id="resume-interest" name="interest" defaultValue="Software Engineering">
-                <option>Software Engineering</option>
-                <option>AI &amp; Engineering</option>
-                <option>Product &amp; Design</option>
-                <option>Business &amp; Operations</option>
-              </select>
-            </div>
-            <div className="full">
-              <label htmlFor="resume-file">Resume</label>
-              <input id="resume-file" name="resume" type="file" accept=".pdf,.doc,.docx" required />
-            </div>
-            <div className="full">
-              <label htmlFor="resume-msg">Message</label>
-              <textarea id="resume-msg" name="message" placeholder="Tell us briefly about yourself"></textarea>
-            </div>
-            <div className="full">
-              <button className="sp-btn" type="submit">Submit Resume</button>
-              <p className="sp-form-note">Please submit accurate and up-to-date information.</p>
-            </div>
-          </form>
-        </div>
-      </div>
-    </section>
+    <ResumeSection />
 
     {/* 08 — Closing */}
     <section className="sp-band is-white" id="closing">

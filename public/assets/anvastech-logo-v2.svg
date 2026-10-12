@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 140" fill="none" role="img" aria-label="AnvasTech">
+  <defs>
+    <linearGradient id="a" gradientUnits="userSpaceOnUse" x1="10" y1="132" x2="90" y2="10"><stop offset="0" stop-color="#0a3fa8"/><stop offset="1" stop-color="#2f86ff"/></linearGradient>
+    <linearGradient id="t" gradientUnits="userSpaceOnUse" x1="66" y1="8" x2="200" y2="132"><stop offset="0" stop-color="#8a02fd"/><stop offset="0.55" stop-color="#cf0bfd"/><stop offset="1" stop-color="#6a00e0"/></linearGradient>
+    <linearGradient id="tw" gradientUnits="userSpaceOnUse" x1="410" y1="40" x2="560" y2="110"><stop offset="0" stop-color="#8a02fd"/><stop offset="0.6" stop-color="#cf0bfd"/><stop offset="1" stop-color="#7a00f0"/></linearGradient>
+  </defs>
+  <path d="M14 128L70 18L126 128" stroke="url(#a)" stroke-width="22" stroke-miterlimit="10"/>
+  <path d="M44 94H96" stroke="url(#a)" stroke-width="13"/>
+  <path d="M66 18H198M160 18V128" stroke="url(#t)" stroke-width="22"/>
+  <text x="236" y="104" font-family="Inter, Arial, sans-serif" font-size="76" font-weight="700" letter-spacing="-2.6"><tspan fill="#14142b">Anvas</tspan><tspan fill="url(#tw)">Tech</tspan></text>
+</svg>

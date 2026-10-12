@@ -2,19 +2,20 @@ import { Link } from 'react-router-dom';
 import { usePageMeta } from '../lib/usePageMeta.js';
 import { relatedProducts } from '../lib/products.js';
 import ProductCard from '../components/ProductCard.jsx';
+import ArchGlyph from '../components/ArchGlyph.jsx';
 
 const TECH_TOPICS = [
-  { num: '01', title: 'Software Development', text: 'Practical perspectives on building and improving modern software applications.' },
-  { num: '02', title: 'Digital Products', text: 'Insights into product development, user experience, and turning requirements into working products.' },
-  { num: '03', title: 'AI & Emerging Technology', text: 'Our perspective on using AI and emerging technologies in practical software development.' },
-  { num: '04', title: 'Technology Practices', text: 'Lessons and approaches around development, problem solving, and building reliable digital solutions.' },
+  { num: '01', glyph: 'slices', title: 'Software Development', text: 'Practical perspectives on building and improving modern software applications.' },
+  { num: '02', glyph: 'discovery', title: 'Digital Products', text: 'Insights into product development, user experience, and turning requirements into working products.' },
+  { num: '03', glyph: 'emerging', title: 'AI & Emerging Technology', text: 'Our perspective on using AI and emerging technologies in practical software development.' },
+  { num: '04', glyph: 'sustain', title: 'Technology Practices', text: 'Lessons and approaches around development, problem solving, and building reliable digital solutions.' },
 ];
 
 const ENG_TOPICS = [
-  { num: '01', title: 'Product Engineering', text: 'Approaches to turning product requirements into working software.' },
-  { num: '02', title: 'AI-Assisted Engineering', text: 'How AI tools such as Claude, Cursor, and coding assistants can support engineering workflows.' },
-  { num: '03', title: 'Software Architecture', text: 'Perspectives on structuring applications and making engineering decisions based on project requirements.' },
-  { num: '04', title: 'Development Practices', text: 'Practical approaches to coding, debugging, testing, and continuously improving software.' },
+  { num: '01', glyph: 'product', title: 'Product Engineering', text: 'Approaches to turning product requirements into working software.' },
+  { num: '02', glyph: 'aiCode', title: 'AI-Assisted Engineering', text: 'How AI tools such as Claude, Cursor, and coding assistants can support engineering workflows.' },
+  { num: '03', glyph: 'architecture', title: 'Software Architecture', text: 'Perspectives on structuring applications and making engineering decisions based on project requirements.' },
+  { num: '04', glyph: 'practice', title: 'Development Practices', text: 'Practical approaches to coding, debugging, testing, and continuously improving software.' },
 ];
 
 /* The same ten products the Products index lists, in this page's own grouping
@@ -62,7 +63,8 @@ export default function Resources() {
         </div>
         <div className="sp-grid">
           {TECH_TOPICS.map((t) => (
-            <article className="sp-cell" key={t.num}>
+            <article className="sp-cell has-glyph" key={t.num}>
+              <ArchGlyph kind={t.glyph} />
               <span className="sp-num">{t.num}</span>
               <h3>{t.title}</h3>
               <p>{t.text}</p>
@@ -88,7 +90,8 @@ export default function Resources() {
         </div>
         <div className="sp-grid">
           {ENG_TOPICS.map((t) => (
-            <article className="sp-cell" key={t.num}>
+            <article className="sp-cell has-glyph" key={t.num}>
+              <ArchGlyph kind={t.glyph} />
               <span className="sp-num">{t.num}</span>
               <h3>{t.title}</h3>
               <p>{t.text}</p>

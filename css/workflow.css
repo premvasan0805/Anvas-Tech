@@ -1,0 +1,305 @@
+/* ==========================================================================
+   Workflow track (src/components/WorkflowTrack.jsx): stage cards on a lit
+   rail, with a pulse that runs along it and lights each stage in turn.
+   ========================================================================== */
+.wf {
+  --wf-blue: #2f86ff;
+  --wf-violet: #a14bff;
+  position: relative;
+  margin-top: 44px;
+}
+.wf-list {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(var(--n, 7), minmax(0, 1fr));
+  gap: 14px;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.wf-list:has(> :nth-child(7)) { --n: 7; }
+
+/* The rail runs through the middle of the cards. */
+.wf-rail {
+  position: absolute;
+  top: 50%;
+  left: 4%;
+  right: 4%;
+  z-index: 1;
+  height: 2px;
+  margin-top: -1px;
+  background:
+    repeating-linear-gradient(90deg, rgb(255 255 255 / 0.22) 0 6px, transparent 6px 12px);
+  background-size: 24px 2px;
+  animation: wf-rail 1.2s linear infinite;
+}
+@keyframes wf-rail { to { background-position: 24px 0; } }
+.wf-fill {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, var(--wf-blue), var(--wf-violet));
+  box-shadow: 0 0 14px rgb(120 120 255 / 0.8);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+.wf-pulse {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  /* Under the cards: it shows between them and glows through their edges. */
+  z-index: 1;
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 0 4px rgb(120 140 255 / 0.35), 0 0 24px 8px rgb(120 120 255 / 0.75);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ---------------- Stage cards ---------------- */
+.wf-stage {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  padding: 18px 10px 16px;
+  border-radius: 18px;
+  border: 1px solid rgb(255 255 255 / 0.12);
+  background: linear-gradient(170deg, rgb(30 34 84 / 0.75), rgb(12 14 40 / 0.85));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 16px 34px -18px rgb(0 0 0 / 0.8), inset 0 1px 0 rgb(255 255 255 / 0.08);
+  text-align: center;
+  transition:
+    translate 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+    border-color 0.35s ease,
+    box-shadow 0.35s ease,
+    background-color 0.35s ease;
+}
+.wf-num {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: rgb(255 255 255 / 0.4);
+  transition: color 0.35s ease;
+}
+.wf-ico {
+  width: 30px;
+  height: 30px;
+  fill: none;
+  stroke: rgb(255 255 255 / 0.62);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: stroke 0.35s ease, scale 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.wf-name {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: rgb(255 255 255 / 0.82);
+}
+
+/* Lit by the pulse, or under the pointer. */
+.wf-stage.is-live,
+.wf-stage:hover {
+  translate: 0 -8px;
+  border-color: rgb(120 150 255 / 0.7);
+  box-shadow: 0 22px 44px -16px rgb(47 134 255 / 0.55), 0 0 0 1px rgb(120 150 255 / 0.35), inset 0 1px 0 rgb(255 255 255 / 0.15);
+}
+.wf-stage.is-live .wf-ico,
+.wf-stage:hover .wf-ico { stroke: #fff; scale: 1.15; }
+.wf-stage.is-live .wf-num,
+.wf-stage:hover .wf-num { color: #9ec2ff; }
+/* Stages the pulse has passed keep a quiet tick of light. */
+.wf-stage.is-past { border-color: rgb(120 150 255 / 0.35); }
+.wf-stage.is-past .wf-ico { stroke: #9ec2ff; }
+/* A ring that ripples out when a stage lights. */
+.wf-stage::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  border: 1.5px solid rgb(120 150 255 / 0.8);
+  opacity: 0;
+  pointer-events: none;
+}
+.wf-stage.is-live::after { animation: wf-ripple 0.9s ease-out; }
+@keyframes wf-ripple {
+  from { opacity: 0.9; scale: 1; }
+  to { opacity: 0; scale: 1.18; }
+}
+
+/* ---------------- The AI-assisted stage ---------------- */
+@property --wf-ang {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+.wf-stage.is-ai {
+  padding: 26px 12px 22px;
+  border-color: transparent;
+  background:
+    linear-gradient(170deg, rgb(28 50 140 / 0.95), rgb(70 22 140 / 0.95)) padding-box,
+    conic-gradient(from var(--wf-ang), #2f86ff, #c06bff, #ff7ad9, #2f86ff) border-box;
+  border: 1.5px solid transparent;
+  box-shadow: 0 0 40px -6px rgb(130 90 255 / 0.65), 0 24px 50px -20px rgb(0 0 0 / 0.8);
+  animation: wf-spin 4s linear infinite;
+  scale: 1.08;
+}
+@keyframes wf-spin { to { --wf-ang: 360deg; } }
+.wf-stage.is-ai .wf-ico { stroke: #fff; width: 36px; height: 36px; }
+.wf-stage.is-ai .wf-num { color: #d7c4ff; }
+.wf-stage.is-ai .wf-name {
+  font-size: 15px;
+  background: linear-gradient(90deg, #fff, #e3d2ff, #fff);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: wf-shine 3s linear infinite;
+}
+@keyframes wf-shine { to { background-position: -200% 0; } }
+.wf-stage.is-ai.is-live {
+  translate: 0 -12px;
+  box-shadow: 0 0 70px 6px rgb(150 100 255 / 0.75), 0 30px 60px -20px rgb(0 0 0 / 0.8);
+}
+.wf-stage.is-ai.is-live .wf-ico { animation: wf-wiggle 0.8s ease-in-out 2; }
+@keyframes wf-wiggle { 25% { rotate: -10deg; } 75% { rotate: 10deg; } }
+/* Sparks that orbit the AI card, and burst outward when it lights. */
+.wf-sparks { position: absolute; inset: 0; pointer-events: none; }
+.wf-sparks i {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  margin: -3px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 10px 2px rgb(200 160 255 / 0.9);
+  animation: wf-orbit 5s linear infinite;
+}
+.wf-sparks i:nth-child(2) { animation-delay: -1.25s; background: #9ec2ff; }
+.wf-sparks i:nth-child(3) { animation-delay: -2.5s; }
+.wf-sparks i:nth-child(4) { animation-delay: -3.75s; background: #ffb3ec; }
+@keyframes wf-orbit {
+  from { transform: rotate(0deg) translateX(72px) scale(0.7); }
+  to { transform: rotate(360deg) translateX(72px) scale(0.7); }
+}
+.wf-stage.is-ai.is-live .wf-sparks i { animation: wf-orbit 5s linear infinite, wf-burst 0.9s ease-out; }
+@keyframes wf-burst { 40% { box-shadow: 0 0 22px 8px rgb(220 180 255 / 1); } }
+
+/* ---------------- Narrow: a vertical track ---------------- */
+@media (max-width: 900px) {
+  .wf-list { grid-template-columns: minmax(0, 1fr); gap: 12px; padding-left: 40px; }
+  .wf-rail {
+    top: 4%;
+    bottom: 4%;
+    left: 15px;
+    right: auto;
+    width: 2px;
+    height: auto;
+    margin: 0;
+    background: repeating-linear-gradient(180deg, rgb(255 255 255 / 0.22) 0 6px, transparent 6px 12px);
+    background-size: 2px 24px;
+  }
+  @keyframes wf-rail { to { background-position: 0 24px; } }
+  .wf-fill { transform: scaleY(0); transform-origin: 50% 0; background: linear-gradient(180deg, var(--wf-blue), var(--wf-violet)); }
+  .wf-pulse { top: 0; left: 16px; }
+  .wf-stage {
+    grid-template-columns: auto auto 1fr;
+    justify-items: start;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    text-align: left;
+  }
+  .wf-stage.is-live,
+  .wf-stage:hover { translate: 6px 0; }
+  .wf-stage.is-ai { scale: 1; padding: 18px 16px; }
+  .wf-stage.is-ai.is-live { translate: 6px 0; }
+  .wf-sparks { display: none; }
+}
+
+/* ==========================================================================
+   "What This Enables" cards (AI-Assisted Engineering): the shared list-card
+   with a diagram (.tx-arch), laid out as a bento — the first card wide, the
+   last a full-width closing card with its diagram beside the copy.
+   ========================================================================== */
+@property --en-ang {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+.en-grid { gap: 20px; }
+.en-card { min-height: 0; padding: 24px; }
+.en-card:nth-child(1) { grid-column: span 2; }
+.en-card:nth-child(6) { grid-column: 1 / -1; }
+.en-card:nth-child(1),
+.en-card:nth-child(6) {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
+  column-gap: 32px;
+  align-content: center;
+}
+.en-card:nth-child(1) .tx-glyph,
+.en-card:nth-child(6) .tx-glyph { grid-row: 1 / span 2; margin: 0; align-self: center; }
+.en-card:nth-child(1) h3,
+.en-card:nth-child(6) h3 { align-self: end; font-size: 24px; }
+.en-card:nth-child(6) .tx-glyph { max-width: 460px; justify-self: end; grid-column: 2; }
+.en-card:nth-child(6) h3,
+.en-card:nth-child(6) p { grid-column: 1; }
+
+/* The step number, large and outlined, behind the copy. */
+.en-num {
+  position: absolute;
+  right: 18px;
+  bottom: -14px;
+  z-index: -1;
+  font-size: 84px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  color: transparent;
+  -webkit-text-stroke: 1px rgb(15 95 220 / 0.09);
+  transition: -webkit-text-stroke-color 0.35s ease, translate 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+.en-card:hover .en-num { -webkit-text-stroke-color: rgb(95 30 190 / 0.22); translate: -6px -6px; }
+
+/* A gradient that runs round the border while the card is hovered. */
+.en-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 1.5px;
+  border-radius: inherit;
+  background: conic-gradient(from var(--en-ang), transparent 0 55%, #2f86ff 70%, #a14bff 82%, transparent 92%);
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+  animation: en-spin 2.8s linear infinite paused;
+}
+.en-card:hover::after { opacity: 1; animation-play-state: running; }
+@keyframes en-spin { to { --en-ang: 360deg; } }
+
+@media (max-width: 991px) {
+  .en-card:nth-child(1) { grid-column: 1 / -1; }
+}
+@media (max-width: 760px) {
+  .en-card:nth-child(1),
+  .en-card:nth-child(6) { display: block; }
+  .en-card:nth-child(1) .tx-glyph,
+  .en-card:nth-child(6) .tx-glyph { margin: -4px 0 18px; max-width: none; }
+  .en-card:nth-child(1) h3,
+  .en-card:nth-child(6) h3 { font-size: 20px; }
+}

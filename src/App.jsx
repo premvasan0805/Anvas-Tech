@@ -58,7 +58,9 @@ const WhoWeAre = lazy(() => import('./pages/WhoWeAre.jsx'));
 export default function App() {
   return (
     <SiteChrome>
-      <Suspense fallback={<main id="main" />}>
+      {/* Holds a screen of room while a page chunk loads, so the footer stays
+          below the fold instead of flashing at the top on refresh. */}
+      <Suspense fallback={<main id="main" className="route-pending" />}>
         <Routes>
           <Route path="/ai-agents" element={<AiAgents />} />
           <Route path="/ai-assisted-automation" element={<AiAssistedAutomation />} />

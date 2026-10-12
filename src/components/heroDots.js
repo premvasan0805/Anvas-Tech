@@ -20,6 +20,8 @@ uniform vec2 uMouse;
 uniform vec2 uStretch;
 uniform float uPixelRatio;
 uniform float uAmount;
+uniform float uKick;
+uniform float uTime;
 
 attribute float aSeed;
 
@@ -45,6 +47,15 @@ void main() {
   vec2 moved = dir * g;
   vec2 back = along * moved.x * k + across * moved.y;
   vec2 pos = uMouse + back;
+
+  // Scroll kick: a ripple runs down the plate and each dot jitters on its
+  // own phase, scaled by how fast the page is scrolling.
+  float phase = aSeed * 6.2832;
+  float wave = sin(p.y * 0.03 + p.x * 0.012 - uTime * 7.0 + phase * 0.35);
+  pos += uKick * vec2(
+    2.5 * sin(uTime * 23.0 + phase),
+    7.0 * wave + 2.5 * cos(uTime * 19.0 + phase * 1.7)
+  );
 
   // Compressed dots read smaller and dimmer.
   float squeeze = clamp(r / max(g, 0.001), 0.0, 1.0);
@@ -76,6 +87,8 @@ export function createDots() {
     uStretch: { value: new THREE.Vector2() },
     uPixelRatio: { value: 1 },
     uAmount: { value: 0 },
+    uKick: { value: 0 },
+    uTime: { value: 0 },
   };
   const material = new THREE.ShaderMaterial({
     uniforms,
@@ -126,8 +139,11 @@ export function createDots() {
       points.geometry = geometry;
     },
     // pointer: { x, y, at } in hero CSS pixels and clock seconds, or null.
-    update(seconds, amount, pointer) {
+    // kick: 0 to 1, how hard scrolling is shaking the plate.
+    update(seconds, amount, pointer, kick = 0) {
       uniforms.uAmount.value = amount;
+      uniforms.uKick.value = kick;
+      uniforms.uTime.value = seconds;
       points.visible = amount > 0.001;
       const dt = Math.min(Math.max(seconds - lastSeconds, 0), 0.1);
       lastSeconds = seconds;

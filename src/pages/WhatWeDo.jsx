@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { usePageMeta } from '../lib/usePageMeta.js';
 import { relatedProducts } from '../lib/products.js';
-import ProductCard from '../components/ProductCard.jsx';
+import ProjectShowcase from '../components/ProjectShowcase.jsx';
 
 /* Every id below is a menu or cross-page anchor target. Keep them.
 
@@ -17,6 +17,13 @@ const PROJECT_IDS = ['anvas-logistics', 'anvas-comet', 'fintech', 'kubera-ai', '
 /* The footer links to /what-we-do#fintech-platform, which is not the id this
    product carries in the shared map. Keep the anchor the footer expects. */
 const PROJECT_ANCHORS = { fintech: 'fintech-platform' };
+
+const JUMPS = [
+  ['#projects', 'Featured projects'],
+  ['#generative-ai', 'AI & intelligent systems'],
+  ['#product-engineering', 'Digital engineering'],
+  ['#industries', 'Industries'],
+];
 
 const AI = [
   { id: 'ai', to: '/generative-ai', title: 'Generative AI', text: 'Practical GenAI programs that move from pilots to production outcomes.' },
@@ -56,23 +63,15 @@ export default function WhatWeDo() {
         <p className="crumbs"><Link to="/">Home</Link> / Solutions</p>
         <h1>Solutions</h1>
         <p className="lede">Capabilities, industries and real projects &mdash; from logistics and fintech to AI platforms and public-facing systems.</p>
+        <nav className="wwd-jump" aria-label="On this page">
+          {JUMPS.map(([href, label], i) => (
+            <a href={href} key={href}><span>{String(i + 1).padStart(2, '0')}</span>{label}</a>
+          ))}
+        </nav>
       </div>
     </section>
 
-    <section className="sp-band is-white" id="projects">
-      <div className="sp-wrap">
-        <div className="sp-head">
-          <div>
-            <p className="sp-eyebrow">Featured projects</p>
-            <h2 className="sp-h2">Built for real-world impact</h2>
-          </div>
-          <p className="sp-lede">Seven platforms AnvasTech has built, each with its own page.</p>
-        </div>
-        <div className="sp-cards">
-          {relatedProducts(PROJECT_IDS).map((pr) => <ProductCard product={pr} anchorId={PROJECT_ANCHORS[pr.id]} key={pr.id} />)}
-        </div>
-      </div>
-    </section>
+    <ProjectShowcase products={relatedProducts(PROJECT_IDS)} anchors={PROJECT_ANCHORS} />
 
     <section className="sp-band is-tight" id="vishful">
       <div className="sp-wrap">

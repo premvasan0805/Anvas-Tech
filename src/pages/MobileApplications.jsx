@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { usePageMeta } from '../lib/usePageMeta.js';
+import PhoneSteps from '../components/PhoneSteps.jsx';
 
 const CAPABILITIES = [
   { num: '01', title: 'Mobile UI & UX', text: 'Design interfaces and user flows around the mobile experience.' },
@@ -52,23 +53,9 @@ export default function MobileApplications() {
             <p className="sp-p">Our approach covers planning, design, development, testing, and continuous improvement.</p>
             <div className="sp-actions"><Link className="sp-btn" to="/contact">Talk to Our Team</Link></div>
           </div>
-          {/* A mobile page, so the overview steps are framed in a handset
-              rather than laid out as another list. */}
-          <figure className="sp-plate is-device">
-            <p className="sp-plate-cap">Our approach</p>
-            <div className="sp-device">
-              <div className="sp-device-screen">
-                <ol>
-                  {STEPS.map((st) => (
-                    <li key={st.num}>
-                      <span>{st.title}</span>
-                      <b>{st.num}</b>
-                    </li>
-                  ))}
-                </ol>
-              </div>
-            </div>
-          </figure>
+          {/* A mobile page, so the overview steps play on a handset screen
+              rather than sit as another list. */}
+          <PhoneSteps steps={STEPS} caption="Our approach" />
         </div>
       </div>
     </section>

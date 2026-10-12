@@ -502,7 +502,7 @@
       scrollTrigger: { trigger: document.body, start: "top top", end: "bottom bottom", scrub: 0.3 },
     });
 
-    /* Header hide/show lives in site.js (always on, matches HCLTech). */
+    /* Header hide/show lives in site.js (always on). */
   }
 
   /* ------------------------------------------------------------------------

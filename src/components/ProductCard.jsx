@@ -20,6 +20,10 @@ export default function ProductCard({ product, anchorId }) {
         ) : (
           <span className="sp-card-mark">{title}</span>
         )}
+        {/* Decorative: a light that sweeps the frame now and then, and a
+            border that runs round it on hover (css/solution-page.css). */}
+        <span className="sp-card-sheen" aria-hidden="true" />
+        <span className="sp-card-ring" aria-hidden="true" />
       </span>
       <span className="sp-card-body">
         <span className="sp-card-kicker">{kicker}</span>

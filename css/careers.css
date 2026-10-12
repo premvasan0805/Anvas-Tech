@@ -1,0 +1,313 @@
+/* ==========================================================================
+   Careers resume band (src/components/ResumeSection.jsx).
+   A live résumé preview on the left, the form on dark glass on the right.
+   ========================================================================== */
+.rs {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+/* Two slow lights behind the band. */
+.rs-aura {
+  position: absolute;
+  inset: -20%;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(30% 40% at 20% 30%, rgb(15 95 220 / 0.35), transparent 70%),
+    radial-gradient(30% 40% at 80% 70%, rgb(161 11 253 / 0.28), transparent 70%);
+  animation: rs-aura 16s ease-in-out infinite alternate;
+}
+@keyframes rs-aura {
+  to { transform: translate(4%, -3%) rotate(8deg) scale(1.08); }
+}
+.rs-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 64px;
+  align-items: center;
+}
+.rs-side .sp-lede { margin-top: 18px; }
+
+/* ---------------- Live résumé card ---------------- */
+.rs-card {
+  position: relative;
+  margin-top: 36px;
+  max-width: 400px;
+  padding: 22px 22px 18px;
+  border-radius: 18px;
+  background: linear-gradient(160deg, rgb(255 255 255 / 0.12), rgb(255 255 255 / 0.04));
+  border: 1px solid rgb(255 255 255 / 0.16);
+  box-shadow: 0 30px 60px -20px rgb(0 0 0 / 0.6), inset 0 1px 0 rgb(255 255 255 / 0.15);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  rotate: -2deg;
+  animation: rs-float 7s ease-in-out infinite;
+}
+@keyframes rs-float {
+  0%, 100% { translate: 0 0; rotate: -2deg; }
+  50% { translate: 0 -10px; rotate: -0.5deg; }
+}
+.rs-card-top { display: flex; align-items: center; gap: 14px; }
+.rs-avatar {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2f86ff, #a10bfd);
+  font-size: 20px;
+  font-weight: 600;
+  color: #fff;
+  box-shadow: 0 0 0 4px rgb(255 255 255 / 0.08);
+}
+.rs-who { display: grid; gap: 6px; min-width: 0; }
+.rs-line {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: rgb(255 255 255 / 0.35);
+}
+.rs-line.is-name { font-size: 17px; font-weight: 600; }
+.rs-line.is-mail { font-size: 13px; }
+.rs-line.is-set { color: #fff; }
+.rs-line.is-mail.is-set { color: rgb(255 255 255 / 0.72); }
+.rs-tag {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgb(47 134 255 / 0.18);
+  border: 1px solid rgb(47 134 255 / 0.45);
+  font-size: 12px;
+  font-weight: 600;
+  color: #b9d6ff;
+  animation: rs-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes rs-pop { from { scale: 0.7; opacity: 0; } }
+/* Placeholder lines, with a shimmer running across them. */
+.rs-skel { display: grid; gap: 8px; margin-top: 16px; }
+.rs-skel i {
+  display: block;
+  height: 7px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, rgb(255 255 255 / 0.08) 0%, rgb(255 255 255 / 0.22) 50%, rgb(255 255 255 / 0.08) 100%);
+  background-size: 200% 100%;
+  animation: rs-shimmer 2.2s linear infinite;
+}
+.rs-skel i:nth-child(1) { width: 92%; }
+.rs-skel i:nth-child(2) { width: 78%; animation-delay: 0.15s; }
+.rs-skel i:nth-child(3) { width: 86%; animation-delay: 0.3s; }
+.rs-skel i:nth-child(4) { width: 54%; animation-delay: 0.45s; }
+@keyframes rs-shimmer { to { background-position: -200% 0; } }
+.rs-file {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px dashed rgb(255 255 255 / 0.22);
+  font-size: 13px;
+  color: rgb(255 255 255 / 0.4);
+  transition: border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+}
+.rs-file.is-set {
+  border-style: solid;
+  border-color: rgb(52 211 153 / 0.6);
+  background: rgb(52 211 153 / 0.1);
+  color: #d1fae5;
+}
+.rs-file-ico {
+  flex: none;
+  width: 16px;
+  height: 20px;
+  border-radius: 3px;
+  background: linear-gradient(135deg, #2f86ff, #a10bfd);
+}
+/* A paper plane that crosses the card now and then. */
+.rs-plane {
+  position: absolute;
+  top: -14px;
+  right: -18px;
+  width: 30px;
+  height: 30px;
+  background: #fff;
+  clip-path: polygon(0 45%, 100% 0, 62% 100%, 48% 62%);
+  filter: drop-shadow(0 4px 10px rgb(47 134 255 / 0.7));
+  animation: rs-plane 6s cubic-bezier(0.45, 0, 0.2, 1) infinite;
+}
+@keyframes rs-plane {
+  0%, 55% { translate: -360px 160px; rotate: -20deg; opacity: 0; scale: 0.6; }
+  62% { opacity: 1; }
+  88% { translate: 0 0; rotate: 0deg; opacity: 1; scale: 1; }
+  100% { translate: 40px -30px; rotate: 10deg; opacity: 0; scale: 0.8; }
+}
+
+/* ---------------- Steps ---------------- */
+.rs-steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 22px;
+  margin: 28px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+  color: rgb(255 255 255 / 0.6);
+}
+.rs-step { display: flex; align-items: center; gap: 9px; transition: color 0.3s ease; }
+.rs-step b {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid rgb(255 255 255 / 0.3);
+  font-size: 12px;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+.rs-step.is-done { color: #fff; }
+.rs-step.is-done b { background: #34d399; border-color: #34d399; color: #062b1f; }
+
+/* ---------------- Form on dark glass ---------------- */
+@property --rs-ang {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+.sp-form.rs-form {
+  position: relative;
+  gap: 20px 18px;
+  padding: 38px;
+  border-radius: 24px;
+  background: linear-gradient(170deg, rgb(26 30 78 / 0.85), rgb(14 16 46 / 0.92));
+  color: #fff;
+  box-shadow: 0 40px 80px -30px rgb(0 0 0 / 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+/* A light that runs round the border. */
+.sp-form.rs-form::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 1.5px;
+  border-radius: inherit;
+  background: conic-gradient(from var(--rs-ang), rgb(255 255 255 / 0.1) 0 60%, #2f86ff 75%, #c06bff 85%, rgb(255 255 255 / 0.1) 95%);
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  pointer-events: none;
+  animation: rs-ring 6s linear infinite;
+}
+@keyframes rs-ring { to { --rs-ang: 360deg; } }
+.rs-form label { color: rgb(255 255 255 / 0.78); }
+.rs-form input,
+.rs-form select,
+.rs-form textarea {
+  border-color: rgb(255 255 255 / 0.14);
+  background: rgb(255 255 255 / 0.05);
+  color: #fff;
+  transition: border-color 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
+}
+.rs-form input::placeholder,
+.rs-form textarea::placeholder { color: rgb(255 255 255 / 0.38); }
+.rs-form input:hover,
+.rs-form select:hover,
+.rs-form textarea:hover { border-color: rgb(255 255 255 / 0.3); }
+.rs-form input:focus,
+.rs-form select:focus,
+.rs-form textarea:focus {
+  border-color: #4f9bff;
+  background: rgb(47 134 255 / 0.08);
+  box-shadow: 0 0 0 4px rgb(47 134 255 / 0.18);
+}
+.rs-form select { appearance: none; padding-right: 40px; background-image: linear-gradient(45deg, transparent 50%, #9ec2ff 50%), linear-gradient(135deg, #9ec2ff 50%, transparent 50%); background-position: calc(100% - 20px) 52%, calc(100% - 15px) 52%; background-size: 5px 5px; background-repeat: no-repeat; }
+.rs-form select option { color: var(--ink); }
+.rs-form .sp-form-note { color: rgb(255 255 255 / 0.5); }
+
+/* Required-field progress. */
+.rs-progress {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgb(255 255 255 / 0.55);
+}
+.rs-progress-bar {
+  grid-column: 1 / -1;
+  height: 4px;
+  border-radius: 4px;
+  background: rgb(255 255 255 / 0.1);
+  overflow: hidden;
+}
+.rs-progress-bar > span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #2f86ff, #c06bff);
+  transform-origin: 0 50%;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Drop zone around the file input. */
+.rs-form .rs-drop {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  padding: 22px 16px;
+  border: 1.5px dashed rgb(255 255 255 / 0.25);
+  border-radius: 14px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.25s ease, background-color 0.25s ease, scale 0.25s ease;
+}
+.rs-drop:hover,
+.rs-drop.is-over { border-color: #4f9bff; background: rgb(47 134 255 / 0.08); }
+.rs-drop.is-over { scale: 1.02; }
+.rs-drop.is-set { border-style: solid; border-color: rgb(52 211 153 / 0.6); background: rgb(52 211 153 / 0.08); }
+.rs-drop:focus-within { box-shadow: 0 0 0 4px rgb(47 134 255 / 0.18); }
+.rs-drop input[type="file"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.rs-drop-ico {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #2f86ff, #a10bfd);
+  clip-path: polygon(50% 8%, 82% 42%, 62% 42%, 62% 78%, 38% 78%, 38% 42%, 18% 42%);
+  animation: rs-bob 1.8s ease-in-out infinite;
+}
+@keyframes rs-bob { 50% { translate: 0 -4px; } }
+.rs-drop.is-set .rs-drop-ico { background: #34d399; clip-path: polygon(14% 52%, 28% 38%, 42% 52%, 74% 20%, 88% 34%, 42% 80%); animation: none; }
+.rs-drop-text { font-size: 14px; color: rgb(255 255 255 / 0.7); }
+.rs-drop-text b { color: #fff; font-weight: 600; }
+.rs-drop-hint { font-size: 12px; color: rgb(255 255 255 / 0.4); }
+
+/* Send button: a light sweeps across on hover. */
+.rs-send { position: relative; overflow: hidden; }
+.rs-send::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 30%, rgb(255 255 255 / 0.45) 50%, transparent 70%);
+  translate: -120% 0;
+  transition: translate 0.7s ease;
+}
+.rs-send:hover::before { translate: 120% 0; }
+.rs-send span { position: relative; }
+
+@media (max-width: 991px) {
+  .rs-grid { grid-template-columns: minmax(0, 1fr); gap: 40px; }
+  .rs-card { max-width: none; }
+}
+@media (max-width: 600px) {
+  .sp-form.rs-form { grid-template-columns: minmax(0, 1fr); padding: 26px 20px; }
+}

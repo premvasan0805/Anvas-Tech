@@ -1,0 +1,71 @@
+/* Home hero, first slide: an engineer and an AI assistant at work
+   (src/components/HeroPairing.jsx). Desktop only; under 1024px the copy goes
+   full width and the picture would only crowd it. */
+
+.hp { display: none; }
+
+@media (min-width: 1024px) {
+  .hero-shell.has-picture { position: relative; }
+  .hp {
+    display: block;
+    position: absolute;
+    top: 112px;
+    right: 0;
+    width: min(42vw, 600px);
+    pointer-events: none;
+  }
+  /* The scene dissolves at the bottom instead of stopping at a hard edge. */
+  .hp svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+    -webkit-mask-image: linear-gradient(180deg, #000 72%, transparent 98%);
+    mask-image: linear-gradient(180deg, #000 72%, transparent 98%);
+  }
+}
+@media (min-width: 1280px) {
+  .hp { right: -70px; }
+}
+
+.hp-bezel { stroke: rgb(255 255 255 / 0.1); }
+.hp-edge { stroke: rgb(255 255 255 / 0.12); }
+/* Screen light catching the top of the engineer's head and shoulders. */
+.hp-rim { stroke: rgb(170 150 255 / 0.55); stroke-width: 2; stroke-linecap: round; }
+
+/* Code: typed lines in full colour; suggested ones arrive as ghost bars and
+   take colour once accepted. */
+.hp-code { fill: rgb(255 255 255 / 0.28); transition: fill 0.3s ease; }
+.hp-code-typed.hp-tone-0, .hp-code.is-solid.hp-tone-0 { fill: #a996ff; }
+.hp-code-typed.hp-tone-1, .hp-code.is-solid.hp-tone-1 { fill: #6fb6ff; }
+.hp-code-typed.hp-tone-2, .hp-code.is-solid.hp-tone-2 { fill: #8b74ff; }
+.hp-code.hp-bug.is-bad { fill: #ff6b7d; }
+.hp-code.hp-bug.is-fixed { fill: #5be3a0; }
+.hp-caret { fill: #e9e4ff; animation: hp-blink 0.9s steps(1) infinite; }
+
+.hp-orbit {
+  stroke: rgb(185 165 255 / 0.45);
+  stroke-width: 1;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: hp-orbit 6s linear infinite;
+}
+.hp-orb-core { filter: drop-shadow(0 0 12px rgb(124 92 255 / 0.9)); }
+
+.hp-label,
+.hp-chip-text {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+}
+.hp-label { fill: rgb(214 206 255 / 0.7); font-weight: 500; letter-spacing: 0.02em; }
+
+@keyframes hp-blink { 50% { opacity: 0; } }
+@keyframes hp-orbit { to { transform: rotate(360deg); } }
+
+/* The paragraph phrase the picture is acting out takes the brand colour. */
+.hero .beat { transition: color 0.45s ease; }
+.hero[data-beat="explore"] .beat[data-beat="explore"],
+.hero[data-beat="refine"] .beat[data-beat="refine"],
+.hero[data-beat="solve"] .beat[data-beat="solve"],
+.hero[data-beat="build"] .beat[data-beat="build"] { color: #c9b8ff; }

@@ -1,0 +1,303 @@
+/* ==========================================================================
+   UI/UX & Product Design page (src/pages/UiUxProductDesign.jsx).
+   The page acts out design work: the title is selected like a layer in a
+   design tool, the capabilities run as a ticker and each capability cell
+   carries a small looping drawing of itself. Every loop sits behind
+   prefers-reduced-motion: no-preference; the base styles are the finished,
+   still state.
+   ========================================================================== */
+
+/* ---- Hero: title selection ---- */
+.ux-sel {
+  position: relative;
+  display: inline-block;
+}
+.ux-sel::before {
+  content: "";
+  position: absolute;
+  inset: -8px -14px;
+  border: 1px solid #5b8cff;
+  background: rgb(91 140 255 / 0.07);
+  pointer-events: none;
+}
+.ux-sel-h {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  border: 1.5px solid #5b8cff;
+  background: #fff;
+  pointer-events: none;
+}
+.ux-sel-h.is-tl { left: -18px; top: -12px; }
+.ux-sel-h.is-tr { right: -18px; top: -12px; }
+.ux-sel-h.is-bl { left: -18px; bottom: -12px; }
+.ux-sel-h.is-br { right: -18px; bottom: -12px; }
+.ux-sel-cursor {
+  position: absolute;
+  left: calc(100% + 40px);
+  top: calc(100% + 26px);
+  width: 16px;
+  height: 22px;
+  background: #fff;
+  clip-path: polygon(0 0, 0 100%, 30% 72%, 52% 100%, 66% 92%, 46% 66%, 90% 66%);
+  filter: drop-shadow(0 2px 4px rgb(0 0 0 / 0.5));
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ---- Ticker ---- */
+.ux-marquee {
+  overflow: hidden;
+  padding: 26px 0;
+  background:
+    radial-gradient(60% 140% at 50% 50%, rgb(61 123 255 / 0.18), transparent 70%),
+    #0a0a23;
+  position: relative;
+}
+/* Edges fade into the strip's own ink rather than masking to the page. */
+.ux-marquee::before,
+.ux-marquee::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  width: 10%;
+  pointer-events: none;
+}
+.ux-marquee::before { left: 0; background: linear-gradient(90deg, #0a0a23, transparent); }
+.ux-marquee::after { right: 0; background: linear-gradient(-90deg, #0a0a23, transparent); }
+.ux-marquee-track { display: flex; width: max-content; }
+.ux-marquee ul {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ux-marquee li {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  padding-right: 36px;
+  font-size: clamp(26px, 3.6vw, 48px);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+  color: #fff;
+}
+.ux-marquee li:nth-child(even) {
+  color: transparent;
+  -webkit-text-stroke: 1px rgb(255 255 255 / 0.55);
+}
+/* A four-point spark between items. */
+.ux-marquee li::after {
+  content: "";
+  width: 18px;
+  height: 18px;
+  background: linear-gradient(135deg, #5b8cff, #a26bff 55%, #47d7e6);
+  clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%);
+}
+
+/* ---- Capability glyphs ---- */
+.ux-cell { position: relative; }
+.ux-glyph,
+.sp-motion .sp-cell > .ux-glyph {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 64px;
+  height: 44px;
+  overflow: visible;
+  fill: none;
+  stroke: var(--blue);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.ux-glyph .ux-g-track { stroke: rgb(15 95 220 / 0.25); stroke-dasharray: 3 4; }
+.ux-glyph .ux-g-comet { stroke: #a26bff; stroke-width: 3; stroke-dasharray: 14 86; stroke-dashoffset: -40; }
+.ux-glyph .ux-g-node { fill: #fff; }
+.ux-glyph .ux-g-draw { stroke-dasharray: 100; }
+.ux-glyph .ux-g-pop { fill: #a26bff; stroke: none; transform-box: fill-box; transform-origin: center; }
+.ux-glyph .ux-g-switch { fill: var(--blue); stroke: none; }
+.ux-glyph .ux-g-knob { fill: #fff; stroke: none; translate: 16px 0; filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.25)); }
+.ux-glyph .ux-g-tick { stroke: #1aa36b; stroke-width: 2.5; stroke-dasharray: 100; }
+.ux-glyph .ux-g-screen { fill: rgb(15 95 220 / 0.06); }
+.ux-glyph .ux-g-screen.is-b { fill: rgb(15 95 220 / 0.85); }
+.ux-glyph .ux-g-link { stroke: #a26bff; stroke-dasharray: 100; }
+.ux-glyph .ux-g-cursor { fill: #1a1a28; stroke: #fff; stroke-width: 1; translate: 36px 4px; }
+.ux-glyph .ux-g-tile { fill: rgb(15 95 220 / 0.14); transform-box: fill-box; transform-origin: center; }
+.ux-glyph .ux-g-tile:nth-child(2) { fill: rgb(162 107 255 / 0.25); stroke: #a26bff; }
+.ux-glyph .ux-g-tile:nth-child(4) { fill: rgb(71 215 230 / 0.25); stroke: #1fb5c7; }
+.ux-glyph .ux-g-bend { transform-origin: 32px 34px; }
+.ux-glyph .ux-g-arm { stroke: rgb(26 26 40 / 0.35); stroke-width: 1; }
+.ux-glyph .ux-g-pt { fill: #a26bff; stroke: none; }
+.ux-glyph .ux-g-anchor { fill: #fff; stroke-width: 1.5; }
+
+/* ---- Process: steps light as they scroll in (is-lit from the page) ---- */
+#process .sp-step::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -2px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--blue), #a26bff);
+  scale: 0 1;
+  transform-origin: 0 50%;
+  transition: scale 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+#process .sp-step.is-lit::after { scale: 1 1; }
+#process .sp-step-num { transition: color 0.6s ease, translate 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
+#process .sp-step.is-lit .sp-step-num { color: var(--blue); translate: 6px 0; }
+
+@media (max-width: 900px) {
+  .ux-glyph,
+  .sp-motion .sp-cell > .ux-glyph { top: 20px; right: 20px; }
+}
+
+/* ==========================================================================
+   Motion
+   ========================================================================== */
+@media (prefers-reduced-motion: no-preference) {
+  /* Selection: the cursor drags the frame from the title's top-left corner to
+     its bottom-right, the handles pop in, the cursor drifts off. Timed to
+     start once the title words have risen in. */
+  .ux-sel::before { animation: ux-frame 0.9s cubic-bezier(0.5, 0, 0.2, 1) 1.6s both; }
+  .ux-sel-h { animation: ux-handle 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+  .ux-sel-h.is-tl { animation-delay: 2.45s; }
+  .ux-sel-h.is-tr { animation-delay: 2.52s; }
+  .ux-sel-h.is-bl { animation-delay: 2.59s; }
+  .ux-sel-h.is-br { animation-delay: 2.66s; }
+  .ux-sel-cursor { animation: ux-drag 2s cubic-bezier(0.5, 0, 0.2, 1) 1.4s both; }
+
+
+  .ux-marquee-track { animation: ux-ticker 42s linear infinite; }
+  .ux-marquee:hover .ux-marquee-track { animation-play-state: paused; }
+  .ux-marquee li::after { animation: ux-spin 6s linear infinite; }
+
+  .ux-glyph .ux-g-comet { animation: ux-comet 2.6s cubic-bezier(0.6, 0, 0.4, 1) infinite; }
+  .ux-glyph .ux-g-node { transform-box: fill-box; transform-origin: center; animation: ux-node 2.6s ease-in-out infinite; }
+  .ux-glyph .ux-g-node:nth-of-type(2) { animation-delay: 1.1s; }
+  .ux-glyph .ux-g-node:nth-of-type(3) { animation-delay: 2.1s; }
+
+  .ux-glyph .ux-g-draw { animation: ux-wire 4s ease-in-out infinite; }
+  .ux-glyph .ux-g-draw.is-late { animation-name: ux-wire-late; }
+  .ux-glyph .ux-g-draw.is-later { animation-name: ux-wire-later; }
+  .ux-glyph .ux-g-pop { animation: ux-wire-pop 4s ease-in-out infinite; }
+
+  .ux-glyph .ux-g-switch { animation: ux-switch 3.2s ease-in-out infinite; }
+  .ux-glyph .ux-g-knob { animation: ux-knob 3.2s cubic-bezier(0.34, 1.4, 0.64, 1) infinite; }
+  .ux-glyph .ux-g-tick { animation: ux-tick 3.2s ease-in-out infinite; }
+
+  .ux-glyph .ux-g-cursor { animation: ux-proto-cursor 3.6s cubic-bezier(0.5, 0, 0.2, 1) infinite; }
+  .ux-glyph .ux-g-link { animation: ux-proto-link 3.6s ease-in-out infinite; }
+  .ux-glyph .ux-g-screen.is-b { animation: ux-proto-screen 3.6s ease-in-out infinite; }
+
+  .ux-glyph .ux-g-tile { animation: ux-tile 3.6s cubic-bezier(0.34, 1.56, 0.64, 1) infinite; }
+  .ux-glyph .ux-g-tile:nth-child(2) { animation-delay: 0.12s; }
+  .ux-glyph .ux-g-tile:nth-child(3) { animation-delay: 0.24s; }
+  .ux-glyph .ux-g-tile:nth-child(4) { animation-delay: 0.36s; }
+
+  .ux-glyph .ux-g-bend { animation: ux-bend 2.8s ease-in-out infinite alternate; }
+  .ux-glyph .ux-g-handle { animation: ux-handle-move 2.8s ease-in-out infinite alternate; }
+
+  /* Hovering a cell plays its drawing faster, as if it woke up. */
+  .ux-cell:hover .ux-glyph * { animation-duration: 1.6s; }
+}
+
+@keyframes ux-frame {
+  from { clip-path: inset(0 100% 100% 0); opacity: 1; }
+  to { clip-path: inset(0 0 0 0); opacity: 1; }
+}
+@keyframes ux-handle {
+  from { opacity: 0; scale: 0; }
+  to { opacity: 1; scale: 1; }
+}
+@keyframes ux-drag {
+  0% { left: -22px; top: -16px; opacity: 0; }
+  10% { left: -22px; top: -16px; opacity: 1; }
+  55% { left: calc(100% + 10px); top: calc(100% + 4px); opacity: 1; }
+  70% { left: calc(100% + 10px); top: calc(100% + 4px); opacity: 1; }
+  100% { left: calc(100% + 40px); top: calc(100% + 26px); opacity: 0; }
+}
+@keyframes ux-ticker { to { translate: -50% 0; } }
+@keyframes ux-spin { to { rotate: 360deg; } }
+
+@keyframes ux-comet {
+  from { stroke-dashoffset: 14; }
+  to { stroke-dashoffset: -86; }
+}
+@keyframes ux-node {
+  0%, 70%, 100% { scale: 1; fill: #fff; }
+  15% { scale: 1.35; fill: #a26bff; }
+}
+
+@keyframes ux-wire {
+  0% { stroke-dashoffset: 100; opacity: 1; }
+  30%, 85% { stroke-dashoffset: 0; opacity: 1; }
+  95%, 100% { stroke-dashoffset: 0; opacity: 0; }
+}
+@keyframes ux-wire-late {
+  0%, 25% { stroke-dashoffset: 100; opacity: 1; }
+  45%, 85% { stroke-dashoffset: 0; opacity: 1; }
+  95%, 100% { stroke-dashoffset: 0; opacity: 0; }
+}
+@keyframes ux-wire-later {
+  0%, 35% { stroke-dashoffset: 100; opacity: 1; }
+  55%, 85% { stroke-dashoffset: 0; opacity: 1; }
+  95%, 100% { stroke-dashoffset: 0; opacity: 0; }
+}
+@keyframes ux-wire-pop {
+  0%, 55% { scale: 0; opacity: 0; }
+  65%, 85% { scale: 1; opacity: 1; }
+  95%, 100% { scale: 1; opacity: 0; }
+}
+
+@keyframes ux-switch {
+  0%, 35% { fill: rgb(26 26 40 / 0.18); }
+  50%, 90% { fill: var(--blue); }
+  100% { fill: rgb(26 26 40 / 0.18); }
+}
+@keyframes ux-knob {
+  0%, 35% { translate: 0 0; }
+  50%, 90% { translate: 16px 0; }
+  100% { translate: 0 0; }
+}
+@keyframes ux-tick {
+  0%, 45% { stroke-dashoffset: 100; opacity: 1; }
+  60%, 88% { stroke-dashoffset: 0; opacity: 1; }
+  96%, 100% { stroke-dashoffset: 0; opacity: 0; }
+}
+
+@keyframes ux-proto-cursor {
+  0%, 10% { translate: 0 0; scale: 1; opacity: 0; }
+  18% { translate: 0 0; opacity: 1; }
+  26% { scale: 0.8; }
+  30% { scale: 1; translate: 0 0; }
+  60%, 85% { translate: 36px 4px; opacity: 1; }
+  95%, 100% { translate: 36px 4px; opacity: 0; }
+}
+@keyframes ux-proto-link {
+  0%, 28% { stroke-dashoffset: 100; }
+  58%, 90% { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: 100; }
+}
+@keyframes ux-proto-screen {
+  0%, 55% { fill: rgb(15 95 220 / 0.06); }
+  65%, 90% { fill: rgb(15 95 220 / 0.85); }
+  100% { fill: rgb(15 95 220 / 0.06); }
+}
+
+@keyframes ux-tile {
+  0% { scale: 0; opacity: 0; }
+  14%, 80% { scale: 1; opacity: 1; }
+  92%, 100% { scale: 0.6; opacity: 0; }
+}
+
+@keyframes ux-bend { from { scale: 1 1; } to { scale: 1 0.5; } }
+@keyframes ux-handle-move { from { translate: 0 0; } to { translate: 0 12px; } }
+
+/* Wire plate: no rule above the footnote. */
+.sp-plate.is-wire .sp-plate-foot { border-top: 0; padding-top: 0; }

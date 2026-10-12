@@ -128,10 +128,13 @@ export function bootSite(first) {
       <a class="skip" href="#main">Skip to main content</a>
       <header class="site-header" id="header">
         <div class="header-bar">
-        <a class="logo" href="/" aria-label="Anvas Tech">
-          <span class="logo-word" aria-hidden="true"><svg class="logo-glyph logo-glyph-a" viewBox="25 29 520 444" aria-hidden="true" focusable="false"><defs><linearGradient id="anvas-a-gr" x1="0" y1="0" x2="0.85" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="0.45" stop-color="#f3f4f6"/><stop offset="0.74" stop-color="#d2d5da"/><stop offset="1" stop-color="#9ca1a8"/></linearGradient></defs><path class="glyph-art" d="M297.0 29.0 307.0 36.0 347.0 98.0 520.0 419.0 545.0 473.0 466.0 472.0 451.0 466.0 437.0 454.0 407.0 405.0 347.0 287.0 337.0 275.0 337.0 269.0 333.0 267.0 330.0 255.0 302.0 203.0 294.0 204.0 290.0 216.0 285.0 219.0 237.0 299.0 236.0 308.0 265.0 303.0 308.0 303.0 328.0 307.0 347.0 322.0 370.0 361.0 375.0 361.0 375.0 369.0 380.0 377.0 384.0 377.0 386.0 390.0 229.0 392.0 196.0 408.0 132.0 473.0 25.0 473.0 34.0 452.0 297.0 29.0Z" fill="url(#anvas-a-gr)"/><path class="glyph-flat" d="M297.0 29.0 307.0 36.0 347.0 98.0 520.0 419.0 545.0 473.0 466.0 472.0 451.0 466.0 437.0 454.0 407.0 405.0 347.0 287.0 337.0 275.0 337.0 269.0 333.0 267.0 330.0 255.0 302.0 203.0 294.0 204.0 290.0 216.0 285.0 219.0 237.0 299.0 236.0 308.0 265.0 303.0 308.0 303.0 328.0 307.0 347.0 322.0 370.0 361.0 375.0 361.0 375.0 369.0 380.0 377.0 384.0 377.0 386.0 390.0 229.0 392.0 196.0 408.0 132.0 473.0 25.0 473.0 34.0 452.0 297.0 29.0Z" fill="currentColor"/></svg><span class="logo-tail logo-tail-a">nvas&nbsp;</span><svg class="logo-glyph logo-glyph-t" viewBox="313 25 481 450" aria-hidden="true" focusable="false"><defs><linearGradient id="anvas-t-gr" x1="0.1" y1="0" x2="0.9" y2="1"><stop offset="0" stop-color="#8a02fd"/><stop offset="0.38" stop-color="#cf0bfd"/><stop offset="0.7" stop-color="#7a00f0"/><stop offset="1" stop-color="#4d00c0"/></linearGradient></defs><path class="glyph-art" d="M696.0 25.0 792.0 25.0 794.0 31.0 743.0 100.0 739.0 111.0 709.0 133.0 694.0 136.0 581.0 137.0 583.0 475.0 471.0 475.0 471.0 325.0 469.0 319.0 465.0 319.0 465.0 316.0 471.0 316.0 471.0 136.0 375.0 134.0 373.0 128.0 368.0 128.0 367.0 117.0 359.0 117.0 361.0 107.0 347.0 82.0 341.0 82.0 341.0 73.0 336.0 73.0 336.0 65.0 328.0 51.0 323.0 51.0 320.0 40.0 313.0 39.0 313.0 28.0 696.0 25.0Z" fill="url(#anvas-t-gr)"/><path class="glyph-flat" d="M696.0 25.0 792.0 25.0 794.0 31.0 743.0 100.0 739.0 111.0 709.0 133.0 694.0 136.0 581.0 137.0 583.0 475.0 471.0 475.0 471.0 325.0 469.0 319.0 465.0 319.0 465.0 316.0 471.0 316.0 471.0 136.0 375.0 134.0 373.0 128.0 368.0 128.0 367.0 117.0 359.0 117.0 361.0 107.0 347.0 82.0 341.0 82.0 341.0 73.0 336.0 73.0 336.0 65.0 328.0 51.0 323.0 51.0 320.0 40.0 313.0 39.0 313.0 28.0 696.0 25.0Z" fill="currentColor"/></svg><span class="logo-tail logo-tail-t">ech</span></span>
+        <span class="hb-glow" aria-hidden="true"></span>
+        <a class="logo" href="/" aria-label="AnvasTech">
+          <svg class="logo-mark" viewBox="0 0 210 140" aria-hidden="true" focusable="false"><defs><linearGradient id="logo-gr-a" gradientUnits="userSpaceOnUse" x1="10" y1="132" x2="90" y2="10"><stop offset="0" stop-color="#0a3fa8"/><stop offset="1" stop-color="#2f86ff"/></linearGradient><linearGradient id="logo-gr-t" gradientUnits="userSpaceOnUse" x1="66" y1="8" x2="200" y2="132"><stop offset="0" stop-color="#8a02fd"/><stop offset="0.55" stop-color="#cf0bfd"/><stop offset="1" stop-color="#6a00e0"/></linearGradient><linearGradient id="logo-gr-shine" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset="0.5" stop-color="#fff" stop-opacity="0.8"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient><mask id="logo-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="210" height="140"><path d="M14 128L70 18L126 128" fill="none" stroke="#fff" stroke-width="22"/><path d="M44 94H96" fill="none" stroke="#fff" stroke-width="13"/><path d="M60 18H198M160 18V128" fill="none" stroke="#fff" stroke-width="22"/></mask></defs><path class="lm-a" pathLength="1" d="M14 128L70 18L126 128"/><path class="lm-cross" pathLength="1" d="M44 94H96"/><path class="lm-bar" pathLength="1" d="M66 18H198"/><path class="lm-stem" d="M160 18V128"/><g mask="url(#logo-mask)"><rect class="lm-shine" x="-60" y="-10" width="60" height="160" fill="url(#logo-gr-shine)" transform="skewX(-18)"/></g><path class="lm-spark" d="M70 6l3.5 8.5 8.5 3.5-8.5 3.5-3.5 8.5-3.5-8.5-8.5-3.5 8.5-3.5z"/></svg>
+          <span class="logo-name" aria-hidden="true"><span class="logo-name-in">Anvas<span class="logo-name-t">Tech</span></span></span>
         </a>
           <nav class="nav-desktop" aria-label="Primary navigation">
+            <span class="nav-pill" aria-hidden="true"></span>
             <div class="nav-item" data-mega>
               <a class="nav-link" href="/what-we-do">Solutions <span class="chev"></span></a>
               ${megaWhat}
@@ -173,9 +176,7 @@ export function bootSite(first) {
               </button>
               <div class="lang-menu" role="listbox">
                 <button type="button">English</button>
-                <button type="button">Deutsch</button>
-                <button type="button">Français</button>
-                <button type="button">日本語</button>
+                <button type="button" lang="ta">தமிழ்</button>
               </div>
             </div>
             <a class="chat-btn" href="/contact" aria-label="Chat with us">
@@ -328,6 +329,40 @@ export function bootSite(first) {
       });
     });
 
+    // Inside each panel: a highlight glides to whichever link is under the
+    // pointer, and a faint glow follows the pointer itself.
+    document.querySelectorAll(".mega").forEach((panel) => {
+      const glide = document.createElement("span");
+      glide.className = "mega-glide";
+      glide.setAttribute("aria-hidden", "true");
+      panel.prepend(glide);
+      const moveTo = (link) => {
+        const p = panel.getBoundingClientRect();
+        const r = link.getBoundingClientRect();
+        // Fresh entry: appear in place rather than slide in from elsewhere.
+        glide.classList.toggle("is-jump", !glide.classList.contains("is-on"));
+        glide.style.transform = `translate(${r.left - p.left - 12}px, ${r.top - p.top}px)`;
+        glide.style.width = `${r.width + 24}px`;
+        glide.style.height = `${r.height}px`;
+        void glide.offsetWidth;
+        glide.classList.remove("is-jump");
+        glide.classList.add("is-on");
+      };
+      panel.addEventListener("mouseover", (e) => {
+        const link = e.target.closest("a");
+        if (link && panel.contains(link)) moveTo(link);
+      });
+      panel.addEventListener("focusin", (e) => {
+        if (e.target.matches("a")) moveTo(e.target);
+      });
+      panel.addEventListener("mousemove", (e) => {
+        const p = panel.getBoundingClientRect();
+        panel.style.setProperty("--mx", `${e.clientX - p.left}px`);
+        panel.style.setProperty("--my", `${e.clientY - p.top}px`);
+      });
+      panel.addEventListener("mouseleave", () => glide.classList.remove("is-on"));
+    });
+
     document.querySelectorAll("[data-mega-more]").forEach((btn) => {
       btn.addEventListener("click", (e) => {
         e.preventDefault();
@@ -369,20 +404,21 @@ export function bootSite(first) {
   runBinder("bindLogoReveal", "once", function () {
     const logo = document.querySelector(".logo");
     if (!logo) return;
-    /* The tails ("nvas", "ech") sit at width 0 while the logo is a monogram,
-       so their open width has to be measured and handed back to CSS. */
-    const tails = [...logo.querySelectorAll(".logo-tail")];
+    /* The name sits at width 0 while the logo shows only the mark, so its
+       open width has to be measured and handed back to CSS. */
+    const name = logo.querySelector(".logo-name");
     const measure = () => {
-      tails.forEach((el) => {
-        el.style.width = "auto";
-        const w = el.getBoundingClientRect().width;
-        el.style.width = "";
-        if (w) el.style.setProperty("--w", w.toFixed(2) + "px");
-      });
+      if (!name) return;
+      const w = name.firstElementChild.getBoundingClientRect().width;
+      if (w) logo.style.setProperty("--name-w", w.toFixed(2) + "px");
     };
     measure();
     document.fonts?.ready.then(measure);
     window.addEventListener("resize", measure);
+    /* Intro, once per page load: the mark draws itself, the name unrolls
+       beside it, holds, and folds back to the mark (css/styles.css). */
+    logo.classList.add("is-intro");
+    setTimeout(() => logo.classList.remove("is-intro"), 3600);
     const on = () => logo.classList.add("is-on");
     const off = () => logo.classList.remove("is-on");
     logo.addEventListener("pointerenter", on);
@@ -465,6 +501,55 @@ export function bootSite(first) {
     );
   });
 
+  /* Header bar: opens from a line of light on first load, a spotlight
+     follows the cursor over the glass, and a pill glides to the hovered
+     menu item. */
+  runBinder("bindHeaderFX", "once", function () {
+    if (!headerEl) return;
+    const bar = headerEl.querySelector(".header-bar");
+    const nav = headerEl.querySelector(".nav-desktop");
+    const pill = nav && nav.querySelector(".nav-pill");
+    if (!bar) return;
+    headerEl.classList.add("is-entering");
+    setTimeout(() => headerEl.classList.remove("is-entering"), 2200);
+
+    bar.addEventListener(
+      "pointermove",
+      (e) => {
+        const r = bar.getBoundingClientRect();
+        bar.style.setProperty("--hx", `${e.clientX - r.left}px`);
+        bar.style.setProperty("--hy", `${e.clientY - r.top}px`);
+      },
+      { passive: true }
+    );
+
+    if (!nav || !pill) return;
+    const moveTo = (link) => {
+      const n = nav.getBoundingClientRect();
+      const r = link.getBoundingClientRect();
+      // First hover appears in place; later ones glide from the last item.
+      if (!nav.classList.contains("has-pill")) {
+        pill.style.transition = "none";
+        nav.style.setProperty("--pl", `${r.left - n.left}px`);
+        nav.style.setProperty("--pw", `${r.width}px`);
+        pill.getBoundingClientRect();
+        pill.style.transition = "";
+      }
+      nav.style.setProperty("--pl", `${r.left - n.left}px`);
+      nav.style.setProperty("--pw", `${r.width}px`);
+      nav.classList.add("has-pill");
+    };
+    nav.querySelectorAll(".nav-link").forEach((link) => {
+      link.addEventListener("pointerenter", () => moveTo(link));
+      link.addEventListener("focus", () => moveTo(link));
+    });
+    // Mega panels sit inside the nav, so leaving the nav means leaving both.
+    nav.addEventListener("pointerleave", () => nav.classList.remove("has-pill"));
+    nav.addEventListener("focusout", (e) => {
+      if (!nav.contains(e.relatedTarget)) nav.classList.remove("has-pill");
+    });
+  });
+
   runBinder("bindHeaderScrollHide", "once", function () {
     if (!headerEl) return;
     let lastY = window.scrollY;
@@ -498,36 +583,40 @@ export function bootSite(first) {
     update();
   });
 
-  const toggle = document.querySelector(".menu-toggle");
-  const mobile = document.getElementById("mobile-nav");
-  const setMenu = (open) => {
-    if (!toggle) return;
-    toggle.classList.toggle("is-open", open);
-    toggle.setAttribute("aria-expanded", open ? "true" : "false");
-    toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
-    if (mobile) {
-      mobile.hidden = !open;
-      mobile.style.display = open ? "block" : "none";
-    }
-  };
-  toggle?.setAttribute("aria-expanded", "false");
-  toggle?.setAttribute("aria-controls", "mobile-nav");
-  toggle?.addEventListener("click", () => setMenu(!toggle.classList.contains("is-open")));
-  mobile?.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => setMenu(false)));
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && toggle?.classList.contains("is-open")) {
-      setMenu(false);
-      toggle.focus();
-    }
+  // The menu lives in the chrome, which is built once. Binding on every boot
+  // stacked toggle listeners, and an even count opened and shut it per click.
+  runBinder("mobileMenu", "once", function () {
+    const toggle = document.querySelector(".menu-toggle");
+    const mobile = document.getElementById("mobile-nav");
+    const setMenu = (open) => {
+      if (!toggle) return;
+      toggle.classList.toggle("is-open", open);
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+      toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+      if (mobile) {
+        mobile.hidden = !open;
+        mobile.style.display = open ? "block" : "none";
+      }
+    };
+    toggle?.setAttribute("aria-expanded", "false");
+    toggle?.setAttribute("aria-controls", "mobile-nav");
+    toggle?.addEventListener("click", () => setMenu(!toggle.classList.contains("is-open")));
+    mobile?.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => setMenu(false)));
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && toggle?.classList.contains("is-open")) {
+        setMenu(false);
+        toggle.focus();
+      }
+    });
+    // Close the menu if the viewport grows back past the compact-nav breakpoint.
+    window.addEventListener(
+      "resize",
+      () => {
+        if (window.innerWidth > 1199 && toggle?.classList.contains("is-open")) setMenu(false);
+      },
+      { passive: true }
+    );
   });
-  // Close the menu if the viewport grows back past the compact-nav breakpoint.
-  window.addEventListener(
-    "resize",
-    () => {
-      if (window.innerWidth > 1199 && toggle?.classList.contains("is-open")) setMenu(false);
-    },
-    { passive: true }
-  );
 
   // Footer columns collapse into an accordion on phones only.
   runBinder("footAccordion", "every", function () {
@@ -556,34 +645,84 @@ export function bootSite(first) {
     window.addEventListener("resize", sync, { passive: true });
   });
 
-  const layer = document.getElementById("search-layer");
-  document.querySelectorAll("[data-open-search]").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      if (!layer) return;
-      layer.hidden = false;
-      layer.classList.add("is-open");
-      layer.querySelector("input")?.focus();
+  // Footer cascades in the first time it scrolls into view: column by
+  // column, each heading then its links, then the bottom bar.
+  runBinder("footReveal", "once", function () {
+    const foot = document.querySelector(".site-footer");
+    if (!foot || !("IntersectionObserver" in window)) return;
+    foot.querySelectorAll(".foot-grid > div").forEach((col, c) => {
+      col.style.setProperty("--c", c);
+      col.querySelectorAll(".foot-links a").forEach((a, i) => a.style.setProperty("--i", i + 1));
     });
-  });
-  layer?.addEventListener("click", (e) => {
-    if (e.target === layer) {
-      layer.classList.remove("is-open");
-      layer.hidden = true;
-    }
-  });
-  document.getElementById("overlay-search")?.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const q = new FormData(e.target).get("q");
-    window.location.href = `/?q=${encodeURIComponent(q)}#ask`;
+    foot.classList.add("is-reveal");
+    // Arrow that slides in on hover; decorative, so hidden from readers.
+    foot.querySelectorAll(".foot-links a").forEach((a) => {
+      if (a.querySelector(".foot-arrow") || a.textContent.trim().endsWith("→")) return;
+      a.insertAdjacentHTML("beforeend", '<span class="foot-arrow" aria-hidden="true">→</span>');
+    });
+    // Spotlight follows the pointer across the footer.
+    foot.addEventListener("pointermove", (e) => {
+      const r = foot.getBoundingClientRect();
+      foot.style.setProperty("--mx", `${e.clientX - r.left}px`);
+      foot.style.setProperty("--my", `${e.clientY - r.top}px`);
+      foot.style.setProperty("--spot", "1");
+    }, { passive: true });
+    foot.addEventListener("pointerleave", () => foot.style.setProperty("--spot", "0"));
+    // At boot the page above is still empty and the footer sits in view for
+    // a moment, so only reveal once it is still on screen a beat later.
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        setTimeout(() => {
+          if (foot.getBoundingClientRect().top > window.innerHeight * 0.88) return;
+          foot.classList.add("is-in");
+          io.disconnect();
+        }, 450);
+      },
+      { rootMargin: "0px 0px -12% 0px" }
+    );
+    io.observe(foot);
   });
 
-  const cookie = document.getElementById("cookie");
-  if (cookie && !localStorage.getItem("anvas-cookie")) {
-    cookie.hidden = false;
-  }
-  document.querySelector("[data-accept-cookies]")?.addEventListener("click", () => {
-    localStorage.setItem("anvas-cookie", "1");
-    if (cookie) cookie.hidden = true;
+  runBinder("searchLayer", "once", function () {
+    const layer = document.getElementById("search-layer");
+    if (!layer) return;
+    let opener = null;
+    const close = () => {
+      layer.classList.remove("is-open");
+      layer.hidden = true;
+      opener?.focus();
+    };
+    document.querySelectorAll("[data-open-search]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        opener = btn;
+        layer.hidden = false;
+        layer.classList.add("is-open");
+        layer.querySelector("input")?.focus();
+      });
+    });
+    layer.addEventListener("click", (e) => {
+      if (e.target === layer) close();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !layer.hidden) close();
+    });
+    document.getElementById("overlay-search")?.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const q = new FormData(e.target).get("q");
+      window.location.href = `/?q=${encodeURIComponent(q)}#ask`;
+    });
+  });
+
+  runBinder("cookieBanner", "once", function () {
+    const cookie = document.getElementById("cookie");
+    if (cookie && !localStorage.getItem("anvas-cookie")) {
+      cookie.hidden = false;
+    }
+    document.querySelector("[data-accept-cookies]")?.addEventListener("click", () => {
+      localStorage.setItem("anvas-cookie", "1");
+      if (cookie) cookie.hidden = true;
+    });
   });
 
   /* Pages are lazy-loaded, so a slider's markup may not exist on the boot
@@ -694,11 +833,17 @@ export function bootSite(first) {
     const q = String(new FormData(e.target).get("q") || "").toLowerCase();
     const key = q.includes("force") ? "force" : q.includes("cloud") ? "cloud" : q.includes("career") || q.includes("job") ? "career" : q.includes("ai") ? "ai" : "default";
     const box = document.getElementById("ask-result");
-    if (box) {
-      box.classList.add("is-open");
-      box.querySelector("h3").textContent = "Answer";
-      box.querySelector("p").textContent = answers[key];
-    }
+    // The orb spins up for a beat before the answer shows.
+    askForm.classList.add("is-thinking");
+    clearTimeout(askForm.thinkTimer);
+    askForm.thinkTimer = setTimeout(() => {
+      askForm.classList.remove("is-thinking");
+      if (box) {
+        box.classList.add("is-open");
+        box.querySelector("h3").textContent = "Answer";
+        box.querySelector("p").textContent = answers[key];
+      }
+    }, 900);
   });
 
   const quotes = [...document.querySelectorAll("#clients [data-quote]")];
@@ -718,31 +863,6 @@ export function bootSite(first) {
   document.querySelector("#clients [data-q-prev]")?.addEventListener("click", () => showQ(q - 1));
   document.querySelector("#clients [data-q-next]")?.addEventListener("click", () => showQ(q + 1));
   showQ(0);
-
-  runBinder("bindCaseStudies", "every", function () {
-    const root = document.getElementById("case-studies");
-    if (!root) return;
-    const cards = [...root.querySelectorAll(".cs-card")];
-    if (!cards.length) return;
-
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) {
-      cards.forEach((el) => el.classList.add("is-in"));
-      return;
-    }
-
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          entry.target.classList.add("is-in");
-          io.unobserve(entry.target);
-        });
-      },
-      { threshold: 0.2, rootMargin: "0px 0px -8% 0px" }
-    );
-    cards.forEach((el) => io.observe(el));
-  });
 
   runBinder("bindStepNav", "every", function () {
     // Process pills: selecting one shows that step's detail in the panel below.
@@ -870,6 +990,8 @@ export function bootSite(first) {
       if (!desktop.matches) {
         host.style.removeProperty("--cine");
         host.style.removeProperty("--cine-in");
+        host.style.removeProperty("--cine-copy");
+        host.style.removeProperty("--cine-z");
         copy?.classList.add("is-on");
         return;
       }
@@ -877,14 +999,21 @@ export function bootSite(first) {
       if (run <= 0) {
         host.style.setProperty("--cine", "1");
         host.style.setProperty("--cine-in", "1");
+        host.style.setProperty("--cine-copy", "1");
+        host.style.setProperty("--cine-z", "1");
         copy?.classList.add("is-on");
         return;
       }
       const p = Math.min(1, Math.max(0, -track.getBoundingClientRect().top / run));
-      const shrink = Math.min(1, p / 0.4);
-      const fade = Math.min(1, Math.max(0, (p - 0.34) / 0.16));
+      // Phases: dive through the CAREERS letters, shrink the photo to a card, then the copy.
+      const zoom = Math.min(1, p / 0.32);
+      const shrink = Math.min(1, Math.max(0, (p - 0.36) / 0.28));
+      const fade = Math.min(1, Math.max(0, (p - 0.56) / 0.12));
+      const reveal = Math.min(1, Math.max(0, (p - 0.58) / 0.32));
+      host.style.setProperty("--cine-z", String(zoom));
       host.style.setProperty("--cine", String(shrink));
       host.style.setProperty("--cine-in", String(fade));
+      host.style.setProperty("--cine-copy", String(reveal));
       copy?.classList.toggle("is-on", fade > 0.85);
     };
     const onScroll = () => {
@@ -894,6 +1023,17 @@ export function bootSite(first) {
     document.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
     desktop.addEventListener("change", onScroll);
+    // Pointer drift: the photo leans slightly toward the cursor.
+    sticky.addEventListener("pointermove", (e) => {
+      if (!desktop.matches || e.pointerType !== "mouse") return;
+      const r = sticky.getBoundingClientRect();
+      host.style.setProperty("--cine-mx", (((e.clientX - r.left) / r.width) * 2 - 1).toFixed(3));
+      host.style.setProperty("--cine-my", (((e.clientY - r.top) / r.height) * 2 - 1).toFixed(3));
+    });
+    sticky.addEventListener("pointerleave", () => {
+      host.style.setProperty("--cine-mx", "0");
+      host.style.setProperty("--cine-my", "0");
+    });
     apply();
   });
 

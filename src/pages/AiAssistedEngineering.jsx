@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 import { usePageMeta } from '../lib/usePageMeta.js';
+import WorkflowTrack from '../components/WorkflowTrack.jsx';
+import ArchGlyph from '../components/ArchGlyph.jsx';
 
 const USES = [
   {
@@ -50,6 +52,9 @@ const TOOLS = [
     text: 'AI tools used within development workflows to support coding and repetitive engineering tasks.',
   },
 ];
+
+// One diagram per item below, in the same order (src/components/ArchGlyph.jsx).
+const ENABLE_GLYPHS = ['speed', 'product', 'discovery', 'practice', 'learn', 'makerChecker'];
 
 const ENABLES = [
   { num: '01', title: 'Faster Development', text: 'AI can help accelerate selected development tasks and reduce repetitive work.' },
@@ -130,13 +135,7 @@ export default function AiAssistedEngineering() {
       <div className="sp-wrap">
         <p className="sp-eyebrow">Our development workflow</p>
         <h2 className="sp-h2">Where AI Sits in the Process</h2>
-        <ol className="sp-pipeline">
-          {PIPELINE.map((stage) => (
-            <li className={stage.startsWith('AI-') ? 'is-accent' : undefined} key={stage}>
-              <span>{stage}</span>
-            </li>
-          ))}
-        </ol>
+        <WorkflowTrack stages={PIPELINE} />
         <p className="sp-lede" style={{ marginTop: '32px', maxWidth: '56ch' }}>AI helps our engineers move faster, while engineering decisions remain at the center of the development process.</p>
       </div>
     </section>
@@ -171,17 +170,16 @@ export default function AiAssistedEngineering() {
           </div>
           <p className="sp-lede">What changes when AI is part of the toolchain &mdash; and what deliberately does not.</p>
         </div>
-        <ol className="sp-rows">
-          {ENABLES.map((e) => (
-            <li className="sp-row" key={e.num}>
-              <span className="sp-row-num">{e.num}</span>
-              <div>
-                <h3>{e.title}</h3>
-                <p>{e.text}</p>
-              </div>
-            </li>
+        <div className="list-cards en-grid">
+          {ENABLES.map((e, i) => (
+            <article className="list-card tx-arch en-card" key={e.num}>
+              <span className="en-num" aria-hidden="true">{e.num}</span>
+              <ArchGlyph kind={ENABLE_GLYPHS[i]} />
+              <h3>{e.title}</h3>
+              <p>{e.text}</p>
+            </article>
           ))}
-        </ol>
+        </div>
       </div>
     </section>
 

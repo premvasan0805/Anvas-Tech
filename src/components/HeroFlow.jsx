@@ -1,32 +1,45 @@
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
-import { createRibbons } from './heroRibbons.js';
-import { createDots } from './heroDots.js';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js';
+import { AfterimagePass } from 'three/examples/jsm/postprocessing/AfterimagePass.js';
+import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
+import { createMorph, CITY_WIDTH, SHOW_SPARK } from './heroMorph.js';
 
-// Home hero background: a large curved pane of glass. Its near edge is a thick
-// glowing rim that rises gently out of the left edge, rounds a corner high on
-// the right and drops almost straight down out of frame. The pane itself
-// sweeps back from that rim and fills the space under the arch, lit blue from
-// the right and violet from below, with a dark fold through the middle. Once a
-// loop the pane swings forward through the rim and back, which makes the glass
-// flash edge-on.
+// Home hero background, filling the frame: one swarm of points (heroMorph.js)
+// whose story runs
+// on through all three slides, a chapter per slide, so the picture never cuts
+// or restarts when the slide changes. The story advances a chapter per slide
+// interval; a slide picked out of order fast-forwards the story to it, so the
+// points still travel there through every form in between. The headline word
+// and first-slide phrase the story is acting out light up (data-word and
+// data-beat on the hero).
 //
-// Three meshes, all shaped and shaded in shaders, no lights or shadows:
-//  - the pane: a surface ruled from the rim curve toward a focal point behind
-//    it, so it can never fold through itself;
-//  - the rim: a flattened glass tube along the curve;
-//  - the halo: a soft additive band around the rim standing in for bloom.
+// It renders through a chain of effects: light trails that stretch out while
+// the currents accelerate and while the scan runs; bloom, so the points,
+// edges and spark glow; then a film finish with grain, a vignette and a
+// little colour fringing at the edges, plus a shockwave that bursts from the
+// spark at each beat of the story (or from the pointer, when the hero is
+// clicked). Light shafts stream out from the spark across the frame, and
+// every slide change is a warp jump: a zoom blur and a punch of the camera's
+// field of view. The spark also carries an anamorphic lens flare. Bloom
+// needs an opaque canvas, so the hero's near-black background and its low
+// violet glow are painted here as well (the CSS keeps them for when WebGL is
+// missing), with a glow under the city that rises as it is built.
 //
-// All motion is periodic in LOOP seconds, so it repeats with no cut. Pointer
-// parallax sits on top and never drives the motion. It runs whatever
+// Pointer parallax sits on top and never drives the motion. It runs whatever
 // prefers-reduced-motion says, like the video it replaced: Windows turns that
 // flag on with its animation setting, which left the hero frozen. The hero's
 // pause button stops it.
-const LOOP = 12;
 
-// The path is laid out for a frame 16.6 units wide and 9.8 tall.
-const FRAME_W = 8.3;
-const FRAME_H = 4.9;
+// Seconds per chapter: the carousel's slide interval (bindSlider in site.js).
+const CHAPTER_SECONDS = 7;
+// Chapters per second while catching up with a slide picked out of order.
+const CATCH_UP = 1.4;
+// Where a chapter's form has landed, for showing it while stopped.
+const LANDED = 0.82;
 
 // Resolution steps, best first. The hero drops a step whenever frames run
 // slow and never steps back up, which would just make it oscillate.
@@ -34,205 +47,148 @@ const DPR_STEPS = [1.5, 1.25, 1, 0.75];
 const SLOW_FRAME_MS = 22;
 const SAMPLE_FRAMES = 45;
 
-const common = /* glsl */ `
-uniform vec3 uP0;
-uniform vec3 uP1;
-uniform vec3 uP2;
-uniform vec3 uP3;
-uniform vec3 uFocus; // where the pane converges, behind the rim
-uniform float uSag; // depth of the fold through the middle of the pane
-uniform float uPhase; // 0..1 through the loop
+// Bloom: strength, radius, threshold.
+const BLOOM = [0.5, 0.5, 0.35];
 
-const float PI = 3.14159265;
+// Light trails: how long they linger at rest, and at full speed.
+const TRAIL_REST = 0.55;
+const TRAIL_FAST = 0.84;
 
-vec3 bez(float t) {
-  float s = 1.0 - t;
-  return s * s * s * uP0 + 3.0 * s * s * t * uP1 + 3.0 * s * t * t * uP2 + t * t * t * uP3;
+// Beats of the story that set off a shockwave, as points in each chapter:
+// the spark at the end of the beam and the foundation laid; the city
+// finished; the scan done and the surface scattering.
+const BEATS = [[0.32, 0.74], [0.78], [0.5, 0.84]];
+const SHOCK_SECONDS = 1.5;
+// Shockwave ripples (story beats and clicks) are switched off.
+const SHOCKWAVES = false;
+const WARP_SECONDS = 1.0;
+const WARP_FOV = 9; // degrees added to the field of view at the warp's peak
+
+const finishShader = {
+  uniforms: {
+    tDiffuse: { value: null },
+    uTime: { value: 0 },
+    uAspect: { value: 16 / 9 },
+    uShock: { value: new THREE.Vector4(0.5, 0.5, 0, 0) }, // centre, radius, strength
+    uLight: { value: new THREE.Vector3(0.5, 0.5, 0) }, // spark on screen, strength
+    uWarp: { value: new THREE.Vector3(0.5, 0.5, 0) }, // centre, strength
+  },
+  vertexShader: /* glsl */ `
+varying vec2 vUv;
+void main() {
+  vUv = uv;
+  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
 }
+`,
+  fragmentShader: /* glsl */ `
+uniform sampler2D tDiffuse;
+uniform float uTime;
+uniform float uAspect;
+uniform vec4 uShock;
+uniform vec3 uLight;
+uniform vec3 uWarp;
+varying vec2 vUv;
 
-vec3 bezTangent(float t) {
-  float s = 1.0 - t;
-  return normalize(3.0 * s * s * (uP1 - uP0) + 6.0 * s * t * (uP2 - uP1) + 3.0 * t * t * (uP3 - uP2));
+float hash(vec2 p) {
+  return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453);
 }
-
-// The rim, with a small ripple travelling along it.
-vec3 rim(float u) {
-  float w = uPhase * 2.0 * PI;
-  vec3 c = bez(u);
-  c.z += 0.35 * sin(2.0 * PI * 1.2 * u - w);
-  return c;
-}
-
-// s = 0 on the rim, 1 far back toward the focus.
-vec3 pane(float u, float s) {
-  vec3 c = rim(u);
-  vec3 d = mix(c, uFocus, 0.92);
-  vec3 p = mix(c, d, s);
-  vec3 t = bezTangent(u);
-  vec3 fold = normalize(cross(t, d - c));
-  return p + fold * uSag * sin(PI * s) * (0.6 + 0.4 * sin(PI * u));
-}
-`;
-
-const paneVertex = /* glsl */ `
-${common}
-varying vec3 vWorld;
-varying vec3 vNormal;
-varying float vU;
-varying float vS;
 
 void main() {
-  float u = position.x + 0.5;
-  float s = 0.5 - position.y; // y = 0.5 is the rim
-  vec3 p = pane(u, s);
-  vec3 du = pane(min(u + 0.002, 1.0), s) - pane(max(u - 0.002, 0.0), s);
-  vec3 ds = pane(u, min(s + 0.004, 1.0)) - pane(u, max(s - 0.004, 0.0));
-  vec4 world = modelMatrix * vec4(p, 1.0);
-  vWorld = world.xyz;
-  vNormal = normalize(mat3(modelMatrix) * cross(du, ds));
-  vU = u;
-  vS = s;
-  gl_Position = projectionMatrix * viewMatrix * world;
+  vec2 uv = vUv;
+  // Shockwave: a ring that pushes the picture outward as it passes.
+  vec2 toC = (uv - uShock.xy) * vec2(uAspect, 1.0);
+  float d = length(toC);
+  float ring = exp(-pow((d - uShock.z) / 0.07, 2.0)) * uShock.w;
+  vec2 dir = d > 0.0001 ? toC / d : vec2(0.0);
+  uv -= dir / vec2(uAspect, 1.0) * ring * 0.03;
+
+  // Colour fringing, toward the edges and in the ring.
+  vec2 fromMid = uv - 0.5;
+  vec2 ca = fromMid * (dot(fromMid, fromMid) * 0.03 + ring * 0.025);
+  vec3 col = vec3(
+    texture2D(tDiffuse, uv + ca).r,
+    texture2D(tDiffuse, uv).g,
+    texture2D(tDiffuse, uv - ca).b
+  );
+  col += vec3(0.55, 0.7, 1.0) * ring * 0.16 * (0.6 + 0.4 * sin(d * 90.0));
+
+  // Warp: a zoom blur rushing out from the centre of the jump.
+  if (uWarp.z > 0.001) {
+    vec3 acc = col;
+    for (int k = 1; k < 14; k++) {
+      float sc = 1.0 - uWarp.z * 0.16 * float(k) / 13.0;
+      acc += texture2D(tDiffuse, uWarp.xy + (uv - uWarp.xy) * sc).rgb;
+    }
+    col = mix(col, acc / 14.0, min(1.0, uWarp.z * 1.5)) * (1.0 + uWarp.z * 0.5);
+  }
+
+  // Light shafts from the spark: the bright parts of the picture smeared
+  // toward it.
+  if (uLight.z > 0.001) {
+    vec2 step = (uv - uLight.xy) / 30.0 * 0.9;
+    vec2 tc = uv;
+    float decay = 1.0;
+    vec3 rays = vec3(0.0);
+    for (int k = 0; k < 30; k++) {
+      tc -= step;
+      rays += max(texture2D(tDiffuse, tc).rgb - 0.35, 0.0) * decay;
+      decay *= 0.93;
+    }
+    col += rays * 0.025 * uLight.z * vec3(0.8, 0.85, 1.0);
+  }
+
+  float vignette = smoothstep(0.95, 0.3, length(fromMid * vec2(1.0, 1.2)));
+  col *= mix(0.6, 1.0, vignette);
+  col += (hash(vUv * 1000.0 + fract(uTime * 7.0) * 61.0) - 0.5) * 0.03;
+  gl_FragColor = vec4(col, 1.0);
+}
+`,
+};
+
+// The spark's anamorphic flare: a long thin horizontal streak and a glow.
+const flareVertex = /* glsl */ `
+varying vec2 vUv;
+void main() {
+  vUv = uv;
+  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
 }
 `;
-
-const paneFragment = /* glsl */ `
-uniform float uAmount;
-varying vec3 vWorld;
-varying vec3 vNormal;
-varying float vU;
-varying float vS;
-
+const flareFragment = /* glsl */ `
+uniform float uBright;
+varying vec2 vUv;
 void main() {
-  vec3 view = normalize(cameraPosition - vWorld);
-  vec3 n = normalize(vNormal);
-  n *= sign(dot(n, view)); // light the face we see
-  float fres = pow(1.0 - max(dot(n, view), 0.0), 2.0);
-
-  vec3 blue = vec3(0.10, 0.42, 1.0);
-  vec3 violet = vec3(0.46, 0.12, 1.0);
-  // Blue light washing in from the right, violet from below left.
-  float b = pow(max(dot(n, normalize(vec3(0.85, 0.35, 0.45))), 0.0), 3.0);
-  float v = pow(max(dot(n, normalize(vec3(-0.55, -0.75, 0.4))), 0.0), 3.0);
-  // Violet along the tail, blue toward the right leg, as in the light
-  // pooling inside the glass.
-  vec3 tint = mix(violet, blue, smoothstep(0.42, 0.78, vU));
-  vec3 col = tint * (b * 0.3 + v * 0.22 + fres * 0.22);
-  // Just behind the rim the glass is thick and picks up its colour.
-  col += mix(violet, blue, smoothstep(0.15, 0.5, vU)) * (1.0 - smoothstep(0.0, 0.06, vS)) * 0.2;
-
-  // A shadowed fold a little way in from the rim, deepest under the corner.
-  float f = (vS - 0.2) / 0.1;
-  col *= 1.0 - 0.6 * exp(-f * f) * smoothstep(0.25, 0.6, vU) * (1.0 - smoothstep(0.75, 0.95, vU));
-  // Dissolve toward the back, and at the ends.
-  col *= 1.0 - smoothstep(0.2, 0.75, vS);
-  col *= smoothstep(0.0, 0.05, vU) * (1.0 - smoothstep(0.95, 1.0, vU));
-  gl_FragColor = vec4(col * uAmount, 1.0);
+  vec2 q = vUv - 0.5;
+  float streak = exp(-q.y * q.y * 2600.0) * exp(-q.x * q.x * 9.0);
+  float glow = exp(-dot(q * vec2(1.0, 10.0), q * vec2(1.0, 10.0)) * 40.0);
+  vec3 col = vec3(0.45, 0.62, 1.0) * streak * 0.7 + vec3(0.75, 0.6, 1.0) * glow * 0.22;
+  gl_FragColor = vec4(col * uBright, 1.0);
   #include <colorspace_fragment>
 }
 `;
 
-const rimVertex = /* glsl */ `
-${common}
-uniform float uRadius;
-varying vec3 vWorld;
-varying vec3 vNormal;
-varying float vU;
-varying float vA;
-
+const backdropVertex = /* glsl */ `
+varying vec2 vUv;
 void main() {
-  float u = position.x + 0.5;
-  float a = (position.y + 0.5) * 2.0 * PI;
-  vec3 c = rim(u);
-  vec3 t = bezTangent(u);
-  vec3 b1 = normalize(mix(c, uFocus, 0.92) - c);
-  b1 = normalize(b1 - t * dot(b1, t));
-  vec3 b2 = cross(t, b1);
-  // A flattened tube: wider across the pane than through it.
-  float r1 = uRadius * 1.7;
-  float r2 = uRadius;
-  vec3 p = c + b1 * (cos(a) * r1 - r1 * 0.6) + b2 * sin(a) * r2;
-  vec3 nrm = normalize(b1 * cos(a) / r1 + b2 * sin(a) / r2);
-  vec4 world = modelMatrix * vec4(p, 1.0);
-  vWorld = world.xyz;
-  vNormal = normalize(mat3(modelMatrix) * nrm);
-  vU = u;
-  vA = position.y + 0.5;
-  gl_Position = projectionMatrix * viewMatrix * world;
+  vUv = uv;
+  gl_Position = vec4(position.xy, 0.9999, 1.0);
 }
 `;
 
-const rimFragment = /* glsl */ `
-uniform float uPhase;
-uniform float uAmount;
-varying vec3 vWorld;
-varying vec3 vNormal;
-varying float vU;
-varying float vA;
-
-const float PI = 3.14159265;
-
-float streak(float x, float c, float w) {
-  float d = (x - c) / w;
-  return exp(-d * d);
-}
+// The .hero background from styles.css, and the glow under the city.
+const backdropFragment = /* glsl */ `
+uniform vec3 uBase;
+uniform vec3 uViolet;
+uniform float uAspect;
+uniform vec2 uGroundAt;
+uniform float uGround;
+varying vec2 vUv;
 
 void main() {
-  vec3 view = normalize(cameraPosition - vWorld);
-  vec3 n = normalize(vNormal);
-  float facing = dot(n, view);
-  float fres = pow(1.0 - abs(facing), 1.6);
-  float w = uPhase * 2.0 * PI;
-
-  // Violet on the tail turning to icy blue round the corner.
-  vec3 tint = mix(vec3(0.5, 0.26, 1.0), vec3(0.22, 0.58, 1.0), smoothstep(0.12, 0.45, vU));
-  vec3 col = tint * (0.05 + fres * 0.95);
-  // Light caught inside the glass: streaks running along the tube.
-  float wob = 0.02 * sin(vU * 31.0 - w) + 0.015 * sin(vU * 67.0 + 2.0 * w);
-  float lines = streak(vA, 0.18 + wob, 0.03) + streak(vA, 0.34 - wob, 0.02) * 0.7
-    + streak(vA, 0.68 + wob, 0.025) * 0.6 + streak(vA, 0.84 - wob, 0.03) * 0.8;
-  col += tint * lines * 0.22;
-  // White highlights where the tube turns edge-on and toward the key light.
-  col += vec3(0.7, 0.88, 1.0) * pow(fres, 5.0) * 0.3;
-  vec3 r = reflect(-view, n * sign(facing));
-  col += vec3(0.9, 0.97, 1.0) * pow(max(dot(r, normalize(vec3(-0.3, 0.9, 0.5))), 0.0), 40.0) * 0.7;
-
-  col *= smoothstep(0.0, 0.05, vU) * (1.0 - smoothstep(0.95, 1.0, vU));
-  gl_FragColor = vec4(col * uAmount, 1.0);
-  #include <colorspace_fragment>
-}
-`;
-
-const haloVertex = /* glsl */ `
-${common}
-uniform float uHalo;
-varying float vU;
-varying float vD;
-
-void main() {
-  float u = position.x + 0.5;
-  float d = position.y * 2.0; // -1..1 across the band
-  vec3 c = rim(u);
-  vec3 t = bezTangent(u);
-  vec3 side = normalize(cross(t, vec3(0.0, 0.0, 1.0)));
-  vec3 p = c + side * d * uHalo;
-  vU = u;
-  vD = d;
-  gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(p, 1.0);
-}
-`;
-
-const haloFragment = /* glsl */ `
-uniform float uAmount;
-varying float vU;
-varying float vD;
-
-void main() {
-  vec3 tint = mix(vec3(0.5, 0.25, 1.0), vec3(0.2, 0.55, 1.0), smoothstep(0.12, 0.45, vU));
-  float g = exp(-vD * vD * 5.0);
-  vec3 col = tint * g * 0.07;
-  col *= smoothstep(0.0, 0.06, vU) * (1.0 - smoothstep(0.94, 1.0, vU));
-  gl_FragColor = vec4(col * uAmount, 1.0);
+  vec2 d = (vUv - vec2(0.62, 0.0)) / vec2(0.6, 0.45);
+  vec3 col = uBase + uViolet * 0.18 * smoothstep(1.0, 0.0, length(d));
+  vec2 g = (vUv - uGroundAt) * vec2(uAspect, 1.0) / vec2(1.1, 0.35);
+  col += mix(vec3(0.05, 0.12, 0.45), uViolet, 0.45) * 0.22 * uGround * exp(-dot(g, g) * 2.2);
+  gl_FragColor = vec4(col, 1.0);
   #include <colorspace_fragment>
 }
 `;
@@ -251,6 +207,10 @@ export default function HeroFlow() {
       return undefined; // No WebGL: the hero keeps its dark background.
     }
     renderer.outputColorSpace = THREE.SRGBColorSpace;
+    // Highlights roll off instead of clipping to white where light piles up.
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 0.9;
+    renderer.setClearColor(0x03040a, 1);
     renderer.domElement.setAttribute('aria-hidden', 'true');
     host.appendChild(renderer.domElement);
 
@@ -258,54 +218,70 @@ export default function HeroFlow() {
     const camera = new THREE.PerspectiveCamera(34, 16 / 9, 0.1, 100);
     const CAM_Z = 16;
 
-    const uniforms = {
-      uP0: { value: new THREE.Vector3() },
-      uP1: { value: new THREE.Vector3() },
-      uP2: { value: new THREE.Vector3() },
-      uP3: { value: new THREE.Vector3() },
-      uFocus: { value: new THREE.Vector3() },
-      uSag: { value: 1 },
-      uPhase: { value: 0 },
-      uRadius: { value: 0.17 },
-      uHalo: { value: 1.1 },
-      uAmount: { value: 1 },
+    const backdropUniforms = {
+      uBase: { value: new THREE.Color('#03040a') },
+      uViolet: { value: new THREE.Color('rgb(88, 48, 200)') },
+      uAspect: { value: 16 / 9 },
+      uGroundAt: { value: new THREE.Vector2(0.58, 0.2) },
+      uGround: { value: 0 },
     };
-
-    // Additive glass throughout: overlapping layers brighten like light
-    // through glass, and nothing needs sorting.
-    const glassMaterial = (vertexShader, fragmentShader) => new THREE.ShaderMaterial({
-      uniforms,
-      vertexShader,
-      fragmentShader,
-      side: THREE.DoubleSide,
-      transparent: true,
-      depthWrite: false,
+    const backdropGeometry = new THREE.PlaneGeometry(2, 2);
+    const backdropMaterial = new THREE.ShaderMaterial({
+      uniforms: backdropUniforms,
+      vertexShader: backdropVertex,
+      fragmentShader: backdropFragment,
       depthTest: false,
+      depthWrite: false,
+    });
+    const backdrop = new THREE.Mesh(backdropGeometry, backdropMaterial);
+    backdrop.frustumCulled = false;
+    backdrop.renderOrder = -10;
+    scene.add(backdrop);
+
+    const composer = new EffectComposer(renderer);
+    composer.addPass(new RenderPass(scene, camera));
+    const trails = new AfterimagePass(TRAIL_REST);
+    composer.addPass(trails);
+    const bloom = new UnrealBloomPass(new THREE.Vector2(256, 256), ...BLOOM);
+    composer.addPass(bloom);
+    composer.addPass(new OutputPass());
+    const finish = new ShaderPass(finishShader);
+    composer.addPass(finish);
+
+    const flareUniforms = { uBright: { value: 0 } };
+    const flareGeometry = new THREE.PlaneGeometry(1, 1);
+    const flareMaterial = new THREE.ShaderMaterial({
+      uniforms: flareUniforms,
+      vertexShader: flareVertex,
+      fragmentShader: flareFragment,
+      transparent: true,
+      depthTest: false,
+      depthWrite: false,
       blending: THREE.AdditiveBlending,
     });
+    const flare = new THREE.Mesh(flareGeometry, flareMaterial);
+    flare.frustumCulled = false;
+    flare.renderOrder = 40;
+    if (SHOW_SPARK) scene.add(flare);
+    const sparkPos = new THREE.Vector3();
+    const sparkScreen = new THREE.Vector3();
+    // The shockwave in flight: seconds since it started, or -1.
+    let shockAge = -1;
+    let lastStory = null;
+    let warpAge = -1;
+    let lastSlide = null;
+    const startShock = (x, y) => {
+      if (!SHOCKWAVES) return;
+      finish.uniforms.uShock.value.x = x;
+      finish.uniforms.uShock.value.y = y;
+      shockAge = 0;
+    };
 
-    const group = new THREE.Group();
-    scene.add(group);
-    const parts = [
-      [new THREE.PlaneGeometry(1, 1, 220, 64), glassMaterial(paneVertex, paneFragment)],
-      [new THREE.PlaneGeometry(1, 1, 300, 28), glassMaterial(rimVertex, rimFragment)],
-      [new THREE.PlaneGeometry(1, 1, 200, 1), glassMaterial(haloVertex, haloFragment)],
-    ];
-    parts.forEach(([geometry, material], i) => {
-      const mesh = new THREE.Mesh(geometry, material);
-      mesh.frustumCulled = false;
-      mesh.renderOrder = 20 + i;
-      group.add(mesh);
-    });
-
-    // The ribbon scene, which fills the hero whatever its shape.
-    const ribbons = createRibbons();
-    const ribbonRig = new THREE.Group();
-    ribbonRig.add(ribbons.group);
-    scene.add(ribbonRig);
-    // The dot plate, laid out in screen pixels.
-    const dots = createDots();
-    scene.add(dots.group);
+    // The swarm.
+    const morph = createMorph();
+    const morphRig = new THREE.Group();
+    morphRig.add(morph.group);
+    scene.add(morphRig);
 
     let dprStep = 0;
     const layout = () => {
@@ -317,7 +293,12 @@ export default function HeroFlow() {
       dprStep = Math.max(dprStep, compact ? 1 : 0);
       renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, DPR_STEPS[dprStep]));
       renderer.setSize(w, h, false);
-      dots.resize(w, h, renderer.getPixelRatio());
+      composer.setPixelRatio(renderer.getPixelRatio());
+      composer.setSize(w, h);
+      morph.setPixelRatio(renderer.getPixelRatio());
+      backdropUniforms.uAspect.value = aspect;
+      finish.uniforms.uAspect.value = aspect;
+      backdropUniforms.uGroundAt.value.set(compact ? 0.5 : 0.58, compact ? 0.12 : 0.2);
       camera.aspect = aspect;
       camera.updateProjectionMatrix();
 
@@ -325,15 +306,15 @@ export default function HeroFlow() {
       const halfH = CAM_Z * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
       const halfW = halfH * aspect;
       if (!compact) {
-        group.scale.setScalar(Math.min(halfW / FRAME_W, (halfH / FRAME_H) * 1.15));
-        group.position.set(0, 0, 0);
-        ribbonRig.scale.setScalar(Math.max(halfW / FRAME_W, halfH / FRAME_H));
+        // Edge to edge; the points step back over the copy on the left.
+        morphRig.scale.setScalar((halfW * 2 * 0.8) / CITY_WIDTH);
+        morphRig.position.set(halfW * 0.06, -halfH * 0.32, -2);
+        morph.setCopy(1, 0, 0.6);
       } else {
-        // Under the copy: a smaller arch across the lower part of the hero.
-        group.scale.setScalar(Math.min(0.75, halfW / 6.2));
-        group.position.set(-halfW * 0.1, -halfH * 0.35, 0);
-        // The ribbons fill the hero whatever its shape.
-        ribbonRig.scale.setScalar(Math.max(halfW / FRAME_W, halfH / FRAME_H));
+        // Wider than the screen, low in the hero; the copy sits above.
+        morphRig.scale.setScalar(Math.max((halfW * 2 * 1.15) / CITY_WIDTH, halfH * 0.16));
+        morphRig.position.set(0, -halfH * 0.38, 0);
+        morph.setCopy(0, -1, 0.6);
       }
     };
 
@@ -341,63 +322,124 @@ export default function HeroFlow() {
     // shift. It adds to the motion, it never drives it.
     const finePointer = window.matchMedia('(pointer: fine)');
     const pointer = { x: 0, y: 0, tx: 0, ty: 0 };
-    // Where the pointer last was over the hero, in its pixels, for the dot
-    // plate's void.
-    let plate = null;
     const onPointer = (e) => {
       pointer.tx = (e.clientX / window.innerWidth) * 2 - 1;
       pointer.ty = (e.clientY / window.innerHeight) * 2 - 1;
-      const rect = host.getBoundingClientRect();
-      plate = { x: e.clientX - rect.left, y: e.clientY - rect.top, at: clock };
+      pointer.seen = true;
     };
     if (finePointer.matches) window.addEventListener('pointermove', onPointer, { passive: true });
+    // A click on the hero, away from its links and buttons, sends a
+    // shockwave out from the pointer.
+    const onPress = (e) => {
+      if (e.target.closest('a, button, input, label, form, nav, header')) return;
+      const rect = host.getBoundingClientRect();
+      startShock((e.clientX - rect.left) / rect.width, 1 - (e.clientY - rect.top) / rect.height);
+    };
 
-    // Both kept below the frame, so the pane's converging edge never shows.
-    const FOCUS_BACK = new THREE.Vector3(1.5, -10, -6);
-    const FOCUS_FRONT = new THREE.Vector3(1.0, -8, 5);
+    const lit = (key, value) => {
+      if (!hero || (hero.dataset[key] || '') === value) return;
+      if (value) hero.dataset[key] = value;
+      else delete hero.dataset[key];
+    };
 
-    const draw = (seconds) => {
-      const phase = (seconds % LOOP) / LOOP;
-      const w = Math.PI * 2 * phase;
-
-      // The arch breathes: the corner climbs and leans, then settles.
-      uniforms.uP0.value.set(-11.5, -1.4 + 0.45 * Math.sin(w + 1), -1);
-      uniforms.uP1.value.set(2.2 + 0.8 * Math.sin(w + 1.8), 3.4 + 1.0 * Math.sin(w + 2.4), 0);
-      uniforms.uP2.value.set(6.7 + 0.6 * Math.sin(w), 5.9 + 1.5 * Math.sin(w + 0.5), 0.6 * Math.cos(w));
-      uniforms.uP3.value.set(6.3 + 0.4 * Math.sin(w + 0.3), -9.5, 1);
-      // Once a loop the pane swings forward through the rim and back.
-      const k = Math.min(Math.max((phase - 0.5) / 0.36, 0), 1);
-      const swing = Math.sin(Math.PI * k) ** 2;
-      uniforms.uFocus.value.lerpVectors(FOCUS_BACK, FOCUS_FRONT, swing);
-      uniforms.uSag.value = 0.8 + 0.3 * Math.sin(w) - 0.5 * swing;
-      uniforms.uPhase.value = phase;
-
+    const draw = (seconds, dt = 0) => {
       pointer.x += (pointer.tx - pointer.x) * 0.035;
       pointer.y += (pointer.ty - pointer.y) * 0.035;
-      group.rotation.set(0.05 * pointer.y, -0.08 * pointer.x, 0);
-      ribbonRig.rotation.copy(group.rotation);
+      morphRig.rotation.set(0.06 * pointer.y, 0.1 * pointer.x, 0);
 
-      // Each slide has its own scene; they crossfade as the slides change.
-      uniforms.uAmount.value = amounts[0];
-      group.visible = amounts[0] > 0.001;
-      ribbons.update(seconds, amounts[1]);
-      dots.update(seconds, amounts[2], plate);
+      const state = morph.update(seconds, dt, 1, story, pointer.seen ? { x: pointer.x, y: -pointer.y } : null, camera);
+      backdropUniforms.uGround.value = state.ground;
+
+      // Trails stretch out while the currents race. (Not during the scan:
+      // its packed surface smeared into a white glare.)
+      const heat = (state.speed - 1) / 2.4;
+      trails.damp = TRAIL_REST + (TRAIL_FAST - TRAIL_REST) * heat;
+
+      // The flare rides the spark, facing the camera.
+      const sparkBright = morph.sparkWorld(sparkPos);
+      flare.position.copy(sparkPos);
+      flare.quaternion.copy(camera.quaternion);
+      flare.scale.set(11 * morphRig.scale.x, 1.6 * morphRig.scale.x, 1);
+      flareUniforms.uBright.value = sparkBright * (0.85 + 0.15 * Math.sin(seconds * 7.0));
+
+      sparkScreen.copy(sparkPos).project(camera);
+      const onScreen = Math.abs(sparkScreen.x) < 1 && Math.abs(sparkScreen.y) < 1 && sparkBright > 0.05;
+
+      // A shockwave from the spark at each beat the story passes.
+      if (dt > 0 && lastStory !== null && story > lastStory && story - lastStory < 0.2) {
+        const chapter = Math.floor(story) % 3;
+        const from = lastStory - Math.floor(story);
+        const to = story - Math.floor(story);
+        if (BEATS[chapter].some((b) => from < b && to >= b)) {
+          startShock(onScreen ? sparkScreen.x * 0.5 + 0.5 : 0.62, onScreen ? sparkScreen.y * 0.5 + 0.5 : 0.32);
+        }
+      }
+      lastStory = story;
+
+      // Light shafts from wherever the spark is on screen.
+      finish.uniforms.uLight.value.set(sparkScreen.x * 0.5 + 0.5, sparkScreen.y * 0.5 + 0.5, SHOW_SPARK && onScreen ? sparkBright : 0);
+
+      // A warp jump each time the slide changes.
+      const slideNow = activeSlide();
+      if (lastSlide !== null && slideNow !== lastSlide && dt > 0) {
+        warpAge = 0;
+        finish.uniforms.uWarp.value.x = onScreen ? sparkScreen.x * 0.5 + 0.5 : 0.62;
+        finish.uniforms.uWarp.value.y = onScreen ? sparkScreen.y * 0.5 + 0.5 : 0.4;
+      }
+      lastSlide = slideNow;
+      let warp = 0;
+      if (warpAge >= 0) {
+        warpAge += dt;
+        const t = warpAge / WARP_SECONDS;
+        warp = t < 1 ? Math.sin(Math.PI * t) ** 2 : 0;
+        if (t >= 1) warpAge = -1;
+      }
+      finish.uniforms.uWarp.value.z = warp;
+      // The lens widens as the camera dives in, stretching the perspective.
+      const fov = 34 + 1.6 * Math.max(0, state.dolly || 0) + WARP_FOV * warp;
+      if (camera.fov !== fov) {
+        camera.fov = fov;
+        camera.updateProjectionMatrix();
+      }
+      if (shockAge >= 0) {
+        shockAge += dt;
+        const t = shockAge / SHOCK_SECONDS;
+        finish.uniforms.uShock.value.z = t * 1.3;
+        finish.uniforms.uShock.value.w = t < 1 ? (1 - t) ** 1.5 : 0;
+        if (t >= 1) shockAge = -1;
+      }
+      finish.uniforms.uTime.value = seconds;
+      // Light the words the story is on, once it has caught up with the slide.
+      const settled = Math.floor(story) % 3 === activeSlide();
+      lit('word', settled && state.word ? String(state.word) : '');
+      lit('beat', settled ? state.beat : '');
       camera.position.set(0.4 * pointer.x, -0.25 * pointer.y, CAM_Z);
       camera.lookAt(0.18 * pointer.x, 0, 0);
 
-      renderer.render(scene, camera);
+      composer.render();
     };
 
     const hero = host.closest('.hero');
-    // Scene per slide: 0 the glass arch, 1 the ribbons, 2 the dot plate.
-    const SCENES = 3;
+    hero?.addEventListener('pointerdown', onPress);
     const slides = hero ? [...hero.querySelectorAll('.slide')] : [];
-    const activeScene = () => Math.max(0, slides.findIndex((el) => el.classList.contains('is-active'))) % SCENES;
-    const amounts = Array.from({ length: SCENES }, (_, i) => (i === activeScene() ? 1 : 0));
-    const FADE_SECONDS = 1.1;
+    const activeSlide = () => Math.max(0, slides.findIndex((el) => el.classList.contains('is-active'))) % 3;
     let visible = true;
     let raf = 0;
     let clock = 1.5; // first frame, before the loop starts
+    // Story position: chapter n is [n, n + 1) mod 3. It only ever moves on.
+    let story = activeSlide();
+    const advance = (dt) => {
+      const target = activeSlide();
+      if (Math.floor(story) % 3 !== target) {
+        // Catch up with the slide, through every form on the way.
+        const gap = (((target - Math.floor(story)) % 3) + 3) % 3 - (story % 1);
+        story += Math.min(gap, dt * CATCH_UP);
+      } else {
+        // Hold just short of the chapter's end until the slide moves on.
+        story = Math.min(story + dt / CHAPTER_SECONDS, Math.floor(story) + 0.999);
+      }
+      if (story >= 3000) story -= 3000; // a multiple of 3, so the chapter holds
+    };
     let last = 0;
     // Frame-time governor.
     let sampleCount = 0;
@@ -410,12 +452,9 @@ export default function HeroFlow() {
       if (!running()) return;
       if (last) {
         const dt = now - last;
-        clock += Math.min(dt / 1000, 0.1);
-        const step = Math.min(dt / 1000, 0.1) / FADE_SECONDS;
-        const active = activeScene();
-        amounts.forEach((a, i) => {
-          amounts[i] = i === active ? Math.min(1, a + step) : Math.max(0, a - step);
-        });
+        const step = Math.min(dt / 1000, 0.1);
+        clock += step;
+        advance(step);
         if (warmup > 0) warmup -= 1;
         else if (dt < 250) { // ignore gaps from tab switches and the like
           sampleTime += dt;
@@ -431,8 +470,9 @@ export default function HeroFlow() {
           }
         }
       }
+      const step = last ? Math.min((now - last) / 1000, 0.1) : 0;
       last = now;
-      draw(clock);
+      draw(clock, step);
       raf = requestAnimationFrame(frame);
     };
     const sync = () => {
@@ -464,10 +504,13 @@ export default function HeroFlow() {
     io.observe(host);
     const mo = hero ? new MutationObserver(sync) : null;
     mo?.observe(hero, { attributes: true, attributeFilter: ['class'] });
-    // A slide picked while the animation is stopped switches scene at once.
+    // A slide picked while the animation is stopped shows that chapter's
+    // finished form at once.
     const so = new MutationObserver(() => {
       if (raf) return;
-      amounts.forEach((_, i) => { amounts[i] = i === activeScene() ? 1 : 0; });
+      const target = activeSlide();
+      if (Math.floor(story) % 3 === target) return;
+      story = Math.floor(story / 3) * 3 + target + LANDED;
       draw(clock);
     });
     slides.forEach((el) => so.observe(el, { attributes: true, attributeFilter: ['class'] }));
@@ -480,14 +523,15 @@ export default function HeroFlow() {
       io.disconnect();
       mo?.disconnect();
       so.disconnect();
-      ribbons.dispose();
-      dots.dispose();
+      morph.dispose();
+      backdropGeometry.dispose();
+      backdropMaterial.dispose();
+      composer.dispose();
+      flareGeometry.dispose();
+      flareMaterial.dispose();
       window.removeEventListener('pointermove', onPointer);
+      hero?.removeEventListener('pointerdown', onPress);
       document.removeEventListener('visibilitychange', sync);
-      parts.forEach(([geometry, material]) => {
-        geometry.dispose();
-        material.dispose();
-      });
       renderer.dispose();
       renderer.domElement.remove();
     };
