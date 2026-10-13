@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { bootSite } from '../../js/site.js';
-import { initCardRoll, initCaseReveal, initBuildReveal, initGrowthSwing, initHeroCollapse, initNowReveal, initRecogReveal, initScroll3D } from '../lib/scroll3d.js';
+import { initCardRoll, initCaseReveal, initBuildReveal, initGrowthSwing, initHeroCollapse, initNowReveal, initRecogReveal } from '../lib/scroll3d.js';
 import { initTilt3D } from '../lib/tilt3d.js';
 import { initHeroText } from '../lib/heroText.js';
 import { initSolutionMotion } from '../lib/solutionMotion.js';
@@ -64,7 +64,6 @@ export default function SiteChrome({ children }) {
     const start = () => {
       const main = document.getElementById('main');
       if (main && main.childElementCount > 0) {
-        const undo3d = initScroll3D();
         const undoRoll = initCardRoll();
         const undoSwing = initGrowthSwing();
         const undoNow = initNowReveal();
@@ -76,7 +75,6 @@ export default function SiteChrome({ children }) {
         // Home runs its own hero and section effects.
         const undoPage = pathname === '/' ? () => {} : initSolutionMotion(main);
         cleanup = () => {
-          undo3d();
           undoRoll();
           undoSwing();
           undoNow();

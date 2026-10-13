@@ -250,44 +250,6 @@ button { cursor: pointer; border: 0; background: none; }
   mask-composite: exclude;
 }
 
-/* A beam of the brand gradient orbits the bar's edge: blue, violet, magenta,
-   with a fainter twin on the opposite side. */
-@property --hb-ang {
-  syntax: "<angle>";
-  inherits: false;
-  initial-value: 0deg;
-}
-.header-bar::after {
-  content: "";
-  position: absolute;
-  inset: -1px;
-  padding: 1.6px;
-  border-radius: 9px;
-  pointer-events: none;
-  background: conic-gradient(
-    from var(--hb-ang),
-    transparent 0 58%,
-    rgb(47 134 255 / 0.9) 70%,
-    #8a02fd 80%,
-    #cf0bfd 87%,
-    transparent 92%,
-    transparent 100%
-  ), conic-gradient(
-    from calc(var(--hb-ang) + 180deg),
-    transparent 0 74%,
-    rgb(47 134 255 / 0.35) 84%,
-    rgb(207 11 253 / 0.35) 92%,
-    transparent 97%
-  );
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  mask-composite: exclude;
-  filter: drop-shadow(0 0 4px rgb(138 2 253 / 0.55));
-  animation: hb-orbit 7s linear infinite;
-}
-@keyframes hb-orbit { to { --hb-ang: 360deg; } }
-
 /* Spotlight that follows the cursor across the glass. */
 .hb-glow {
   position: absolute;
@@ -356,7 +318,6 @@ button { cursor: pointer; border: 0; background: none; }
 .site-header.is-entering .header-bar {
   animation: hb-open 0.95s cubic-bezier(0.7, 0, 0.2, 1) both;
 }
-.site-header.is-entering .header-bar::after { animation: hb-orbit 7s linear infinite, hb-flash 1.6s ease-out both; }
 .site-header.is-entering .nav-item,
 .site-header.is-entering .header-tools > * {
   animation: hb-rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
@@ -373,10 +334,6 @@ button { cursor: pointer; border: 0; background: none; }
   0% { clip-path: inset(calc(50% - 1px) 50% round 8px); opacity: 0.4; translate: 0 -10px; }
   45% { clip-path: inset(calc(50% - 1px) 0 round 8px); opacity: 1; translate: 0 -10px; }
   100% { clip-path: inset(0 0 round 8px); translate: 0 0; }
-}
-@keyframes hb-flash {
-  0%, 30% { filter: drop-shadow(0 0 14px rgb(207 11 253 / 1)) brightness(1.6); }
-  100% { filter: drop-shadow(0 0 4px rgb(138 2 253 / 0.55)); }
 }
 @keyframes hb-rise {
   from { opacity: 0; translate: 0 14px; filter: blur(6px); }

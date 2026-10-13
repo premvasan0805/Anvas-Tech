@@ -1153,7 +1153,10 @@
   .sp-wrap { width: calc(100% - 44px); }
   .sp-band { padding: 60px 0; }
   .sp-intro,
+  .sp-intro.has-portrait,
   .sp-head { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+  /* Stacked, a phone capture at full column width runs taller than the screen. */
+  .sp-intro.has-portrait > :last-child { width: 100%; max-width: 280px; justify-self: center; }
   .sp-fits { padding: 60px 0; }
   .sp-areas,
   .sp-areas.is-4up { grid-template-columns: minmax(0, 1fr); gap: 26px; margin-top: 36px; }
@@ -2912,4 +2915,92 @@
     padding: 26px 24px 24px;
     border-left: 1px solid var(--sp-hair);
   }
+}
+
+/* Two cards across leave a title about 40px wide beside the arrow on a phone,
+   one word per line. */
+@media (max-width: 600px) {
+  .sp-links.is-4up { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+}
+
+/* --------------------------------------------------------------------------
+   Case study (src/components/CaseStudy.jsx) — the product-page bands, plus a
+   row of chapter links in the hero and a little spacing of its own.
+   -------------------------------------------------------------------------- */
+.cs-page [id] { scroll-margin-top: 96px; }
+
+.cs-chapters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 34px;
+}
+.cs-chapters a {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 42px;
+  padding: 8px 18px 8px 10px;
+  border: 1px solid var(--sp-hair);
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.62);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 500;
+  transition: border-color 0.24s ease, background 0.24s ease, color 0.24s ease;
+}
+.cs-chapters a span {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgb(15 95 220 / 0.1);
+  color: var(--blue);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+.cs-chapters a:hover { border-color: var(--blue); background: #fff; color: var(--blue); }
+
+.cs-p { margin-top: 22px; }
+.cs-covers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.cs-covers li {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  border: 1px solid rgb(255 255 255 / 0.16);
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.04);
+  color: rgb(255 255 255 / 0.82);
+  font-size: 13.5px;
+}
+.cs-covers li::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--blue-soft);
+}
+.cs-need .sp-plate.is-statement { min-height: 100%; }
+.cs-sub { margin: 0 0 24px; }
+
+/* A photograph, not a screenshot: it fills the frame instead of sitting
+   inside the screenshot plate's padding. */
+.sp-shot.cs-photo { padding: 0; overflow: hidden; }
+.sp-shot.cs-photo img { width: 100%; max-height: none; border-radius: 0; }
+
+@media (max-width: 600px) {
+  .cs-chapters { gap: 8px; margin-top: 26px; }
+  .cs-chapters a { min-height: 38px; padding: 6px 14px 6px 8px; font-size: 13px; }
 }

@@ -1,64 +1,6 @@
 import { Link } from 'react-router-dom';
 import { usePageMeta } from '../lib/usePageMeta.js';
-
-const STUDIES = [
-  {
-    num: '01',
-    name: 'Vishful',
-    to: '/case-study-vishful',
-    title: 'Property & Co-Living Operations',
-    text: 'A property management platform for managing properties, apartments, beds, tenants, and occupancy.',
-  },
-  {
-    num: '02',
-    name: 'Vishful Attendance',
-    to: '/case-study-vishful-attendance',
-    title: 'Mobile Face-Scan Attendance',
-    text: 'A workforce attendance application using the mobile camera for face-based attendance and employee check-in.',
-  },
-  {
-    num: '03',
-    name: 'eLegal / GetLegal',
-    to: '/case-study-elegal',
-    title: 'AI-Powered Property Legal Intelligence',
-    text: 'A platform for property document analysis, OCR, title-chain analysis, and structured legal risk assessment.',
-  },
-  {
-    num: '04',
-    name: 'Anvas Logistics',
-    to: '/case-study-anvas-logistics',
-    title: 'Logistics Operations Platform',
-    text: 'A logistics ERP for shipments, consignments, carrier operations, billing, and financial visibility.',
-  },
-  {
-    num: '05',
-    name: 'Anvas Comet',
-    to: '/case-study-anvas-comet',
-    title: 'Business Operations Platform',
-    text: 'A unified platform connecting sales, inventory, procurement, accounting, finance, and AI-assisted business workflows.',
-  },
-  {
-    num: '06',
-    name: 'FinTech',
-    to: '/case-study-fintech',
-    title: 'Financial Technology Platform',
-    text: 'A multi-tenant financial operations platform for managing financial workflows, transactions, reporting, and business data.',
-  },
-  {
-    num: '07',
-    name: 'eHealth / TN-IHIP',
-    to: '/case-study-tn-ihip',
-    title: 'Digital Healthcare Platform',
-    text: 'A digital healthcare platform supporting patient management, OPD workflows, healthcare records, and operational processes.',
-  },
-  {
-    num: '08',
-    name: 'Kubera AI',
-    to: '/case-study-kubera-ai',
-    title: 'AI-Powered Trading Platform',
-    text: 'A trading platform combining AI-assisted strategy creation, market analysis, backtesting, execution workflows, and risk controls.',
-  },
-];
+import { STUDIES } from '../lib/caseStudies.js';
 
 export default function CaseStudies() {
   usePageMeta("Case Studies | AnvasTech", "The products AnvasTech has built — property operations, workforce attendance, legal intelligence, logistics, business operations, fintech, healthcare and AI trading.");

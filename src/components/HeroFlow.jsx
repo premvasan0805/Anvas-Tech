@@ -48,10 +48,10 @@ const SLOW_FRAME_MS = 22;
 const SAMPLE_FRAMES = 45;
 
 // Bloom: strength, radius, threshold.
-const BLOOM = [0.5, 0.5, 0.35];
+const BLOOM = [0.45, 0.45, 0.45];
 
 // Light trails: how long they linger at rest, and at full speed.
-const TRAIL_REST = 0.55;
+const TRAIL_REST = 0.4;
 const TRAIL_FAST = 0.84;
 
 // Beats of the story that set off a shockwave, as points in each chapter:
@@ -395,8 +395,10 @@ export default function HeroFlow() {
         if (t >= 1) warpAge = -1;
       }
       finish.uniforms.uWarp.value.z = warp;
-      // The lens widens as the camera dives in, stretching the perspective.
-      const fov = 34 + 1.6 * Math.max(0, state.dolly || 0) + WARP_FOV * warp;
+      // The lens widens as the camera dives in and narrows as it pulls out,
+      // a dolly zoom that stretches and flattens the perspective.
+      const d = state.dolly || 0;
+      const fov = 34 + (d > 0 ? 2.3 * d : 0.9 * d) + WARP_FOV * warp;
       if (camera.fov !== fov) {
         camera.fov = fov;
         camera.updateProjectionMatrix();

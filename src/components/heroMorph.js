@@ -15,10 +15,9 @@ import * as THREE from 'three';
 //     blueprint, and ends over its top right; the points drop into it behind,
 //     and the finished city brightens while light pulses run along its edges.
 //  2  "Explore. Build. Improve."
-//     The spark drops to become the head of a scan that sweeps right to left,
-//     and every stack of blocks it passes turns into a sleeker round
-//     glass tower, spires on the tallest: the city improved. The spark
-//     leaves to the left, where chapter 0 brings it back, and the skyline
+//     A rolling upgrade: a deploy beam sweeps the data centre right to
+//     left, and every rack it passes flashes, comes back on the new build
+//     in cyan and runs busier, its traffic quicker. Then the whole floor
 //     scatters back into the currents chapter 0 starts from.
 //
 // While the spark builds and scans, electric arcs crackle from it into the
@@ -43,8 +42,6 @@ export const CITY_WIDTH = NX * PITCH;
 const HALF = CITY_WIDTH / 2;
 const SCAN_FROM = -HALF - 1;
 const SCAN_TO = HALF + 1;
-const TOWER_R = 0.5; // improved tower radius at its base
-const FLOOR_GAP = 0.3; // between its floor rings
 const FOUNDATION = 0.24; // build front once the ground slabs are laid
 const MAX_SPEED = 3.4; // current speed at the height of the acceleration
 // The spark is switched off: its head, trail, arcs, embers and the light it
@@ -158,22 +155,25 @@ function sparkAt(s) {
 }
 
 // The camera's path, as a turn of the city: low along the currents, craning
-// up over the city, then tracking the scan, and back.
-const SHOT_KEYS = [0, 0.5, 1, 1.5, 2, 2.5, 3];
-// Dolly is toward the camera: in close on the racing currents, back out as
-// the foundation goes down, in again over the city mid-build, right out to
-// reveal it finished, then tracking in with the scan. Yaw swings the city
-// round between shots so the depth shows.
+// up over the city, then tracking the scan, and back. A key every quarter
+// slide, swinging in and out each time so the depth keeps showing.
+const SHOT_STEP = 0.25;
+// Dolly is toward the camera. Chapter 0: in close on the racing currents,
+// out, in again as the foundation goes down. Chapter 1: right out as the
+// build starts, a dive into the racks, out, then in close over the finished
+// data centre. Chapter 2: out wide for the deploy beam, in along it, out to
+// see the upgraded floor, and in again into the currents. Yaw swings the
+// city round between shots.
 const SHOTS = {
-  tilt: [0.08, 0.26, 0.56, 0.1, 0.44, 0.22, 0.08],
-  yaw: [-0.05, -0.36, 0.26, -0.46, 0.14, 0.4, -0.05],
-  dolly: [4.0, 0.0, -3.0, 8.0, -5.5, 3.5, 4.0],
-  lift: [0.0, 0.3, 0.4, -0.6, 0.3, -0.1, 0.0],
+  tilt: [0.08, 0.18, 0.26, 0.4, 0.56, 0.3, 0.1, 0.3, 0.44, 0.3, 0.22, 0.12, 0.08],
+  yaw: [-0.05, -0.25, -0.36, 0.0, 0.26, -0.15, -0.46, -0.1, 0.14, 0.3, 0.4, 0.15, -0.05],
+  dolly: [4.0, 1.0, -0.5, 3.5, -3.5, 5.0, -1.5, 8.5, -5.5, 3.0, -2.5, 4.5, 4.0],
+  lift: [0.0, 0.15, 0.3, 0.35, 0.4, -0.2, 0.2, -0.6, 0.3, -0.1, 0.1, -0.05, 0.0],
 };
 function shotAt(u) {
   const w = ((u % 3) + 3) % 3;
-  const k = Math.min(SHOT_KEYS.length - 2, Math.floor(w / 0.5));
-  const t = (1 - Math.cos(Math.PI * ((w - SHOT_KEYS[k]) / 0.5))) / 2;
+  const k = Math.min(SHOTS.dolly.length - 2, Math.floor(w / SHOT_STEP));
+  const t = (1 - Math.cos(Math.PI * ((w - k * SHOT_STEP) / SHOT_STEP))) / 2;
   const out = {};
   for (const [name, keys] of Object.entries(SHOTS)) out[name] = mix(keys[k], keys[k + 1], t);
   return out;
@@ -236,7 +236,6 @@ uniform vec2 uPointer;
 uniform float uAspect;
 
 attribute vec3 aFlow;
-attribute vec3 aPolish;
 attribute float aSeed;
 attribute float aOrder;
 
@@ -262,7 +261,6 @@ vec3 currents(vec3 b) {
 void main() {
   vec3 flow = currents(aFlow);
   vec3 stack = position;
-  vec3 polish = aPolish;
 
   float b = built(aOrder);
   float i = improved(position.x);
@@ -271,8 +269,6 @@ void main() {
   vec3 p = mix(flow, stack, b);
   // Points drop into the city from above.
   p.y += sin(PI * b) * 1.2 * (0.5 + aSeed);
-  p = mix(p, polish, i);
-  p.y += sin(PI * i) * 0.6;
   p = mix(p, flow, r);
   p.y += sin(PI * r) * (0.8 + aSeed);
 
@@ -298,21 +294,21 @@ void main() {
   float lit = sparkLight(p);
   vec3 tint = brand(p.x);
   vec3 steel = mix(vec3(0.55, 0.72, 1.0), tint, 0.35);
-  vec3 polished = mix(vec3(0.3, 0.88, 1.0), tint, 0.45 + 0.25 * sin(p.x * 0.8 + uTime));
+  vec3 upgraded = mix(vec3(0.3, 0.75, 1.0), tint, 0.45);
   vec3 col = mix(tint, steel, b);
   col = mix(col, vec3(0.75, 0.9, 1.0), uHeat * 0.5 * (1.0 - b));
-  col = mix(col, polished, i);
+  col = mix(col, upgraded, i);
   col = mix(col, tint, r);
   float shine = uShine * b * (1.0 - r);
-  vColor = col * (1.0 + 0.35 * shine) + vec3(0.1, 0.16, 0.28) * flash * (1.0 - r) + vec3(0.7, 0.85, 1.0) * lit * 1.6
+  vColor = col * (1.0 + 0.15 * shine) + vec3(0.1, 0.16, 0.28) * flash * (1.0 - r) + vec3(0.7, 0.85, 1.0) * lit * 1.6
     + vec3(0.55, 0.75, 1.0) * near * 1.1;
 
-  // Built and polished forms are drawn in larger, brighter points; scattered
+  // Built forms are drawn in larger, brighter points; scattered
   // back into the currents they are the currents' points again.
   float formed = max(b, i) * (1.0 - r);
   float size = mix(26.0, 32.0, b * (1.0 - r)) * (0.7 + 0.6 * aSeed) * (1.0 + 1.4 * vBlur) * (1.0 + 0.5 * flash + 0.8 * lit + 0.9 * near);
   gl_PointSize = size * uPixelRatio / -mv.z;
-  float base = mix(0.5, 0.58, formed) * (1.0 - 0.12 * i * (1.0 - r)) * (1.0 + 0.25 * shine) * (1.0 - 0.4 * uHeat * (1.0 - b));
+  float base = mix(0.5, 0.58, formed) * (1.0 + 0.1 * shine) * (1.0 - 0.4 * uHeat * (1.0 - b));
   vAlpha = base * (0.6 + 0.4 * aSeed) * (1.0 - 0.65 * vBlur) * clearOfCopy(ndc) * uAmount
     * mix(1.0, 0.22 * formed * exp(-below * 0.9), uMirror);
 }
@@ -342,12 +338,14 @@ varying float vAlpha;
 varying float vT;
 varying float vRand;
 varying vec3 vTint;
+varying float vUp;
 
 void main() {
   // Each edge draws itself from one corner, a beat ahead of its points.
   float draw = smoothstep(0.0, 1.0, clamp((uDraw - aOrder) / 0.08, 0.0, 1.0));
   vec3 p = mix(position, mix(position, aEnd, draw), aTip);
-  float i = improved(min(position.x, aEnd.x));
+  float i = improved(max(position.x, aEnd.x));
+  vUp = i;
   float below = 0.0;
   if (uMirror > 0.5) {
     p.y = 2.0 * GROUND - p.y;
@@ -359,7 +357,11 @@ void main() {
   vT = aTip;
   vRand = aRand;
   vTint = mix(vec3(0.35, 0.65, 1.0), brand(p.x), 0.5) * (1.0 + 2.5 * sparkLight(p));
-  vAlpha = (draw > 0.001 ? 1.0 : 0.0) * (1.0 - i) * (1.0 - 0.45 * uShine) * (1.0 - uScatter)
+  vTint = mix(vTint, vec3(0.35, 0.8, 1.0), 0.35 * i);
+  // The deploy beam lights the edges it crosses.
+  float x = 0.5 * (position.x + aEnd.x);
+  vTint += vec3(0.5, 0.9, 1.0) * exp(-pow((x - uScanX) / 0.45, 2.0)) * 1.4;
+  vAlpha = (draw > 0.001 ? 1.0 : 0.0) * (1.0 - 0.3 * uShine) * (1.0 - uScatter)
     * clear * clear * uAmount * mix(1.0, 0.16 * exp(-below * 0.9), uMirror);
 }
 `;
@@ -372,25 +374,27 @@ varying float vAlpha;
 varying float vT;
 varying float vRand;
 varying vec3 vTint;
+varying float vUp;
 
 void main() {
-  // Light pulses running along the finished edges, like data through them.
-  float head = fract(uTime * 0.35 + vRand);
-  float pulse = exp(-pow((vT - head) * 9.0, 2.0)) * step(0.5, fract(vRand * 7.31));
-  float glow = 0.42 + pulse * (1.2 + 1.6 * uShine);
+  // Light pulses running along the finished edges, like data through them;
+  // after the upgrade, on more edges and faster.
+  float head = fract(uTime * (0.35 + 0.4 * vUp) + vRand);
+  float pulse = exp(-pow((vT - head) * 9.0, 2.0)) * step(0.5 - 0.35 * vUp, fract(vRand * 7.31));
+  float glow = 0.42 + pulse * (1.2 + 0.6 * uShine);
   gl_FragColor = vec4(vTint * glow * vAlpha, 1.0);
   #include <colorspace_fragment>
 }
 `;
 
-// City life, once it stands: windows lighting up floor by floor, light
-// streaks of traffic running along the streets, and beacons blinking on the
-// tallest towers. All of it goes as the scan smooths the city away.
+// Data-centre life, once the city stands: rows of server status lights on
+// every rack face, packets of data streaking along the aisles, and uplink
+// beacons blinking on the tallest stacks. All of it goes as the scan passes.
 const lifeVertex = /* glsl */ `
 ${shared}
 uniform float uPixelRatio;
 uniform float uWindows; // 0..1 how many windows are lit
-attribute float aKind; // 0 window, 1 traffic, 2 beacon
+attribute float aKind; // 1 data packet, 2 beacon
 attribute float aOrder;
 attribute float aRand;
 attribute float aDir; // traffic: which way along the street
@@ -404,14 +408,7 @@ void main() {
   float on = 0.0;
   vec3 col = vec3(0.0);
   float size = 0.0;
-  if (aKind < 0.5) {
-    // Lit in a random order once their block is built; a few flicker.
-    on = built(aOrder) * smoothstep(aRand, aRand + 0.08, uWindows * 1.08);
-    float flick = aRand > 0.9 ? step(0.25, fract(uTime * 0.3 + aRand * 7.0)) : 1.0;
-    on *= flick * (0.8 + 0.2 * sin(uTime * (1.0 + aRand * 3.0) + aRand * 40.0));
-    col = mix(vec3(0.55, 0.78, 1.0), vec3(0.75, 0.5, 1.0), fract(aRand * 13.7)) * 0.7;
-    size = 110.0;
-  } else if (aKind < 1.5) {
+  if (aKind < 1.5) {
     float left = ${(-HALF - 1).toFixed(2)};
     float span = ${(CITY_WIDTH + 2).toFixed(2)};
     float speed = 1.1 + 1.3 * fract(aRand * 7.3);
@@ -430,8 +427,7 @@ void main() {
   vec4 mv = modelViewMatrix * vec4(p, 1.0);
   gl_Position = projectionMatrix * mv;
   vec2 ndc = gl_Position.xy / gl_Position.w;
-  float gone = improved(p.x);
-  vAlpha = on * (1.0 - gone) * (1.0 - uScatter) * clearOfCopy(ndc) * uAmount;
+  vAlpha = on * (1.0 - uScatter) * clearOfCopy(ndc) * uAmount;
   vColor = col;
   gl_PointSize = vAlpha > 0.001 ? size * uPixelRatio / -mv.z : 0.0;
 }
@@ -442,9 +438,336 @@ varying vec3 vColor;
 varying float vAlpha;
 void main() {
   vec2 q = abs(gl_PointCoord - 0.5) * 2.0;
-  // Windows and streaks are soft squares; a round glow would read as stars.
+  // Streaks and beacons are soft squares; a round glow would read as stars.
   float a = (1.0 - smoothstep(0.35, 1.0, max(q.x, q.y))) * 0.8 + exp(-dot(q, q) * 3.0) * 0.3;
   gl_FragColor = vec4(vColor * a * vAlpha, 1.0);
+  #include <colorspace_fragment>
+}
+`;
+
+// Server units on the front of every rack. As its rack is built, each unit
+// slides into its slot and boots: its status lights blink amber, then settle
+// to green or blue. Running, a drive light under each bay flickers with disk
+// traffic and the activity light blinks with network traffic.
+const SERVER_W = 0.84; // faceplate width, in city units
+const SERVER_H = 0.085; // and height
+const rackVertex = /* glsl */ `
+${shared}
+uniform float uWindows; // 0..1 how many servers are on
+attribute float aOrder;
+attribute float aRand;
+varying vec2 vUv;
+varying float vAlpha;
+varying float vBoot;
+varying float vSeed;
+varying vec3 vColor;
+varying float vUp;
+varying float vFlash;
+
+void main() {
+  vUv = uv;
+  vSeed = aRand;
+  vUp = improved(position.x);
+  vFlash = exp(-pow((position.x - uScanX) / 0.35, 2.0));
+  // Power-on progress: slide in, then boot.
+  float pw = built(aOrder) * clamp((uWindows * 1.25 - aRand) / 0.18, 0.0, 1.0);
+  float slide = 1.0 - smoothstep(0.0, 0.5, pw);
+  vBoot = smoothstep(0.5, 1.0, pw);
+  vec3 p = position;
+  p.z += slide * slide * 1.1;
+  vColor = fract(aRand * 13.7) < 0.7 ? vec3(0.3, 1.0, 0.6) : vec3(0.35, 0.72, 1.0);
+  vec4 mv = modelViewMatrix * vec4(p, 1.0);
+  gl_Position = projectionMatrix * mv;
+  vec2 ndc = gl_Position.xy / gl_Position.w;
+  vAlpha = smoothstep(0.0, 0.2, pw) * (1.0 - uScatter) * clearOfCopy(ndc) * uAmount;
+}
+`;
+
+const rackFragment = /* glsl */ `
+uniform float uTime;
+varying vec2 vUv;
+varying float vAlpha;
+varying float vBoot;
+varying float vSeed;
+varying vec3 vColor;
+varying float vUp;
+varying float vFlash;
+
+float hash(float n) { return fract(sin(n * 12.9898 + 4.1414) * 43758.5453); }
+
+void main() {
+  if (vAlpha < 0.001) discard;
+  // In city units, centred on the faceplate.
+  vec2 w = (vUv - 0.5) * vec2(${SERVER_W.toFixed(3)}, ${SERVER_H.toFixed(3)});
+  vec2 hs = vec2(${(SERVER_W / 2).toFixed(3)}, ${(SERVER_H / 2).toFixed(3)});
+  vec2 e = hs - abs(w);
+  float rim = 1.0 - smoothstep(0.0, 0.008, min(e.x, e.y));
+  // Drive bays along the left two thirds, each with its drive light.
+  float bx = (w.x + hs.x) / 0.07;
+  float bayIndex = floor(bx);
+  float inBays = step(w.x, 0.12);
+  float bay = inBays * step(0.12, fract(bx)) * step(0.022, e.y) * step(0.02, e.x) * 0.3;
+  float rate = (3.0 + 7.0 * hash(bayIndex + vSeed * 97.0)) * (1.0 + 0.8 * vUp);
+  float busy = step(0.55, hash(bayIndex * 7.0 + vSeed * 131.0 + floor(uTime * rate)));
+  vec2 dd = vec2(fract(bx) - 0.56, (w.y + 0.026) / 0.07);
+  float drive = inBays * step(0.02, e.x) * exp(-dot(dd, dd) * 160.0) * busy * vBoot;
+  // Status lights: amber while booting, then power steady and activity
+  // blinking.
+  float amber = step(0.5, fract(uTime * 6.0 + vSeed * 5.0));
+  float act = 0.12 + 0.88 * step(0.45, fract(uTime * (2.0 + 9.0 * fract(vSeed * 5.1)) + vSeed * 17.0));
+  vec2 d1 = w - vec2(0.24, 0.0);
+  vec2 d2 = w - vec2(0.33, 0.0);
+  float g1 = exp(-dot(d1, d1) * 9000.0);
+  float g2 = exp(-dot(d2, d2) * 9000.0);
+  vec3 amberLed = vec3(1.0, 0.62, 0.15);
+  vec3 run = mix(vColor, vec3(0.35, 0.85, 1.0), vUp);
+  vec3 led1 = mix(amberLed * amber, run * (fract(vSeed * 29.3) > 0.15 ? 1.0 : 0.25), vBoot) * g1;
+  vec3 led2 = mix(amberLed * (1.0 - amber), vec3(0.4, 0.75, 1.0) * act, vBoot) * g2;
+  vec3 plate = mix(vec3(0.45, 0.55, 1.0), vec3(0.45, 0.9, 1.0), vUp);
+  vec3 ink = plate * (rim * (0.4 + 1.6 * vFlash) + bay * (0.6 + 1.2 * vFlash))
+    + vec3(0.45, 0.85, 1.0) * drive * 1.4
+    + (led1 + led2) * 2.2;
+  gl_FragColor = vec4(ink * vAlpha, 1.0);
+  #include <colorspace_fragment>
+}
+`;
+
+// The raised floor of the data centre: a grid of floor tiles laid with the
+// foundation, with rows of perforated tiles down the cold aisles between the
+// rows of racks, and waves of cool air running along them.
+const FLOOR_W = CITY_WIDTH + 3;
+const FLOOR_D = NZ * PITCH + 1.6;
+const floorVertex = /* glsl */ `
+${shared}
+varying vec3 vPos;
+varying float vAlpha;
+void main() {
+  vPos = position;
+  vec4 mv = modelViewMatrix * vec4(position, 1.0);
+  gl_Position = projectionMatrix * mv;
+  vec2 ndc = gl_Position.xy / gl_Position.w;
+  vAlpha = (1.0 - uScatter) * clearOfCopy(ndc) * uAmount;
+}
+`;
+
+const floorFragment = /* glsl */ `
+uniform float uTime;
+uniform float uBuild;
+varying vec3 vPos;
+varying float vAlpha;
+void main() {
+  if (vAlpha < 0.001) discard;
+  vec2 xz = vPos.xz;
+  // Laid from the right, like the foundation.
+  float front = ${(FLOOR_W / 2).toFixed(2)} - clamp(uBuild / ${FOUNDATION.toFixed(2)}, 0.0, 1.0) * ${(FLOOR_W + 1).toFixed(2)};
+  float laid = smoothstep(front - 0.5, front + 0.5, xz.x);
+  // Floor tiles.
+  vec2 g = abs(fract(xz / ${(PITCH / 2).toFixed(3)}) - 0.5);
+  float grid = smoothstep(0.465, 0.495, max(g.x, g.y));
+  // Cold aisles run between the rows of racks.
+  float lane = abs(fract(xz.y / ${PITCH.toFixed(3)} + ${(NZ % 2 ? 0.5 : 0).toFixed(1)}) - 0.5) * ${PITCH.toFixed(3)};
+  float aisle = 1.0 - smoothstep(0.07, 0.11, lane);
+  vec2 hole = abs(fract(xz * 16.0) - 0.5);
+  float perf = aisle * (1.0 - smoothstep(0.16, 0.26, length(hole)));
+  float air = 0.5 + 0.5 * sin(xz.x * 1.3 - uTime * 2.2 + xz.y * 2.0);
+  // Fade out toward the floor's edges.
+  vec2 edge = vec2(${(FLOOR_W / 2).toFixed(2)}, ${(FLOOR_D / 2).toFixed(2)}) - abs(xz);
+  float fade = smoothstep(0.0, 1.4, min(edge.x, edge.y));
+  vec3 ink = vec3(0.35, 0.45, 1.0) * grid * 0.2
+    + vec3(0.3, 0.7, 1.0) * perf * (0.15 + 0.45 * air * air)
+    + vec3(0.2, 0.5, 1.0) * aisle * air * 0.05;
+  gl_FragColor = vec4(ink * vAlpha * laid * fade, 1.0);
+  #include <colorspace_fragment>
+}
+`;
+
+// Monitoring: holographic dashboards that unfold over the tallest racks once
+// the data centre is running, each a live bar chart of load with a traffic
+// trace over it, tethered to its rack by a thin line of light.
+const PANEL_W = 1.05;
+const PANEL_H = 0.62;
+const TETHER = 0.42;
+const panelVertex = /* glsl */ `
+${shared}
+uniform float uWindows;
+attribute float aRand;
+attribute float aAnchor;
+varying vec2 vUv;
+varying float vAlpha;
+varying float vSeed;
+void main() {
+  vUv = uv;
+  vSeed = aRand;
+  float up = smoothstep(0.45 + 0.15 * aRand, 0.65 + 0.15 * aRand, uWindows);
+  vec3 p = position;
+  // Unfolds upward out of its rack.
+  p.y = mix(aAnchor, p.y, up);
+  vec4 mv = modelViewMatrix * vec4(p, 1.0);
+  gl_Position = projectionMatrix * mv;
+  vec2 ndc = gl_Position.xy / gl_Position.w;
+  vAlpha = up * (1.0 - uScatter) * clearOfCopy(ndc) * uAmount;
+}
+`;
+
+const panelFragment = /* glsl */ `
+uniform float uTime;
+varying vec2 vUv;
+varying float vAlpha;
+varying float vSeed;
+
+float hash(float n) { return fract(sin(n * 12.9898 + 4.1414) * 43758.5453); }
+
+void main() {
+  if (vAlpha < 0.001) discard;
+  vec2 w = vec2((vUv.x - 0.5) * ${PANEL_W.toFixed(3)}, vUv.y * ${(PANEL_H + TETHER).toFixed(3)});
+  vec3 ink = vec3(0.0);
+  float cover = 0.0; // dark glass, so the panel reads over a bright city
+  vec3 cyan = vec3(0.35, 0.75, 1.0);
+  if (w.y < ${TETHER.toFixed(3)}) {
+    // Tether: a thin line with a pulse running up it.
+    float line = exp(-w.x * w.x * 40000.0);
+    float f = fract(w.y / ${TETHER.toFixed(3)} - uTime * 0.8 - vSeed) - 0.5;
+    ink = cyan * line * (0.25 + 0.9 * exp(-f * f * 60.0));
+  } else {
+    vec2 q = vec2(w.x / ${(PANEL_W / 2).toFixed(3)}, (w.y - ${TETHER.toFixed(3)}) / ${PANEL_H.toFixed(3)} * 2.0 - 1.0);
+    vec2 a = abs(q);
+    // Glass with corner brackets.
+    float frame = max(1.0 - smoothstep(0.0, 0.018, 1.0 - a.x), 1.0 - smoothstep(0.0, 0.03, 1.0 - a.y));
+    float corner = step(0.8, a.x) * step(0.68, a.y);
+    ink += cyan * frame * mix(0.16, 0.95, corner);
+    cover = 0.72;
+    // Header: a title bar and a live dot.
+    float head = step(0.7, q.y) * step(q.y, 0.8) * step(-0.86, q.x) * step(q.x, -0.15);
+    ink += cyan * head * 0.35;
+    vec2 dq = q - vec2(0.8, 0.75);
+    ink += vec3(0.3, 1.0, 0.6) * exp(-dot(dq, dq) * 900.0) * (0.5 + 0.5 * step(0.5, fract(uTime * 1.5 + vSeed)));
+    // Load: twelve bars, easing between readings.
+    float n = 12.0;
+    float bx = (q.x + 0.86) / 1.72 * n;
+    float bi = floor(bx);
+    if (bx >= 0.0 && bx < n && q.y < 0.6) {
+      float tt = uTime * 1.6 + vSeed * 9.0;
+      float k = bi + vSeed * 53.0 + floor(tt);
+      float lv = mix(hash(k), hash(k + 1.0), smoothstep(0.0, 1.0, fract(tt)));
+      float h = -0.85 + (0.25 + 0.7 * lv) * 1.4;
+      float bar = step(0.18, fract(bx)) * step(fract(bx), 0.82) * step(-0.85, q.y) * step(q.y, h);
+      vec3 c = mix(vec3(0.25, 0.5, 1.0), vec3(0.7, 0.4, 1.0), (q.y + 0.85) / 1.4);
+      ink += c * bar * 0.5;
+      // Traffic trace across the top of the chart.
+      float tr = 0.3 + 0.16 * sin(q.x * 7.0 + uTime * 2.4 + vSeed * 6.0) + 0.07 * sin(q.x * 19.0 - uTime * 3.7);
+      float d = q.y - tr;
+      ink += cyan * exp(-d * d * 2500.0) * 0.9;
+    }
+    // Scanline shimmer.
+    ink *= 0.85 + 0.15 * sin(w.y * 220.0 - uTime * 6.0);
+  }
+  // Premultiplied: the glass dims what is behind, the ink adds light.
+  vec3 glass = vec3(0.02, 0.03, 0.1) * cover;
+  gl_FragColor = vec4((glass + ink * 1.3) * vAlpha, cover * vAlpha);
+  #include <colorspace_fragment>
+}
+`;
+
+// Overhead cable trays: a ladder tray over every row of racks, run out from
+// the right once the servers start coming on, with a cable dropping from it
+// into the top of each rack. Data runs along the trays in pulses, each row
+// the opposite way to the next, and down the drops into the racks; after
+// the upgrade it runs quicker.
+const TRAY_Y = GROUND + LEVELS * PITCH + 0.2;
+const traysVertex = /* glsl */ `
+${shared}
+uniform float uWindows;
+attribute float aCoord; // along the tray (x) or down the drop
+attribute float aKind; // 0 rail, 1 rung, 2 drop
+attribute float aDir; // which way data runs along the tray
+varying float vCoord;
+varying float vKind;
+varying float vDir;
+varying float vAlpha;
+varying float vUp;
+void main() {
+  vCoord = aCoord;
+  vKind = aKind;
+  vDir = aDir;
+  vUp = improved(position.x);
+  float run = clamp((uWindows - 0.1) / 0.55, 0.0, 1.0);
+  float front = ${(HALF + 1).toFixed(2)} - run * ${(CITY_WIDTH + 2.5).toFixed(2)};
+  float laid = smoothstep(front - 0.3, front + 0.3, position.x);
+  vec4 mv = modelViewMatrix * vec4(position, 1.0);
+  gl_Position = projectionMatrix * mv;
+  vec2 ndc = gl_Position.xy / gl_Position.w;
+  // Seen edge on, a tray collapses into one hard line across the frame:
+  // fade it out as the camera comes level with it.
+  vec3 up = normalize(normalMatrix * vec3(0.0, 1.0, 0.0));
+  float facing = abs(dot(normalize(-mv.xyz), up));
+  float level = aKind > 1.5 ? 1.0 : smoothstep(0.06, 0.22, facing);
+  float clear = clearOfCopy(ndc);
+  vAlpha = laid * level * (1.0 - uScatter) * clear * clear * uAmount;
+}
+`;
+
+const traysFragment = /* glsl */ `
+uniform float uTime;
+varying float vCoord;
+varying float vKind;
+varying float vDir;
+varying float vAlpha;
+varying float vUp;
+void main() {
+  if (vAlpha < 0.001) discard;
+  float speed = 1.3 * (1.0 + 0.9 * vUp);
+  float base;
+  float pulse = 0.0;
+  if (vKind < 0.5) {
+    base = 0.2;
+    float f = fract(vCoord * 0.22 - vDir * uTime * speed * 0.22);
+    pulse = exp(-pow((f - 0.5) * 14.0, 2.0)) + 0.6 * exp(-pow((fract(f * 3.0 + 0.3) - 0.5) * 18.0, 2.0)) * vUp;
+  } else if (vKind < 1.5) {
+    base = 0.08;
+  } else {
+    base = 0.12;
+    float f = fract(vCoord * 0.6 - uTime * speed * 0.5);
+    pulse = exp(-pow((f - 0.5) * 10.0, 2.0)) * 0.8;
+  }
+  vec3 col = mix(vec3(0.35, 0.55, 1.0), vec3(0.4, 0.9, 1.0), vUp);
+  vec3 ink = col * base + vec3(0.55, 0.9, 1.0) * pulse * 1.3;
+  gl_FragColor = vec4(ink * vAlpha, 1.0);
+  #include <colorspace_fragment>
+}
+`;
+
+// The deploy beam of the upgrade: a thin sheet of light across the whole
+// depth of the floor, travelling with the scan, with rollout ticks rising up
+// it.
+const BEAM_H = LEVELS * PITCH + 0.9;
+const beamVertex = /* glsl */ `
+${shared}
+uniform float uBeam;
+varying vec2 vUv;
+varying float vAlpha;
+void main() {
+  vUv = uv;
+  vec3 p = position;
+  p.x += uScanX;
+  gl_Position = projectionMatrix * modelViewMatrix * vec4(p, 1.0);
+  vec2 ndc = gl_Position.xy / gl_Position.w;
+  vAlpha = uBeam * (1.0 - uScatter) * clearOfCopy(ndc) * uAmount;
+}
+`;
+
+const beamFragment = /* glsl */ `
+uniform float uTime;
+varying vec2 vUv;
+varying float vAlpha;
+void main() {
+  if (vAlpha < 0.001) discard;
+  // Fades out up the sheet and toward its front and back.
+  float fade = (1.0 - smoothstep(0.55, 1.0, vUv.y)) * smoothstep(0.0, 0.15, vUv.x) * smoothstep(1.0, 0.85, vUv.x);
+  float ticks = exp(-pow((fract(vUv.y * 6.0 - uTime * 1.4) - 0.5) * 12.0, 2.0));
+  float floorLine = exp(-vUv.y * vUv.y * 4000.0);
+  vec3 col = vec3(0.4, 0.88, 1.0);
+  vec3 ink = col * (0.07 + 0.22 * ticks) * fade + vec3(0.7, 0.95, 1.0) * floorLine * 1.2;
+  gl_FragColor = vec4(ink * vAlpha, 1.0);
   #include <colorspace_fragment>
 }
 `;
@@ -613,7 +936,6 @@ export function createMorph() {
   // Points.
   const stack = new Float32Array(COUNT * 3);
   const flow = new Float32Array(COUNT * 3);
-  const polish = new Float32Array(COUNT * 3);
   const seed = new Float32Array(COUNT);
   const order = new Float32Array(COUNT);
   for (let n = 0; n < COUNT; n += 1) {
@@ -640,31 +962,6 @@ export function createMorph() {
     const sz = blk.z + local[2] * BLOCK;
     stack.set([sx, sy, sz], n * 3);
 
-    // Improved: the plot's stack of blocks becomes one round glass tower, a
-    // little taller and tapering as it rises, drawn by its floor rings and
-    // mullions; the tallest towers carry a spire.
-    const stackH = blk.h * PITCH;
-    const towerH = stackH * 1.12 + 0.25;
-    const rise = Math.min(1, Math.max(0, (sy - GROUND) / stackH));
-    const rp = rand(n + 41.3);
-    const ang = rand(n + 43.9) * Math.PI * 2;
-    let ty = GROUND + rise * towerH;
-    let rad = TOWER_R * (1 - 0.22 * rise);
-    let a = ang;
-    if (blk.h === LEVELS && rp < 0.08) {
-      // Spire.
-      ty = GROUND + towerH + rand(n + 47.1) * 0.7;
-      rad = 0.035;
-    } else if (rp < 0.5) {
-      // Floor rings.
-      ty = GROUND + Math.round((rise * towerH) / FLOOR_GAP) * FLOOR_GAP;
-      rad = TOWER_R * (1 - 0.22 * ((ty - GROUND) / towerH));
-    } else if (rp < 0.82) {
-      // Mullions: eight vertical lines round the tower.
-      a = (Math.floor(ang / (Math.PI / 4)) + 0.5) * (Math.PI / 4);
-    }
-    polish.set([blk.x + Math.cos(a) * rad, ty, blk.z + Math.sin(a) * rad], n * 3);
-
     // Currents: seven streams laid across the whole frame, each a loose
     // ribbon of points.
     const band = Math.floor(rand(n + 53.1) * 7);
@@ -676,7 +973,6 @@ export function createMorph() {
   const pointsGeometry = new THREE.BufferGeometry();
   pointsGeometry.setAttribute('position', new THREE.BufferAttribute(stack, 3));
   pointsGeometry.setAttribute('aFlow', new THREE.BufferAttribute(flow, 3));
-  pointsGeometry.setAttribute('aPolish', new THREE.BufferAttribute(polish, 3));
   pointsGeometry.setAttribute('aSeed', new THREE.BufferAttribute(seed, 1));
   pointsGeometry.setAttribute('aOrder', new THREE.BufferAttribute(order, 1));
 
@@ -725,22 +1021,115 @@ export function createMorph() {
     lifeDir.push(dir);
     lifeTail.push(tail);
   };
-  // Windows: a two-by-two grid on each side of a block, some left dark.
-  const FACES = [[1, 0], [-1, 0], [0, 1], [0, -1]];
+  // Server units: the front of every block is a rack, one faceplate per
+  // unit, a few units left empty.
+  const UNITS = 6;
+  const rackPos = [];
+  const rackUv = [];
+  const rackOrder = [];
+  const rackRand = [];
+  const rackIndex = [];
   list.forEach((blk, bi) => {
-    FACES.forEach(([fx, fz], fi) => {
-      for (let wy = 0; wy < 2; wy += 1) {
-        for (let wx = 0; wx < 2; wx += 1) {
-          const k = bi * 16 + fi * 4 + wy * 2 + wx;
-          if (rand(k * 3.17 + 0.5) < 0.35) continue;
-          const along = (wx - 0.5) * 0.44 * BLOCK;
-          const up = (wy - 0.5) * 0.4 * BLOCK;
-          const out = 0.505 * BLOCK;
-          life([blk.x + fx * out + (fz ? along : 0), blk.y + up, blk.z + fz * out + (fx ? along : 0)], 0, blk.order + 0.02, rand(k * 1.91 + 0.3));
-        }
-      }
-    });
+    for (let wy = 0; wy < UNITS; wy += 1) {
+      const k = bi * UNITS + wy;
+      if (rand(k * 3.17 + 0.5) < 0.15) continue;
+      const y = blk.y + (wy / (UNITS - 1) - 0.5) * 0.74 * BLOCK;
+      const z = blk.z + 0.505 * BLOCK;
+      const r = rand(k * 1.91 + 0.3);
+      const v = rackPos.length / 3;
+      [[0, 0], [1, 0], [1, 1], [0, 1]].forEach(([u, t]) => {
+        rackPos.push(blk.x + (u - 0.5) * SERVER_W, y + (t - 0.5) * SERVER_H, z);
+        rackUv.push(u, t);
+        rackOrder.push(blk.order + 0.02);
+        rackRand.push(r);
+      });
+      rackIndex.push(v, v + 1, v + 2, v, v + 2, v + 3);
+    }
   });
+  const rackGeometry = new THREE.BufferGeometry();
+  rackGeometry.setAttribute('position', new THREE.Float32BufferAttribute(rackPos, 3));
+  rackGeometry.setAttribute('uv', new THREE.Float32BufferAttribute(rackUv, 2));
+  rackGeometry.setAttribute('aOrder', new THREE.Float32BufferAttribute(rackOrder, 1));
+  rackGeometry.setAttribute('aRand', new THREE.Float32BufferAttribute(rackRand, 1));
+  rackGeometry.setIndex(rackIndex);
+
+  // Raised floor, just above the ground so the city's reflection shows
+  // through it.
+  const floorGeometry = new THREE.PlaneGeometry(FLOOR_W, FLOOR_D);
+  floorGeometry.rotateX(-Math.PI / 2);
+  floorGeometry.translate(0, GROUND + 0.004, 0);
+
+  // Dashboards over a handful of the front racks, spread across the right
+  // of the city, clear of the copy and low enough to stay in frame.
+  const tops = list
+    .filter((blk) => Math.abs(blk.y - (GROUND + BLOCK / 2 + (blk.h - 1) * PITCH)) < 0.01)
+    .filter((blk) => blk.z > 0 && blk.x > -PITCH * 0.5)
+    .sort((p, q) => p.x - q.x || q.z - p.z);
+  const picked = [];
+  tops.forEach((blk) => {
+    if (picked.every((o) => Math.abs(o.x - blk.x) > PITCH * 1.9)) picked.push(blk);
+  });
+  const panelPos = [];
+  const panelUv = [];
+  const panelRand = [];
+  const panelAnchor = [];
+  const panelIndex = [];
+  picked.forEach((blk, i) => {
+    const base = blk.y + BLOCK / 2;
+    const v = panelPos.length / 3;
+    const r = rand(i * 4.37 + 1.3);
+    [[0, 0], [1, 0], [1, 1], [0, 1]].forEach(([u, t]) => {
+      panelPos.push(blk.x + (u - 0.5) * PANEL_W, base + t * (PANEL_H + TETHER), blk.z);
+      panelUv.push(u, t);
+      panelRand.push(r);
+      panelAnchor.push(base);
+    });
+    panelIndex.push(v, v + 1, v + 2, v, v + 2, v + 3);
+  });
+  const panelGeometry = new THREE.BufferGeometry();
+  panelGeometry.setAttribute('position', new THREE.Float32BufferAttribute(panelPos, 3));
+  panelGeometry.setAttribute('uv', new THREE.Float32BufferAttribute(panelUv, 2));
+  panelGeometry.setAttribute('aRand', new THREE.Float32BufferAttribute(panelRand, 1));
+  panelGeometry.setAttribute('aAnchor', new THREE.Float32BufferAttribute(panelAnchor, 1));
+  panelGeometry.setIndex(panelIndex);
+
+  // Cable trays: two rails and rungs over each row of racks, and a drop into
+  // the top of every rack.
+  const trayPos = [];
+  const trayCoord = [];
+  const trayKind = [];
+  const trayDir = [];
+  const seg = (a, b, ca, cb, kind, dir) => {
+    trayPos.push(...a, ...b);
+    trayCoord.push(ca, cb);
+    trayKind.push(kind, kind);
+    trayDir.push(dir, dir);
+  };
+  const x0 = -HALF - 0.4;
+  const x1 = HALF + 0.4;
+  for (let iz = 0; iz < NZ; iz += 1) {
+    const z = (iz - (NZ - 1) / 2) * PITCH;
+    const dir = iz % 2 ? 1 : -1;
+    seg([x0, TRAY_Y, z - 0.16], [x1, TRAY_Y, z - 0.16], x0, x1, 0, dir);
+    seg([x0, TRAY_Y, z + 0.16], [x1, TRAY_Y, z + 0.16], x0, x1, 0, dir);
+    for (let x = x0; x <= x1; x += 0.3) seg([x, TRAY_Y, z - 0.16], [x, TRAY_Y, z + 0.16], x, x, 1, dir);
+    for (let ix = 0; ix < NX; ix += 1) {
+      const x = (ix - (NX - 1) / 2) * PITCH;
+      const top = Math.max(...list.filter((blk) => blk.x === x && blk.z === z).map((blk) => blk.y + BLOCK / 2));
+      seg([x, TRAY_Y, z], [x, top, z], 0, TRAY_Y - top, 2, dir);
+    }
+  }
+  const trayGeometry = new THREE.BufferGeometry();
+  trayGeometry.setAttribute('position', new THREE.Float32BufferAttribute(trayPos, 3));
+  trayGeometry.setAttribute('aCoord', new THREE.Float32BufferAttribute(trayCoord, 1));
+  trayGeometry.setAttribute('aKind', new THREE.Float32BufferAttribute(trayKind, 1));
+  trayGeometry.setAttribute('aDir', new THREE.Float32BufferAttribute(trayDir, 1));
+
+  // Deploy beam: a sheet across the floor's depth, moved along x with the
+  // scan.
+  const beamGeometry = new THREE.PlaneGeometry(FLOOR_D, BEAM_H);
+  beamGeometry.rotateY(Math.PI / 2);
+  beamGeometry.translate(0, GROUND + BEAM_H / 2, 0);
   // Traffic: streaks along the streets between the rows of plots, both ways.
   for (let lane = 0; lane <= NZ; lane += 1) {
     const z = (lane - NZ / 2) * PITCH;
@@ -797,6 +1186,7 @@ export function createMorph() {
     uScanX: { value: 99 },
     uScatter: { value: 0 },
     uWindows: { value: 0 },
+    uBeam: { value: 0 },
     uAmount: { value: 0 },
     uCopyDir: { value: new THREE.Vector2(1, 0) },
     uCopyFade: { value: 0.6 },
@@ -836,6 +1226,32 @@ export function createMorph() {
   const lifePoints = new THREE.Points(lifeGeometry, lifeMaterial);
   lifePoints.frustumCulled = false;
   lifePoints.renderOrder = 33;
+  const rackMaterial = material(rackVertex, rackFragment);
+  rackMaterial.side = THREE.DoubleSide;
+  const racks = new THREE.Mesh(rackGeometry, rackMaterial);
+  racks.frustumCulled = false;
+  racks.renderOrder = 32;
+  const floorMaterial = material(floorVertex, floorFragment);
+  floorMaterial.side = THREE.DoubleSide;
+  const floor = new THREE.Mesh(floorGeometry, floorMaterial);
+  floor.frustumCulled = false;
+  floor.renderOrder = 27;
+  const panelMaterial = material(panelVertex, panelFragment);
+  panelMaterial.side = THREE.DoubleSide;
+  panelMaterial.blending = THREE.NormalBlending;
+  panelMaterial.premultipliedAlpha = true;
+  const panels = new THREE.Mesh(panelGeometry, panelMaterial);
+  panels.frustumCulled = false;
+  panels.renderOrder = 34;
+  const trayMaterial = material(traysVertex, traysFragment);
+  const trays = new THREE.LineSegments(trayGeometry, trayMaterial);
+  trays.frustumCulled = false;
+  trays.renderOrder = 31;
+  const beamMaterial = material(beamVertex, beamFragment);
+  beamMaterial.side = THREE.DoubleSide;
+  const beam = new THREE.Mesh(beamGeometry, beamMaterial);
+  beam.frustumCulled = false;
+  beam.renderOrder = 35;
   [mirrorLines, mirrorPoints, lines, points, spark].forEach((o, i) => {
     o.frustumCulled = false;
     o.renderOrder = 28 + i;
@@ -898,7 +1314,7 @@ export function createMorph() {
     o.renderOrder = 34 + i;
   });
 
-  body.add(mirrorLines, mirrorPoints, lines, points, lifePoints);
+  body.add(floor, mirrorLines, mirrorPoints, lines, points, trays, racks, lifePoints, panels, beam);
   // The foreground motes are switched off; add `dust` here to bring them back.
   if (SHOW_SPARK) body.add(spark, arcs, embers);
   const head = new THREE.Vector4();
@@ -1005,6 +1421,7 @@ export function createMorph() {
       uniforms.uScanX.value = s.scan <= 0 ? 99 : SCAN_TO + (SCAN_FROM - SCAN_TO) * s.scan;
       uniforms.uScatter.value = s.scatter;
       uniforms.uWindows.value = s.windows;
+      uniforms.uBeam.value = s.scan > 0 && s.scan < 1 ? Math.min(1, s.scan * 10, (1 - s.scan) * 10) : 0;
 
       // The spark, with a little life of its own, and its trail. Stopped
       // (dt 0), the trail folds onto the head rather than smearing a jump.
@@ -1042,10 +1459,11 @@ export function createMorph() {
       // The camera's move for this point in the story, plus a slow drift so
       // it never sits still.
       const shot = shotAt(u);
-      // Plus a slow breath in and out, so the camera never sits still.
+      // Plus a breath in and out, so the camera never sits still.
+      const breath = 1.1 * Math.sin(seconds * 0.45);
       body.rotation.set(shot.tilt + 0.02 * Math.sin(seconds * 0.25), shot.yaw + 0.06 * Math.sin(seconds * 0.11), 0);
-      body.position.set(0, shot.lift, shot.dolly + 0.5 * Math.sin(seconds * 0.3));
-      s.dolly = shot.dolly;
+      body.position.set(0, shot.lift, shot.dolly + breath);
+      s.dolly = shot.dolly + breath;
       return s;
     },
     // The spark's position in world space, written into out; returns its
@@ -1066,6 +1484,16 @@ export function createMorph() {
       linesGeometry.dispose();
       lifeGeometry.dispose();
       lifeMaterial.dispose();
+      rackGeometry.dispose();
+      rackMaterial.dispose();
+      floorGeometry.dispose();
+      floorMaterial.dispose();
+      panelGeometry.dispose();
+      panelMaterial.dispose();
+      trayGeometry.dispose();
+      trayMaterial.dispose();
+      beamGeometry.dispose();
+      beamMaterial.dispose();
       dustGeometry.dispose();
       dustMaterial.dispose();
       sparkGeometry.dispose();

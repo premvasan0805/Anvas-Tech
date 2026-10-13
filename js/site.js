@@ -291,6 +291,30 @@ export function bootSite(first) {
     if (mount) mount.outerHTML = header;
     if (foot) foot.outerHTML = footer;
 
+    // Keep every panel inside the window: the wide ones anchored under the
+    // middle tabs would otherwise run off the right edge on laptop screens
+    // (and, closed, still widen the page).
+    const fitMega = (item) => {
+      const panel = item.querySelector(".mega");
+      if (!panel) return;
+      panel.style.left = "";
+      panel.style.right = "";
+      const box = item.getBoundingClientRect();
+      if (!box.width) return;
+      const gutter = 16;
+      const vw = document.documentElement.clientWidth;
+      const from = box.left + panel.offsetLeft;
+      const to = Math.max(gutter, Math.min(from, vw - gutter - panel.offsetWidth));
+      if (Math.abs(to - from) > 0.5) {
+        panel.style.left = `${to - box.left}px`;
+        panel.style.right = "auto";
+      }
+    };
+    const fitAllMega = () => document.querySelectorAll("[data-mega]").forEach(fitMega);
+    fitAllMega();
+    window.addEventListener("resize", fitAllMega);
+    document.fonts?.ready.then(fitAllMega);
+
     document.querySelectorAll("[data-mega]").forEach((item) => {
       let leaveTimer = 0;
       const resetMore = () => {
@@ -309,6 +333,7 @@ export function bootSite(first) {
         document.querySelectorAll("[data-mega]").forEach((el) => {
           if (el !== item) el.classList.remove("open");
         });
+        fitMega(item);
         item.classList.add("open");
       };
       const close = () => {
