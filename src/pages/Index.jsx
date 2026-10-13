@@ -1,8 +1,9 @@
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { usePageMeta } from '../lib/usePageMeta.js';
 import GridWarpWord from '../components/GridWarpWord.jsx';
 import NewsInbox from '../components/NewsInbox.jsx';
+import { initHomeMotion } from '../lib/homeMotion.js';
 
 const HeroFlow = lazy(() => import('../components/HeroFlow.jsx'));
 const SolutionsDots = lazy(() => import('../components/SolutionsDots.jsx'));
@@ -11,6 +12,7 @@ const AiStageFX = lazy(() => import('../components/AiStageFX.jsx'));
 
 export default function Index() {
   usePageMeta("AnvasTech: Supercharging Progress | AI, Cloud and Engineering", "AnvasTech is a product and technology company building real-world digital products and delivering software solutions powered by modern engineering, automation, and AI.");
+  useEffect(() => initHomeMotion(), []);
   return (
     <main id="main">
 
@@ -81,12 +83,25 @@ export default function Index() {
               <path d="M25.5 9c.15 1.2.8 2.2 2 2.8-1.2.6-1.85 1.6-2 2.8-.15-1.2-.8-2.2-2-2.8 1.2-.6 1.85-1.6 2-2.8Z" />
             </svg>
           </span>
-          <input type="search" name="q" placeholder="Please ask a question or initiate a search" required />
+          <input type="search" name="q" placeholder="Please ask a question or initiate a search" aria-label="Ask a question" required />
           <button type="submit" aria-label="Search"></button>
         </form>
-        <div className="ask-result" id="ask-result">
+        <div className="ask-chips" aria-label="Suggested questions">
+          <button type="button" data-ask="How does AnvasTech use AI?">How does AnvasTech use AI?</button>
+          <button type="button" data-ask="What products have you built?">What products have you built?</button>
+          <button type="button" data-ask="Do you offer cloud services?">Do you offer cloud services?</button>
+          <button type="button" data-ask="Are you hiring?">Are you hiring?</button>
+        </div>
+        <div className="ask-result" id="ask-result" aria-live="polite">
+          <ol className="ask-steps" aria-hidden="true">
+            <li>Reading your question</li>
+            <li>Searching AnvasTech products and pages</li>
+            <li>Writing the answer</li>
+          </ol>
+          <div className="ask-skel" aria-hidden="true"><span /><span /><span /></div>
           <h3></h3>
           <p></p>
+          <div className="ask-sources"></div>
         </div>
       </div>
     </section>
@@ -598,6 +613,10 @@ export default function Index() {
             <figure className="clients-card" data-slide="">
               <img src="/assets/client-stanley.png" alt="David Chen" width="522" height="625" />
             </figure>
+            <div className="clients-timer" aria-hidden="true">
+              <span className="clients-count"><b data-q-num="">01</b> / 03</span>
+              <span className="clients-bar"><i /></span>
+            </div>
             <div className="clients-arrows">
               <button type="button" className="clients-arrow clients-prev" data-q-prev="" aria-label="Previous testimonial"></button>
               <button type="button" className="clients-arrow clients-next" data-q-next="" aria-label="Next testimonial"></button>

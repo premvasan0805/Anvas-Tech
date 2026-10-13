@@ -656,7 +656,11 @@ export function bootSite(first) {
         else if (!btn.dataset.touched) btn.setAttribute("aria-expanded", "false");
       });
     };
+    /* The footer outlives route changes but this binder reruns on each one,
+       so bind once per button or stacked listeners cancel each tap out. */
+    if (accs.every((btn) => btn.dataset.bound)) return sync();
     accs.forEach((btn) => {
+      btn.dataset.bound = "1";
       btn.addEventListener("click", () => {
         if (!isPhone()) return;
         btn.dataset.touched = "1";
@@ -852,41 +856,185 @@ export function bootSite(first) {
     career: "AnvasTech hires across engineering, product and design. Visit Careers to see open positions and submit your resume.",
     force: "AnvasTech builds eight products across property, workforce, legal, logistics, commercial operations, fintech, healthcare and AI trading. See Products for the full list.",
   };
+  const askSources = {
+    default: [["Products", "/industries"], ["Solutions", "/what-we-do"], ["Careers", "/careers"]],
+    ai: [["AI-Assisted Development", "/ai-assisted-engineering"], ["Generative AI", "/generative-ai"], ["Case Studies", "/case-studies"]],
+    cloud: [["Cloud Deployment", "/cloud-deployment"], ["Solutions", "/what-we-do"]],
+    career: [["Careers", "/careers"]],
+    force: [["Products", "/industries"], ["Case Studies", "/case-studies"]],
+  };
   const askForm = document.getElementById("ask-form");
   askForm?.addEventListener("submit", (e) => {
     e.preventDefault();
     const q = String(new FormData(e.target).get("q") || "").toLowerCase();
-    const key = q.includes("force") ? "force" : q.includes("cloud") ? "cloud" : q.includes("career") || q.includes("job") ? "career" : q.includes("ai") ? "ai" : "default";
+    const key = q.includes("force") || q.includes("product") ? "force" : q.includes("cloud") ? "cloud" : q.includes("career") || q.includes("job") || q.includes("hiring") ? "career" : q.includes("ai") ? "ai" : "default";
     const box = document.getElementById("ask-result");
-    // The orb spins up for a beat before the answer shows.
+    // The orb spins up and the result card walks through its steps (read,
+    // search, write) over a shimmering placeholder, then the answer streams
+    // in word by word and the pages it draws on drop in underneath.
     askForm.classList.add("is-thinking");
     clearTimeout(askForm.thinkTimer);
-    askForm.thinkTimer = setTimeout(() => {
-      askForm.classList.remove("is-thinking");
-      if (box) {
-        box.classList.add("is-open");
-        box.querySelector("h3").textContent = "Answer";
-        box.querySelector("p").textContent = answers[key];
+    clearInterval(askForm.streamTimer);
+    if (!box) {
+      askForm.thinkTimer = setTimeout(() => askForm.classList.remove("is-thinking"), 900);
+      return;
+    }
+    const p = box.querySelector("p");
+    const h3 = box.querySelector("h3");
+    const steps = [...box.querySelectorAll(".ask-steps li")];
+    const sources = box.querySelector(".ask-sources");
+    box.classList.remove("is-streaming", "is-done");
+    box.classList.add("is-open", "is-loading");
+    h3.textContent = "";
+    p.textContent = "";
+    if (sources) sources.innerHTML = "";
+    steps.forEach((li) => li.classList.remove("is-on", "is-ok"));
+    let step = 0;
+    const advance = () => {
+      if (steps[step - 1]) steps[step - 1].classList.replace("is-on", "is-ok");
+      if (step < steps.length) {
+        steps[step].classList.add("is-on");
+        step += 1;
+        askForm.thinkTimer = setTimeout(advance, 520);
+        return;
       }
-    }, 900);
+      const words = answers[key].split(" ");
+      let n = 0;
+      box.classList.remove("is-loading");
+      box.classList.add("is-streaming");
+      h3.textContent = "Answer";
+      askForm.streamTimer = setInterval(() => {
+        n += 1;
+        p.textContent = words.slice(0, n).join(" ");
+        if (n < words.length) return;
+        clearInterval(askForm.streamTimer);
+        askForm.classList.remove("is-thinking");
+        box.classList.remove("is-streaming");
+        if (sources) {
+          sources.innerHTML = `<span class="ask-sources-label">Sources</span>` + askSources[key]
+            .map(([label, href], i) => `<a href="${href}" style="--i:${i}"><b>${i + 1}</b>${label}</a>`)
+            .join("");
+        }
+        box.classList.add("is-done");
+      }, 38);
+    };
+    advance();
   });
 
-  const quotes = [...document.querySelectorAll("#clients [data-quote]")];
+  // Suggested questions: a chip fills the box and asks it.
+  // The empty box types example questions into its placeholder, one after
+  // another, while it is on screen and the visitor is not typing.
+  if (askForm && !askForm.dataset.askBound) {
+    askForm.dataset.askBound = "1";
+    document.querySelectorAll(".ask-chips [data-ask]").forEach((chip) => {
+      chip.addEventListener("click", () => {
+        askForm.q.value = chip.dataset.ask;
+        askForm.dispatchEvent(new Event("submit", { cancelable: true }));
+      });
+    });
+    const input = askForm.q;
+    const base = input.placeholder;
+    const prompts = [...document.querySelectorAll(".ask-chips [data-ask]")].map((c) => c.dataset.ask);
+    let pi = 0, ci = 0, dir = 1, timer = 0, visible = false;
+    const idle = () => visible && !input.value && document.activeElement !== input;
+    const tick = () => {
+      clearTimeout(timer);
+      if (!prompts.length) return;
+      if (!idle()) {
+        input.placeholder = base;
+        ci = 0;
+        dir = 1;
+        return;
+      }
+      const text = prompts[pi];
+      ci += dir;
+      input.placeholder = text.slice(0, ci) + (ci < text.length || dir < 0 ? "|" : "");
+      let wait = dir > 0 ? 55 : 22;
+      if (dir > 0 && ci >= text.length) { dir = -1; wait = 2200; }
+      else if (dir < 0 && ci <= 0) { dir = 1; pi = (pi + 1) % prompts.length; wait = 400; }
+      timer = setTimeout(tick, wait);
+    };
+    new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      if (visible) askForm.closest(".ask-panel")?.classList.add("is-in");
+      tick();
+    }).observe(askForm);
+    input.addEventListener("focus", tick);
+    input.addEventListener("input", tick);
+    input.addEventListener("blur", () => setTimeout(tick, 600));
+  }
+
+  const quotes =[...document.querySelectorAll("#clients [data-quote]")];
   const slides = [...document.querySelectorAll("#clients [data-slide]")];
+  const clients = document.getElementById("clients");
+  const qNum = clients?.querySelector("[data-q-num]");
+  const qTimer = clients?.querySelector(".clients-timer");
   let q = 0;
+  let qAuto = 0;
+  let qHold = false;
+  let qSeen = false;
+  // Each quote's words sit in their own spans so they can rise in turn.
+  quotes.forEach((el) => {
+    const p = el.querySelector(":scope > p");
+    if (!p || p.dataset.split) return;
+    p.dataset.split = "1";
+    p.setAttribute("aria-label", p.textContent);
+    p.innerHTML = p.textContent.trim().split(/\s+/)
+      .map((w, i) => `<span class="qw" aria-hidden="true" style="--w:${i}">${w}</span>`)
+      .join(" ");
+  });
   const showQ = (n) => {
     if (!quotes.length) return;
+    const prev = q;
     q = (n + quotes.length) % quotes.length;
     quotes.forEach((el, i) => el.classList.toggle("is-active", i === q));
     slides.forEach((el, i) => {
+      // The card leaving the front is thrown off to the left, then slides
+      // round to the back of the deck.
+      if (i === prev && prev !== q) {
+        el.classList.add("is-out");
+        clearTimeout(el.outTimer);
+        el.outTimer = setTimeout(() => el.classList.remove("is-out"), 520);
+      }
       el.classList.toggle("is-active", i === q);
       const offset = (i - q + slides.length) % slides.length;
       if (offset === 0) el.removeAttribute("data-stack");
       else el.setAttribute("data-stack", String(offset));
     });
+    if (qNum) qNum.textContent = String(q + 1).padStart(2, "0");
+    if (qTimer) {
+      qTimer.classList.remove("is-running");
+      void qTimer.offsetWidth;
+      qTimer.classList.add("is-running");
+    }
+    armQ();
   };
-  document.querySelector("#clients [data-q-prev]")?.addEventListener("click", () => showQ(q - 1));
-  document.querySelector("#clients [data-q-next]")?.addEventListener("click", () => showQ(q + 1));
+  // Advances by itself every 7s while the band is on screen and the visitor
+  // is not hovering or focused inside it.
+  function armQ() {
+    clearTimeout(qAuto);
+    clients?.classList.toggle("is-held", qHold || !qSeen);
+    if (!qHold && qSeen) qAuto = setTimeout(() => showQ(q + 1), 7000);
+  }
+  if (clients && !clients.dataset.qBound) {
+    clients.dataset.qBound = "1";
+    clients.querySelector("[data-q-prev]")?.addEventListener("click", () => showQ(q - 1));
+    clients.querySelector("[data-q-next]")?.addEventListener("click", () => showQ(q + 1));
+    const hold = (on) => () => {
+      qHold = on;
+      if (qTimer) qTimer.classList.toggle("is-paused", on);
+      if (!on) showQ(q);
+      else armQ();
+    };
+    const row = clients.querySelector(".clients-row");
+    row?.addEventListener("pointerenter", hold(true));
+    row?.addEventListener("pointerleave", hold(false));
+    new IntersectionObserver(([entry]) => {
+      qSeen = entry.isIntersecting;
+      if (qSeen) showQ(q);
+      else armQ();
+    }, { threshold: 0.35 }).observe(clients);
+  }
   showQ(0);
 
   runBinder("bindStepNav", "every", function () {

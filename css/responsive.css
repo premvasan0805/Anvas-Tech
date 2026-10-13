@@ -318,13 +318,6 @@ html.is-narrow .cs-head .display {
   line-height: 1.15;
 }
 
-html.is-narrow .cs-card-inner {
-  min-height: 0 !important;
-}
-
-html.is-narrow .cs-card-media {
-  height: 170px;
-}
 
 html.is-narrow .cs-card-inner:hover,
 html.is-narrow .cs-card-inner:focus-within {
@@ -637,10 +630,6 @@ html.is-phone .award-web-inner {
   grid-template-columns: 1fr 1fr !important;
 }
 
-html.is-phone .cs-card-media {
-  height: 150px !important;
-}
-
 html.is-phone .clients-stage,
 html.is-phone .clients-card.is-active,
 html.is-phone .clients-card.is-active img {
@@ -872,12 +861,6 @@ html.is-narrow .ai-slide-copy h3 {
   line-height: 1.35 !important;
 }
 
-/* Case studies: one ratio for every card instead of a fixed pixel height */
-html.is-narrow .cs-card-media {
-  height: auto !important;
-  aspect-ratio: 16 / 10;
-}
-
 html.is-narrow .cs-card-media img {
   width: 100%;
   height: 100%;
@@ -919,6 +902,16 @@ html.is-narrow .clients-arrows {
 html.is-narrow .clients-arrow {
   width: 44px;
   height: 44px;
+}
+
+html.is-narrow .clients-timer {
+  position: relative;
+  left: auto;
+  bottom: auto;
+  width: max-content;
+  height: 36px;
+  margin: 12px auto 0;
+  border-radius: 999px;
 }
 
 /* Solutions: keep the stacked cards compact */
@@ -1080,7 +1073,6 @@ html.is-phone .legal a {
   .ai-slides { min-height: 0 !important; }
   .ai-slide.is-active { position: relative !important; }
   .ai-slide-copy { max-width: 100% !important; }
-  .cs-card-media { height: auto !important; aspect-ratio: 16 / 10; }
   .clients-stage,
   .clients-card.is-active {
     max-width: min(420px, 100%) !important;
@@ -1155,10 +1147,6 @@ html.is-phone .collage img:first-child {
     flex: 0 0 42% !important;
     width: 42% !important;
   }
-}
-
-html.is-narrow .cs-card-media {
-  max-height: 240px;
 }
 
 html.is-phone .sol-stack-media {

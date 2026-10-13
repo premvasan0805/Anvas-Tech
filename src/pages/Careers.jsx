@@ -1,6 +1,7 @@
 import { usePageMeta } from '../lib/usePageMeta.js';
 import CareersHero from '../components/CareersHero.jsx';
 import ResumeSection from '../components/ResumeSection.jsx';
+import BuildLoop from '../components/BuildLoop.jsx';
 
 const AREAS = [
   {
@@ -99,15 +100,7 @@ export default function Careers() {
           </div>
           <p className="sp-lede">We focus on understanding the requirement first, choosing an appropriate technical approach, and continuously improving what we build.</p>
         </div>
-        <ol className="sp-steps is-5up">
-          {STEPS.map((s) => (
-            <li className="sp-step" key={s.num}>
-              <span className="sp-step-num">{s.num}</span>
-              <h3>{s.title}</h3>
-              <p>{s.text}</p>
-            </li>
-          ))}
-        </ol>
+        <BuildLoop steps={STEPS} />
       </div>
     </section>
 
@@ -177,12 +170,29 @@ export default function Careers() {
           <p className="sp-lede" style={{ marginTop: '18px' }}>Explore current opportunities across technology, product, design, AI, and business operations.</p>
           {/* No vacancy is verified, so the panel says so. Replace this block
               with position cards when a real opening exists. */}
-          <div className="sp-note">
-            <h3>No Open Positions Right Now</h3>
-            <p>We don&rsquo;t currently have an active opening that matches your profile.</p>
-            <p>You can still share your resume for consideration when a relevant opportunity becomes available.</p>
-            <div className="sp-actions">
-              <a className="sp-btn" href="#resume">Submit Your Resume</a>
+          <div className="cr-empty">
+            <div className="cr-empty-copy">
+              <span className="cr-status"><i aria-hidden="true" />No open roles today</span>
+              <h3>No Open Positions Right Now</h3>
+              <p>We don&rsquo;t currently have an active opening that matches your profile.</p>
+              <p>You can still share your resume for consideration when a relevant opportunity becomes available.</p>
+              <div className="sp-actions">
+                <a className="sp-btn" href="#resume">Submit Your Resume</a>
+              </div>
+            </div>
+            {/* A resume writes itself and drops into the talent pool: the
+                one thing a visitor can do here today. */}
+            <div className="cr-drop" aria-hidden="true">
+              <div className="cr-folder-back" />
+              <div className="cr-sheet">
+                <div className="cr-sheet-head"><i /><b /></div>
+                <span className="cr-l cr-l1" />
+                <span className="cr-l cr-l2" />
+                <span className="cr-l cr-l3" />
+                <div className="cr-sheet-tags"><em>Engineering</em><em>Design</em><em>AI</em></div>
+              </div>
+              <div className="cr-folder-front"><strong>Talent pool</strong><small>AnvasTech &middot; resumes kept on file</small></div>
+              <div className="cr-toast"><i />Saved for future roles</div>
             </div>
           </div>
         </div>

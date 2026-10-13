@@ -19,7 +19,7 @@ export default function Elegal() {
 
     <section className="page-hero is-dark">
       <figure className="hero-art is-video art-aiproducts" aria-hidden="true">
-        <video src="/assets/aiproducts-hero.mp4?v=1" poster="/assets/aiproducts-hero-poster.jpg?v=1" autoPlay muted loop playsInline preload="metadata" disablePictureInPicture></video>
+        <video src="/assets/aiproducts-hero.mp4?v=2" poster="/assets/aiproducts-hero-poster.jpg?v=2" autoPlay muted loop playsInline preload="metadata" disablePictureInPicture></video>
       </figure>
       <div className="wrap">
         <p className="crumbs"><Link to="/">Home</Link> / <Link to="/industries">Products</Link> / eLegal</p>

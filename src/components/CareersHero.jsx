@@ -78,7 +78,7 @@ export default function CareersHero() {
           page-hero pattern. The artwork is abstract on purpose: nothing here
           should be read as a photograph of an AnvasTech employee. */}
       <figure className="hero-art is-video art-careers" aria-hidden="true">
-        <video src="/assets/careers-hero.mp4?v=1" poster="/assets/careers-hero-poster.jpg?v=1" autoPlay muted loop playsInline preload="metadata" disablePictureInPicture></video>
+        <video src="/assets/careers-hero.mp4?v=2" poster="/assets/careers-hero-poster.jpg?v=2" autoPlay muted loop playsInline preload="metadata" disablePictureInPicture></video>
       </figure>
       <div className="crh-spot" aria-hidden="true" />
       <div className="wrap crh-grid">

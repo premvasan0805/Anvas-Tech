@@ -31,7 +31,7 @@ export default function AiDevelopmentWorkspace() {
 
     <section className="page-hero is-dark">
       <figure className="hero-art is-video art-company" aria-hidden="true">
-        <video src="/assets/company-hero.mp4?v=1" poster="/assets/company-hero-poster.jpg?v=1" autoPlay muted loop playsInline preload="metadata" disablePictureInPicture></video>
+        <video src="/assets/company-hero.mp4?v=2" poster="/assets/company-hero-poster.jpg?v=2" autoPlay muted loop playsInline preload="metadata" disablePictureInPicture></video>
       </figure>
       <div className="wrap">
         <p className="crumbs"><Link to="/">Home</Link> / <Link to="/what-we-do">Solutions</Link> / AI Development Workspace</p>

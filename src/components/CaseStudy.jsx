@@ -34,7 +34,7 @@ export default function CaseStudy({ id }) {
 
     <section className="page-hero is-light">
       <figure className="hero-art art-products" aria-hidden="true">
-        <video src="/assets/products-hero.mp4?v=1" poster="/assets/products-hero-poster.jpg?v=1" autoPlay muted loop playsInline preload="metadata" disablePictureInPicture></video>
+        <video src="/assets/products-hero.mp4?v=2" poster="/assets/products-hero-poster.jpg?v=2" autoPlay muted loop playsInline preload="metadata" disablePictureInPicture></video>
       </figure>
       <div className="wrap">
         <p className="crumbs"><Link to="/">Home</Link> / <Link to="/case-studies">Case studies</Link> / {cs.name}</p>
