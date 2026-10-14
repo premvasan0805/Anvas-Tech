@@ -3447,3 +3447,147 @@
 @media (max-width: 600px) {
   .bl-cards { grid-template-columns: 1fr; }
 }
+
+/* --------------------------------------------------------------------------
+   Vishful overview — the descent walks itself, building to person, and each
+   row lights the part of the phone screen that shows it. The phone is cut
+   out of its capture (sol-vishful-phone.png) so it stands on the ink band.
+   -------------------------------------------------------------------------- */
+.vf-overview .sp-descent li {
+  opacity: 0;
+  translate: -16px 0;
+  transition: opacity 0.7s ease calc(0.25s + var(--i) * 0.12s), translate 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) calc(0.25s + var(--i) * 0.12s);
+}
+.vf-overview.is-in .sp-descent li { opacity: 1; translate: 0 0; }
+.vf-overview .sp-descent h3,
+.vf-overview .sp-descent p { transition: color 0.45s ease; }
+.vf-overview .sp-descent:has(.is-live) li:not(.is-live) h3 { color: rgb(255 255 255 / 0.62); }
+.vf-overview .sp-descent:has(.is-live) li:not(.is-live) p { color: rgb(255 255 255 / 0.42); }
+.vf-overview .sp-descent li::before { transition: width 0.45s ease, background-color 0.45s ease, box-shadow 0.45s ease; }
+.vf-overview .sp-descent li:last-child::before { background: rgb(255 255 255 / 0.28); width: 14px; }
+.vf-overview .sp-descent li.is-live::before {
+  width: 22px;
+  background: var(--blue-soft);
+  box-shadow: 0 0 10px rgb(64 128 245 / 0.9);
+}
+/* The live row's rule fills top to bottom while it holds the light. */
+.vf-overview .sp-descent li::after {
+  content: "";
+  position: absolute;
+  left: -1px;
+  top: 0;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(var(--blue-soft), rgb(64 128 245 / 0));
+  transform: scaleY(0);
+  transform-origin: top;
+}
+.vf-overview .sp-descent li.is-live::after { animation: vf-rail 2.8s linear both; }
+.vf-overview .sp-descent li { cursor: default; }
+@keyframes vf-rail { to { transform: scaleY(1); } }
+
+.vf-device {
+  --rx: 0deg;
+  --ry: 0deg;
+  position: relative;
+  justify-self: center;
+  width: 100%;
+  max-width: 330px;
+  margin: 0;
+  perspective: 1400px;
+  opacity: 0;
+  transform: translateY(56px) scale(0.95);
+  transition: opacity 1s ease 0.1s, transform 1.3s cubic-bezier(0.2, 0.8, 0.2, 1) 0.1s;
+}
+.vf-overview.is-in .vf-device { opacity: 1; transform: none; }
+.vf-device-glow {
+  position: absolute;
+  inset: 6% -38% 0;
+  background:
+    radial-gradient(46% 40% at 50% 42%, rgb(112 86 255 / 0.5), transparent 70%),
+    radial-gradient(40% 34% at 56% 62%, rgb(64 128 245 / 0.32), transparent 72%);
+  filter: blur(34px);
+  pointer-events: none;
+  animation: vf-glow 7s ease-in-out infinite;
+}
+.vf-device-body {
+  position: relative;
+  transform: rotateX(var(--rx)) rotateY(var(--ry));
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  animation: vf-float 6s ease-in-out infinite;
+}
+.vf-device-body img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 34px 50px rgb(0 0 0 / 0.55)) drop-shadow(0 0 1px rgb(255 255 255 / 0.3));
+}
+/* Light sweeping across the glass now and then, clipped to the phone. */
+.vf-device-sheen {
+  position: absolute;
+  inset: 0;
+  border-radius: 14.8% / 6.9%;
+  background: linear-gradient(115deg, transparent 38%, rgb(255 255 255 / 0.32) 48%, transparent 58%) no-repeat;
+  background-size: 260% 100%;
+  background-position: 130% 0;
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+  animation: vf-sheen 8s ease-in-out 1.6s infinite;
+}
+.vf-spot {
+  position: absolute;
+  border-radius: 16px;
+  background: rgb(64 128 245 / 0.07);
+  box-shadow: 0 0 0 2px var(--blue-soft), 0 0 28px rgb(64 128 245 / 0.55);
+  opacity: 0;
+  transform: scale(1.05);
+  transition: opacity 0.45s ease, transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  pointer-events: none;
+}
+.vf-spot:last-of-type { border-radius: 12px; }
+.vf-spot.is-on { opacity: 1; transform: none; }
+.vf-spot em {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  translate: -50% -60%;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--blue-soft);
+  box-shadow: 0 6px 16px rgb(64 128 245 / 0.45);
+  color: #fff;
+  font-size: 10.5px;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.vf-device-floor {
+  position: absolute;
+  left: 18%;
+  right: 18%;
+  bottom: -26px;
+  height: 24px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgb(0 0 0 / 0.6), rgb(60 50 160 / 0.2) 60%, transparent);
+  filter: blur(8px);
+  pointer-events: none;
+  animation: vf-floor 6s ease-in-out infinite;
+}
+@keyframes vf-float { 50% { translate: 0 -12px; } }
+@keyframes vf-floor { 50% { transform: scaleX(0.84); opacity: 0.7; } }
+@keyframes vf-glow { 50% { opacity: 0.7; transform: scale(1.06); } }
+@keyframes vf-sheen { 0%, 30% { background-position: 130% 0; } 60%, 100% { background-position: -30% 0; } }
+@media (max-width: 760px) {
+  .vf-device { max-width: 260px; }
+  .vf-spot em { font-size: 9.5px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vf-overview .sp-descent li,
+  .vf-device { opacity: 1; translate: none; transform: none; transition: none; }
+  .vf-device-glow,
+  .vf-device-body,
+  .vf-device-sheen,
+  .vf-device-floor { animation: none; }
+}
