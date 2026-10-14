@@ -6685,7 +6685,7 @@ a.list-card:hover { color: inherit; }
   height: 340dvh;
   margin-top: -100vh;
   margin-top: -100dvh;
-  background: #efedf8;
+  background: var(--paper);
 }
 .build-reveal-stage {
   position: sticky;
